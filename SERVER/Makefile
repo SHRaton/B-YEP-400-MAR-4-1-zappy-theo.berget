@@ -1,20 +1,20 @@
 ##
 ## EPITECH PROJECT, 2024
-## B-CCP-400-MAR-4-1-panoramix-luca.giglio
+## B-YEP-400-MAR-4-1-zappy-alexandre.vittenet
 ## File description:
 ## Makefile
 ##
 
-SRC		=	*.cpp
+SRC		=	*.c
 
-NAME	=	zappy_gui
+NAME	=	zappy_server
 
-FLAGS 	=	-lsfml-graphics -lsfml-window -lsfml-system -g3
+FLAGS 	= 	-g3
 
 all:	$(NAME)
 
 $(NAME):	$(SRC)
-	@g++ -o $(NAME) $(SRC) $(FLAGS)
+	@gcc -o $(NAME) $(SRC) $(FLAGS)
 
 clean:
 	@rm -f $(NAME)

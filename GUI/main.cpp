@@ -8,16 +8,18 @@
 #include <SFML/Graphics.hpp>
 #include "my.h"
 
-int main() {
+void display()
+{
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Ma Fenêtre SFML");
     sf::Texture texture;
-    if (!texture.loadFromFile("sky.png")) {
+    if (!texture.loadFromFile("GUI/assets/Menu.png")) {
         std::cerr << "Erreur lors du chargement de l'image" << std::endl;
-        return -1;
+        exit (-1);
     }
 
     sf::Sprite sprite;
     sprite.setTexture(texture);
+    sprite.setScale(1920 / sprite.getGlobalBounds().width, 1080 / sprite.getGlobalBounds().height);
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -31,6 +33,10 @@ int main() {
         window.draw(sprite);
         window.display();
     }
+    return;
+}
 
-    return 0;
+int main(int ac, char **av)
+{
+    display();
 }

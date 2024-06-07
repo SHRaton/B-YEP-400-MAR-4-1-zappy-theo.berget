@@ -44,6 +44,8 @@ void Display::loadAssets() {
         exit(1);
     }
     soundButton.setBuffer(soundBuffer);
+    ip_str = "";
+    port_str = "IP DE CON";
 }
 
 void Display::Menu() {

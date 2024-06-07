@@ -33,6 +33,7 @@ private:
     void handleMouseClick(const sf::Vector2i& mousePosition);
     void handleMouseClick2(const sf::Vector2i& mousePosition);
     void handleMouseClick3(const sf::Vector2i& mousePosition);
+    void handleKeyboard(sf::Event::KeyEvent key);
 
     sf::RenderWindow window;
     sf::Texture texture1;
@@ -50,8 +51,11 @@ private:
     sf::Music menuMusic;
     sf::SoundBuffer soundBuffer;
     sf::Sound soundButton;
-    sf::Text text;
+    sf::Text text_ip;
+    sf::Text text_port;
     sf::Font font;
+    std::string ip_str;
+    std::string port_str;
 
     bool textEditing = false;
     std::string userInput;

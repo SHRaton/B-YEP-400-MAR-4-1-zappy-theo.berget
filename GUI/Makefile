@@ -9,7 +9,7 @@ SRC		=	*.cpp
 
 NAME	=	zappy_gui
 
-FLAGS 	=	-lsfml-graphics -lsfml-window -lsfml-system -g3
+FLAGS 	=	-lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -g3
 
 all:	$(NAME)
 

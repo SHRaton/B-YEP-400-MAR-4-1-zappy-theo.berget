@@ -12,16 +12,18 @@
 
 void Display::handleMouseClick3(const sf::Vector2i& mousePosition)
 {
+    select = 0;
+
     if (mousePosition.x >= 526 && mousePosition.x <= 1396 && mousePosition.y >= 619 && mousePosition.y <= 694) {
         soundButton.play();
     }
     if (mousePosition.x >= 517 && mousePosition.x <= 1406 && mousePosition.y >= 272 && mousePosition.y <= 365) {
-        //ici
         soundButton.play();
+        select = 1;
     }
     if (mousePosition.x >= 519 && mousePosition.x <= 1407 && mousePosition.y >= 448 && mousePosition.y <= 545) {
-        //ici
         soundButton.play();
+        select = 2;
     }
 }
 
@@ -89,16 +91,23 @@ void Display::update3()
 {
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
-    if (mousePosition.x >= 526 && mousePosition.x <= 1396 && mousePosition.y >= 619 && mousePosition.y <= 694) {
-        sprite_login.setTexture(texture7);
-    } else if (mousePosition.x >= 517 && mousePosition.x <= 1406 && mousePosition.y >= 272 && mousePosition.y <= 365) {
+    if (select == 1) {
         sprite_login.setTexture(texture8);
-    } else if (mousePosition.x >= 519 && mousePosition.x <= 1407 && mousePosition.y >= 448 && mousePosition.y <= 545) {
+    } else if (select == 2) {
         sprite_login.setTexture(texture9);
     } else {
-        sprite_login.setTexture(texture6);
+        if (mousePosition.x >= 526 && mousePosition.x <= 1396 && mousePosition.y >= 619 && mousePosition.y <= 694) {
+            sprite_login.setTexture(texture7);
+        } else if (mousePosition.x >= 517 && mousePosition.x <= 1406 && mousePosition.y >= 272 && mousePosition.y <= 365) {
+            sprite_login.setTexture(texture8);
+        } else if (mousePosition.x >= 519 && mousePosition.x <= 1407 && mousePosition.y >= 448 && mousePosition.y <= 545) {
+            sprite_login.setTexture(texture9);
+        } else {
+            sprite_login.setTexture(texture6);
+        }
     }
 }
+
 
 
 

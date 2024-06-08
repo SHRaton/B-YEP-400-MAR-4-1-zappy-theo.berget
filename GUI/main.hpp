@@ -56,6 +56,7 @@ private:
     sf::Font font;
     std::string ip_str;
     std::string port_str;
+    int select;
 
     bool textEditing = false;
     std::string userInput;

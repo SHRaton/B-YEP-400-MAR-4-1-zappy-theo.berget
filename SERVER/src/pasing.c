@@ -1,11 +1,11 @@
 /*
 ** EPITECH PROJECT, 2024
-** B-YEP-400-MAR-4-1-zappy-theo.berget
+** B-YEP-400-MAR-4-1-zappy-alexandre.vittenet
 ** File description:
 ** pasing
 */
 
-#include "my.h"
+#include "../include/my.h"
 
 void get_pos(char **av, int *flag_pos, int z)
 {

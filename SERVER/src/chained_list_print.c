@@ -1,12 +1,13 @@
 /*
 ** EPITECH PROJECT, 2024
-** B-NWP-400-MAR-4-1-myteams-noam.bouriche
+** B-YEP-400-MAR-4-1-zappy-alexandre.vittenet
 ** File description:
 ** chained_list_print
 */
 
-#include "../my.h"
+#include "../include/my.h"
 
+// Fonction qui affiche dans le serveur la liste de tout les clients connectés si DEBUG == 1
 void print_clients(client_t *head)
 {
     int i;
@@ -25,6 +26,7 @@ void print_clients(client_t *head)
     }
 }
 
+// Fonction qui affiche le client déconnecté dans le serveur si DEBUG == 1
 void print_remove(client_t *current)
 {
     if (DEBUG == 1) {

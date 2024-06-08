@@ -1,12 +1,14 @@
 /*
 ** EPITECH PROJECT, 2024
-** B-NWP-400-MAR-4-1-myftp-alexandre.vittenet
+** B-YEP-400-MAR-4-1-zappy-alexandre.vittenet
 ** File description:
 ** init
 */
 
-#include "../my.h"
+#include "../include/my.h"
 
+// Fonction qui initialise toutes les variables de la structure server_t et transpose la structure arg_t dans une instance de server_t
+// pour tout centraliser dans server_t et n'utiliser plus que cette unique structure dans tout le programme
 void apply(server_t *s, arg_t *arg)
 {
     s->arg = malloc(sizeof(arg_t));
@@ -23,23 +25,7 @@ void apply(server_t *s, arg_t *arg)
     s->server_data->isCommand = 0;
 }
 
-void print_loaded_serv(char *user)
-{
-    char *tok = malloc(sizeof(char) * 9999);
-    char *first = malloc(sizeof(char) * 9999);
-    char *second = malloc(sizeof(char) * 9999);
-    char *tmp = malloc(sizeof(char) * 1024);
-
-    strcpy(tmp, user);
-    tok = strtok(tmp, ":");
-    first = strdup(tok);
-    tok = strtok(NULL, ":");
-    second = strdup(tok);
-    free(first);
-    free(second);
-    free(tmp);
-}
-
+// Fonction utilitaire qui permet de pouvoir réutiliser un port récemment fermé afin de faciliter les tests et le debug du programme
 void re_use_port(server_t *s)
 {
     int reuseaddr;
@@ -53,6 +39,7 @@ void re_use_port(server_t *s)
     }
 }
 
+// Fonction qui initialise le socket du serveur a partir du localhost et héberge le serveur sur le port donné en argument.
 void init_socket(server_t *s)
 {
     s->server_network->server_socket = socket(AF_INET, SOCK_STREAM, 0);

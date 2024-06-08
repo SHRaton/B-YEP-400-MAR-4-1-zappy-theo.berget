@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-SRC		=	*.c src/*.c
+SRC		=	src/*.c commands/*.c
 
 NAME	=	zappy_server
 

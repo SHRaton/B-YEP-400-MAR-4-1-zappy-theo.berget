@@ -1,12 +1,15 @@
 /*
 ** EPITECH PROJECT, 2024
-** B-YEP-400-MAR-4-1-zappy-theo.berget
+** B-YEP-400-MAR-4-1-zappy-alexandre.vittenet
 ** File description:
 ** my
 */
 
 #pragma once
 
+#include "struct.h"
+
+/* changer cette variable à 1 pour avoir les print de debug et à 0 pour ne pas les avoir*/
 #define DEBUG 1
 
 #include <stdio.h>
@@ -19,68 +22,15 @@
 #include <sys/select.h>
 #include <signal.h>
 
-typedef struct sockaddr_in sockaddr_in_t;
-
-// Structure qui stock les infos des clients connectés
-typedef struct client_s {
-    // Client socket
-    int socket;
-    struct sockaddr_in address;
-    // Infos Client
-    int isLogin;
-    uuid_t uuid;
-    char uuid_s[1024];
-    char name[1024];
-    // Linked list
-    struct client_s *next;
-} client_t;
-
-typedef struct server_network_s {
-    int server_socket;
-    struct sockaddr_in server_addr;
-    struct sockaddr_in client_addr;
-    socklen_t client_addr_len;
-    client_t *clients_head;
-    client_t *current;
-    fd_set readfds;
-    int max_socket;
-    int result;
-    int new_socket;
-    ssize_t bytes_received;
-} server_network_t;
-
-typedef struct server_data_s {
-    int isCommand;
-    char buffer[1024];
-    char **command;
-    char **users_name;
-    char **users_uuid;
-} server_data_t;
-
-typedef struct arg_s {
-    int _port;
-    int _width;
-    int _height;
-    char **_names;
-    int _nb_clients;
-    int _frequence;
-} arg_t;
-
-typedef struct server_s {
-    server_data_t *server_data;
-    server_network_t *server_network;
-    arg_t *arg;
-
-} server_t;
 
 
+//////////////////////////////////////////////
+/* Déclarations des fonctions de SERVER/src */
+//////////////////////////////////////////////
 
-///////////////////////////////
-/* Déclarations de fonctions */
-///////////////////////////////
-
-// -------- main.c -------- //
+// -------- print.c -------- //
 void print_usage(void);
+void print_names(arg_t *arg);
 void print_args(arg_t *arg);
 // ------------------------ //
 
@@ -114,3 +64,38 @@ void print_loaded_serv(char *user);
 void re_use_port(server_t *s);
 void init_socket(server_t *s);
 // ------------------------ //
+
+
+// -------- handle_connexion_with_fd.c -------- //
+void set_the_fd(server_t *s);
+void select_fd(server_t *s);
+void accept_connexion(server_t *s);
+void recup_input_from_client(server_t *s);
+void handle_client(server_t *s);
+// -------------------------------------------- //
+
+// -------- send.c -------- //
+void send_all_clients(client_t *head, char *msg, client_t *current);
+// ------------------------ //
+
+// -------- fonction.c -------- //
+int is_contain(char *str, char cara);
+char **str_to_word_array(char *str, char *tok);
+char *reverse(char *str);
+char *int_to_str(int num);
+char *removed_quote(char *str);
+// ---------------------------- //
+
+// -------- fonction2.c -------- //
+void print_strstr(char **str);
+// ----------------------------- //
+
+
+///////////////////////////////////////////////////
+/* Déclarations des fonctions de SERVER/commands */
+///////////////////////////////////////////////////
+
+
+// -------- commands.c --------- //
+void commands(server_t *s);
+// ----------------------------- //

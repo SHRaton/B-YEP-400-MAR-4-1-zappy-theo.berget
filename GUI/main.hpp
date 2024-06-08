@@ -45,21 +45,34 @@ private:
     sf::Texture texture7;
     sf::Texture texture8;
     sf::Texture texture9;
+
+    sf::RectangleShape selectionRectangle;
+
     sf::Sprite sprite_menu;
     sf::Sprite sprite_server;
     sf::Sprite sprite_login;
+
+
     sf::Music menuMusic;
     sf::SoundBuffer soundBuffer;
     sf::Sound soundButton;
+
+
     sf::Text text_ip;
     sf::Text text_port;
+
+
     sf::Font font;
+
+
     std::string ip_str;
     std::string port_str;
-    int select;
-
     bool textEditing = false;
     std::string userInput;
+
+
+    int select;
+
 };
 
 #endif // MAIN_HPP

@@ -25,7 +25,11 @@ void Display::loadAssets() {
     texture6.loadFromFile("GUI/assets/join_server.jpeg"); 
     texture7.loadFromFile("GUI/assets/join_server2.jpeg"); 
     texture8.loadFromFile("GUI/assets/join_server3.png"); 
-    texture9.loadFromFile("GUI/assets/join_server4.png");  
+    texture9.loadFromFile("GUI/assets/join_server4.png");
+
+    selectionRectangle.setFillColor(sf::Color::Transparent);
+    selectionRectangle.setOutlineColor(sf::Color::White);
+    selectionRectangle.setOutlineThickness(9);
 
     sprite_menu.setTexture(texture1);
     sprite_server.setTexture(texture4);
@@ -45,7 +49,7 @@ void Display::loadAssets() {
     }
     soundButton.setBuffer(soundBuffer);
     ip_str = "";
-    port_str = "IP DE CON";
+    port_str = "";
 }
 
 void Display::Menu() {

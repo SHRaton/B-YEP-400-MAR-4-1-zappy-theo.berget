@@ -10,11 +10,13 @@
 #include <iostream>
 #include "main.hpp"
 
-Display::Display() : window(sf::VideoMode(1920, 1080), "Zappy") {
+Display::Display() : window(sf::VideoMode(1920, 1080), "Zappy")
+{
     loadAssets();
 }
 
-void Display::loadAssets() {
+void Display::loadAssets()
+{
     texture1.loadFromFile("GUI/assets/Menu.png");
     texture2.loadFromFile("GUI/assets/Menu2.png");
     texture3.loadFromFile("GUI/assets/Menu3.png");
@@ -26,6 +28,17 @@ void Display::loadAssets() {
     texture7.loadFromFile("GUI/assets/join_server2.jpeg"); 
     texture8.loadFromFile("GUI/assets/join_server3.png"); 
     texture9.loadFromFile("GUI/assets/join_server4.png");
+    texture10.loadFromFile("GUI/assets/water.jpeg");
+
+     textureHTAG.loadFromFile("GUI/assets/#.png");
+        textureA.loadFromFile("GUI/assets/A.png");
+        textureB.loadFromFile("GUI/assets/B.png");
+        textureC.loadFromFile("GUI/assets/C.png");
+        textureD.loadFromFile("GUI/assets/D.png");
+       textureUP.loadFromFile("GUI/assets/-.png");
+     textureDOWN.loadFromFile("GUI/assets/_.png");
+    textureRIGHT.loadFromFile("GUI/assets/droite.png");
+     textureLEFT.loadFromFile("GUI/assets/gauche.png");
 
     selectionRectangle.setFillColor(sf::Color::Transparent);
     selectionRectangle.setOutlineColor(sf::Color::White);
@@ -50,9 +63,12 @@ void Display::loadAssets() {
     soundButton.setBuffer(soundBuffer);
     ip_str = "";
     port_str = "";
+    failed_str = "Connection to server failed...";
+    failed_connection = 0;
 }
 
-void Display::Menu() {
+void Display::Menu()
+{
     while (window.isOpen()) {
         handleEvents();
         update();
@@ -60,7 +76,8 @@ void Display::Menu() {
     }
 }
 
-void Display::handleEvents() {
+void Display::handleEvents()
+{
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed || 
@@ -73,7 +90,8 @@ void Display::handleEvents() {
     }
 }
 
-void Display::update() {
+void Display::update()
+{
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
     if (mousePosition.x >= 521 && mousePosition.x <= 1395 && mousePosition.y >= 476 && mousePosition.y <= 776) {
         sprite_menu.setTexture(texture2);
@@ -84,13 +102,15 @@ void Display::update() {
     }
 }
 
-void Display::render() {
+void Display::render()
+{
     window.clear(sf::Color::Black);
     window.draw(sprite_menu);
     window.display();
 }
 
-void Display::handleMouseClick(const sf::Vector2i& mousePosition) {
+void Display::handleMouseClick(const sf::Vector2i& mousePosition)
+{
     if (mousePosition.x >= 515 && mousePosition.x <= 1403 && mousePosition.y >= 843 && mousePosition.y <= 926) {
         soundButton.play();
         window.close();
@@ -101,8 +121,22 @@ void Display::handleMouseClick(const sf::Vector2i& mousePosition) {
     }
 }
 
-int main(int ac, char **av) {
+void Display::change_ip_port(char *ip, char *port)
+{
+    ip_str = ip;
+    port_str = port;
+}
+
+int main(int ac, char **av)
+{
+    if (std::string(av[1]) == "-help") {
+        std::cout << "USAGE : ./zappy_gui [IP] [PORT]" << std::endl;
+        return (84);
+    }
     Display display;
+    if (ac == 3) {
+        display.change_ip_port(av[1], av[2]);
+    }
     display.Menu();
     return 0;
 }

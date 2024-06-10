@@ -9,8 +9,8 @@
 
 void Display::get_map_size()
 {
-    width = 6;
-    height = 6;
+    width = 9;
+    height = 9;
     
 }
 
@@ -59,6 +59,7 @@ void Display::render4()
     sprite_RIGHT.setTexture(textureRIGHT);
     sprite_LEFT.setTexture(textureLEFT);
 
+
     sprite_HTAG.setScale(8, 8);
     sprite_A.setScale(8, 8);
     sprite_B.setScale(8, 8);
@@ -68,7 +69,12 @@ void Display::render4()
     sprite_DOWN.setScale(8, 8);
     sprite_RIGHT.setScale(8, 8);
     sprite_LEFT.setScale(8, 8);
-    window.draw(sprite_water);
+
+    if (isDay) {
+        window.draw(sprite_water);
+    } else {
+        window.draw(sprite_night);
+    }
 
 
     while (map.size() > i) {
@@ -149,11 +155,19 @@ void Display::client_loop()
         }
         handleEvents4();
         update4();
+
+        // Mise à jour de l'état jour/nuit
+        if (clock.getElapsedTime() >= timeInterval) {
+            isDay = !isDay; // Alterne entre jour et nuit
+            clock.restart(); // Réinitialise le chronomètre
+        }
+
         render4();
         tv.tv_sec = 0;
         tv.tv_usec = 10000;
     }
 }
+
 
 
 void Display::receive_from_server()

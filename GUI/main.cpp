@@ -29,6 +29,7 @@ void Display::loadAssets()
     texture8.loadFromFile("GUI/assets/join_server3.png"); 
     texture9.loadFromFile("GUI/assets/join_server4.png");
     texture10.loadFromFile("GUI/assets/water.jpeg");
+    textureNight.loadFromFile("GUI/assets/moon.png");
 
      textureHTAG.loadFromFile("GUI/assets/#.png");
         textureA.loadFromFile("GUI/assets/A.png");
@@ -47,6 +48,8 @@ void Display::loadAssets()
     sprite_menu.setTexture(texture1);
     sprite_server.setTexture(texture4);
     sprite_login.setTexture(texture6);
+    sprite_night.setTexture(textureNight);
+
     sprite_menu.setScale(1920 / sprite_menu.getGlobalBounds().width, 1080 / sprite_menu.getGlobalBounds().height);
 
     if (!menuMusic.openFromFile("GUI/assets/menu.wav")) {

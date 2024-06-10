@@ -128,6 +128,15 @@ private:
     sf::Sprite sprite_RIGHT;
     sf::Sprite sprite_LEFT;
 
+    sf::Sprite sprite_day;
+    sf::Sprite sprite_night;
+    sf::Clock clock;
+    bool isDay = true;
+    sf::Time timeInterval = sf::seconds(20);
+
+    sf::Texture textureDay;
+    sf::Texture textureNight;
+
 };
 
 #endif // MAIN_HPP

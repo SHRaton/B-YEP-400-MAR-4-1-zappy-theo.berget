@@ -31,14 +31,14 @@ void print_args(arg_t *arg)
 {
     dprintf(1, ".___________\033[37mZAPPY_SERVER\033[0m___________.\n");
     dprintf(1, "|\n");
-    dprintf(1, "|\033[34m__SERVER_HOST_ON\033[0m    [\033[36m127.0.0.1\
-    \033[0m]\n");
+    dprintf(1, "|\033[34m__SERVER_HOST_ON\033[0m    [\033[36m%s\033[0m]\n",
+    "127.0.0.1");
     dprintf(1, "|\n");
     dprintf(1, "|\033[34m__PORT\033[0m              \033[36m%d\033[0m\n",
     arg->_port);
     dprintf(1, "|\n");
-    dprintf(1, "|\033[34m__MAP_SIZE\033[0m          {\033[36m%d\033[0m x\
-    \033[36m%d\033[0m}\n", arg->_width, arg->_height);
+    dprintf(1, "|\033[34m__MAP_SIZE\033[0m          {\033[36m%d\033[0m ", arg->_width);
+    dprintf(1, "x \033[36m%d\033[0m}\n", arg->_height);
     dprintf(1, "|\n");
     dprintf(1, "|\033[34m__TEAMS\033[0m             "); print_names(arg);
     dprintf(1, "|\n");

@@ -17,6 +17,8 @@ Display::Display() : window(sf::VideoMode(1920, 1080), "Zappy")
 
 void Display::loadAssets()
 {
+
+    // Toutes les textures chargées
     texture1.loadFromFile("GUI/assets/Menu.png");
     texture2.loadFromFile("GUI/assets/Menu2.png");
     texture3.loadFromFile("GUI/assets/Menu3.png");
@@ -30,28 +32,34 @@ void Display::loadAssets()
     texture9.loadFromFile("GUI/assets/join_server4.png");
     texture10.loadFromFile("GUI/assets/water.jpeg");
     textureNight.loadFromFile("GUI/assets/moon.png");
+    textureSunset.loadFromFile("GUI/assets/sunset.png");
 
-     textureHTAG.loadFromFile("GUI/assets/#.png");
-        textureA.loadFromFile("GUI/assets/A.png");
-        textureB.loadFromFile("GUI/assets/B.png");
-        textureC.loadFromFile("GUI/assets/C.png");
-        textureD.loadFromFile("GUI/assets/D.png");
-       textureUP.loadFromFile("GUI/assets/-.png");
-     textureDOWN.loadFromFile("GUI/assets/_.png");
+    textureHTAG.loadFromFile("GUI/assets/#.png");
+    textureA.loadFromFile("GUI/assets/A2.png");
+    textureB.loadFromFile("GUI/assets/B2.png");
+    textureC.loadFromFile("GUI/assets/C.png");
+    textureD.loadFromFile("GUI/assets/D.png");
+    textureUP.loadFromFile("GUI/assets/-.png");
+    textureDOWN.loadFromFile("GUI/assets/_.png");
     textureRIGHT.loadFromFile("GUI/assets/droite.png");
-     textureLEFT.loadFromFile("GUI/assets/gauche.png");
+    textureLEFT.loadFromFile("GUI/assets/gauche.png");
+    textureSteve.loadFromFile("GUI/assets/idle.png");
 
+    // Selection Rectangle blanc dans le menu du serveur
     selectionRectangle.setFillColor(sf::Color::Transparent);
     selectionRectangle.setOutlineColor(sf::Color::White);
     selectionRectangle.setOutlineThickness(9);
 
+    // Texture set des sprites
     sprite_menu.setTexture(texture1);
     sprite_server.setTexture(texture4);
     sprite_login.setTexture(texture6);
     sprite_night.setTexture(textureNight);
+    sprite_sunset.setTexture(textureSunset);
 
     sprite_menu.setScale(1920 / sprite_menu.getGlobalBounds().width, 1080 / sprite_menu.getGlobalBounds().height);
 
+    // Toutes les musiques et sons
     if (!menuMusic.openFromFile("GUI/assets/menu.wav")) {
         std::cerr << "Erreur lors du chargement de la musique du menu" << std::endl;
         exit(1);
@@ -68,6 +76,12 @@ void Display::loadAssets()
     port_str = "";
     failed_str = "Connection to server failed...";
     failed_connection = 0;
+
+    //Gestion du Temps 
+    isDay = true;
+    isSunset = false;
+    isNight = false;
+    timeInterval = sf::seconds(15);
 }
 
 void Display::Menu()

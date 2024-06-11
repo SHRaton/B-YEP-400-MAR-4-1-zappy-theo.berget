@@ -85,7 +85,6 @@ private:
     std::string ip_str;
     std::string port_str;
     std::string failed_str;
-    bool textEditing = false;
     std::string userInput;
 
 
@@ -128,14 +127,21 @@ private:
     sf::Sprite sprite_RIGHT;
     sf::Sprite sprite_LEFT;
 
+    sf::Sprite sprite_steve;
+    sf::Texture textureSteve;
+
     sf::Sprite sprite_day;
     sf::Sprite sprite_night;
     sf::Clock clock;
-    bool isDay = true;
-    sf::Time timeInterval = sf::seconds(20);
+    bool isDay;
+    bool isSunset;
+    bool isNight;
+    sf::Time timeInterval;
+    sf::Sprite sprite_sunset;;
 
     sf::Texture textureDay;
     sf::Texture textureNight;
+    sf::Texture textureSunset;
 
 };
 

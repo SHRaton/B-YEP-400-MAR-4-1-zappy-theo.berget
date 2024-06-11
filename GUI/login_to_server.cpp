@@ -9,8 +9,8 @@
 
 void Display::get_map_size()
 {
-    width = 9;
-    height = 9;
+    width = 6;
+    height = 6;
     
 }
 
@@ -58,6 +58,7 @@ void Display::render4()
     sprite_DOWN.setTexture(textureDOWN);
     sprite_RIGHT.setTexture(textureRIGHT);
     sprite_LEFT.setTexture(textureLEFT);
+    sprite_steve.setTexture(textureSteve);
 
 
     sprite_HTAG.setScale(8, 8);
@@ -69,13 +70,15 @@ void Display::render4()
     sprite_DOWN.setScale(8, 8);
     sprite_RIGHT.setScale(8, 8);
     sprite_LEFT.setScale(8, 8);
+    sprite_steve.setScale(5, 5);
 
     if (isDay) {
         window.draw(sprite_water);
+    } else if (isSunset) {
+        window.draw(sprite_sunset);
     } else {
         window.draw(sprite_night);
     }
-
 
     while (map.size() > i) {
         while (map[i].size() > y) {
@@ -120,6 +123,8 @@ void Display::render4()
         y = 0;
         i++;
     }
+    sprite_steve.setPosition(500, 290);
+    window.draw(sprite_steve);
     window.display();
 }
 
@@ -158,9 +163,19 @@ void Display::client_loop()
 
         // Mise à jour de l'état jour/nuit
         if (clock.getElapsedTime() >= timeInterval) {
-            isDay = !isDay; // Alterne entre jour et nuit
-            clock.restart(); // Réinitialise le chronomètre
-        }
+    if (isSunset) {
+        isSunset = false;
+        isNight = true;
+    } else if (isNight) {
+        isNight = false;
+        isDay = true;
+    } else { // isDay
+        isDay = false;
+        isSunset = true;
+    }
+    clock.restart(); // Réinitialise le chronomètre
+}
+
 
         render4();
         tv.tv_sec = 0;
@@ -185,7 +200,6 @@ void Display::receive_from_server()
         exit(84);
     } else {
         buffer[bytes_rcvd] = '\0';
-        //print_client(values, buffer);
     }
 }
 

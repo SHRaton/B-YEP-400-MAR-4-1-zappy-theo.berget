@@ -23,6 +23,20 @@ void apply(server_t *s, arg_t *arg)
     s->server_network->result = 0;
     s->server_network->new_socket = 0;
     s->server_data->isCommand = 0;
+    int i = 0;
+    s->server_data->teams = malloc(sizeof(char *) * 1024);
+    while (s->arg->_names[i] != NULL) {
+        s->server_data->teams[i] = malloc(sizeof(char) * 1024);
+        strcpy(s->server_data->teams[i], s->arg->_names[i]);
+        strcat(s->server_data->teams[i], ":");
+        strcat(s->server_data->teams[i], int_to_str(arg->_nb_clients));
+        i++;
+    }
+    int z = update_nb_client(s, 1);
+    if (z == 84) {
+        exit (84);
+    }
+    exit (0);
 }
 
 // Fonction utilitaire qui permet de pouvoir réutiliser un port récemment fermé afin de faciliter les tests et le debug du programme

@@ -21,6 +21,9 @@ void print_send_to_client(server_t *s, char *str)
 void commands(server_t *s)
 {
     // mettre toutes les fonctions de commandes ici
+    if (strcmp(s->server_data->command[0], "ls") == 0) {
+        printf("zzzzzz");
+    }
     print_send_to_client(s, "commande");
     if (s->server_data->isCommand == 0 && s->server_network->current->isLogin == 1) {
         send(s->server_network->current->socket, "Wrong command", 16, 0);

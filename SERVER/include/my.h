@@ -90,6 +90,13 @@ char *removed_quote(char *str);
 void print_strstr(char **str);
 // ----------------------------- //
 
+// -------- send_infos_to_new_client.c -------- //
+void send_infos_to_new_client(server_t *s);
+// -------------------------------------------- //
+
+// -------- update.c -------- //
+int update_nb_client(server_t *s, int add);
+// -------------------------- //
 
 ///////////////////////////////////////////////////
 /* Déclarations des fonctions de SERVER/commands */

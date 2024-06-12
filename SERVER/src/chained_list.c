@@ -25,8 +25,6 @@ client_t *add_client(client_t *head, int new_s, sockaddr_in_t client_addr)
         printf("%s:", inet_ntoa(client_addr.sin_addr));
         printf("%d\n", ntohs(client_addr.sin_port));
     }
-    send(new_client->socket, "WELCOME\n", strlen("WELCOME\n"), 0);
-    //write(new_client->socket, "WELCOME", strlen("WELCOME"));
     return new_client;
 }
 

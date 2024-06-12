@@ -42,7 +42,7 @@ void accept_connexion(server_t *s)
         } else {
             s->server_network->clients_head = add_client(s->server_network->clients_head,
             s->server_network->new_socket, s->server_network->client_addr);
-            print_clients(s->server_network->clients_head);
+            send_infos_to_new_client(s);
         }
     }
 }

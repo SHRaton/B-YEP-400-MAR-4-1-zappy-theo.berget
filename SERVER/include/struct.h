@@ -28,7 +28,7 @@ typedef struct client_s {
     int isLogin;
     uuid_t uuid;
     char uuid_s[1024];
-    char name[1024];
+    char team_name[1024];
     // Linked list
     struct client_s *next;
 } client_t;
@@ -50,11 +50,14 @@ typedef struct server_network_s {
 
 // structure pour stocker tout ce qui conecerne les donnés / messages reçu
 typedef struct server_data_s {
+    // Command handling
     int isCommand;
     char buffer[1024];
     char **command;
-    char **users_name;
-    char **users_uuid;
+
+    // Stockage des teams et de leur capacité
+    char **teams;
+
 } server_data_t;
 
 // structure pour stocker les arguments

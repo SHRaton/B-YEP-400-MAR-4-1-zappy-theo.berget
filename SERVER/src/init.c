@@ -36,7 +36,6 @@ void apply(server_t *s, arg_t *arg)
     if (z == 84) {
         exit (84);
     }
-    exit (0);
 }
 
 // Fonction utilitaire qui permet de pouvoir réutiliser un port récemment fermé afin de faciliter les tests et le debug du programme

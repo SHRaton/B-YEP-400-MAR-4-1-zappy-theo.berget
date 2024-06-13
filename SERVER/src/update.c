@@ -34,7 +34,7 @@ int update_nb_client(server_t *s, int add)
             free(tmp);
             return (84);
         }
-        //nb += add;
+        nb += add;
         strcat(new_string, int_to_str(nb));
         strcpy(s->server_data->teams[i], new_string);
         strcpy(new_string, "");

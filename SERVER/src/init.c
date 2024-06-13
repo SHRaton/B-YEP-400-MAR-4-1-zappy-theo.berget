@@ -32,10 +32,6 @@ void apply(server_t *s, arg_t *arg)
         strcat(s->server_data->teams[i], int_to_str(arg->_nb_clients));
         i++;
     }
-    int z = update_nb_client(s, 1);
-    if (z == 84) {
-        exit (84);
-    }
 }
 
 // Fonction utilitaire qui permet de pouvoir réutiliser un port récemment fermé afin de faciliter les tests et le debug du programme

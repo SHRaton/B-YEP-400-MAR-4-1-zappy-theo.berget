@@ -29,6 +29,8 @@ typedef struct client_s {
     uuid_t uuid;
     char uuid_s[1024];
     char team_name[1024];
+    int pos_x;
+    int pos_y;
     // Linked list
     struct client_s *next;
 } client_t;

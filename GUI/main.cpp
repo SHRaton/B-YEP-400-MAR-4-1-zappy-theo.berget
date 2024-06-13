@@ -156,7 +156,7 @@ int main(int ac, char **av)
     Display display;
     display.change_ip_port("", "");
     if (ac == 5) {
-        display.change_ip_port(std::string(av[4]), std::string(av[2]));
+        display.change_ip_port(std::string(av[2]), std::string(av[4]));
     }
     display.Menu();
     return 0;

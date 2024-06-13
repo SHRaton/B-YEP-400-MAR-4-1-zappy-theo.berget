@@ -32,6 +32,9 @@ class AIPlayer:
         self.best_item = None
         self.best_tile = 0
         self.look_ret = ""
+        self.list_items_on_tile = []
+
+        self.size_map = 0
 
 ###################################################################################################
 
@@ -178,16 +181,18 @@ class AIPlayer:
 ###################################################################################################
 
     def link_item_to_tile(self):
-        item_list = self.ret_look.split(',')
+        item_list = self.look_ret.split(',')
         best_option_index = item_list.index(self.best_item)
         self.get_to_tile (self, best_option_index)
 
 ###################################################################################################
 
-    def get_best_option(self, list_items_on_tile):
-        max_value = 0
+    def get_best_option(self):
+        max_value = -1  # Initialize to a value that is always lower than any possible item value
         best_option = None
-        for item in list_items_on_tile:
+        if best_option is not self.list_items_on_tile:
+            return
+        for item in self.list_items_on_tile:
             if item == "food":
                 value = self.food
             elif item == "linemate":
@@ -208,7 +213,7 @@ class AIPlayer:
                 max_value = value
                 best_option = item
         self.best_item = best_option
-        self.link_item_to_tile(self)
+        self.link_item_to_tile()
 
 ###################################################################################################
 
@@ -232,13 +237,17 @@ class AIPlayer:
                 list_items_on_tile.append(info.strip())
             elif info.strip() == "player":
                 list_items_on_tile.append(info.strip())
-        self.get_best_option(list_items_on_tile)
+        self.get_best_option()
 
 ###################################################################################################
 
     def ai(self):
         while self.AI == False:
+            nb_player = self.receive_message()
+            if nb_player == '0':
+                self.AI = True
             time.sleep(self.tour)
+            self.size_map =  self.receive_message()
             self.send_message("Look")
             look_ret = self.receive_message()
             self.look_ret = look_ret

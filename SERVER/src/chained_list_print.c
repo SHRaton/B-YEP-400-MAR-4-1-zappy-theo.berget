@@ -16,7 +16,7 @@ void print_clients(client_t *head)
         i = 1;
         printf("\033[35m\nConnected clients:\n\033[0m");
         if (head == NULL) {
-            printf("\033[35m[Nobody]\n\n\033[0m");
+            printf("\033[35m[Nobody]\033[0m\n\n");
         }
         while (head != NULL) {
             printf("\033[35mClient %d:  \033[0m", i);

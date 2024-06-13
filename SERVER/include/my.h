@@ -89,6 +89,7 @@ char *removed_quote(char *str);
 
 // -------- fonction2.c -------- //
 void print_strstr(char **str);
+char *remove_cara(char *str, char c);
 // ----------------------------- //
 
 // -------- send_infos_to_new_client.c -------- //
@@ -105,5 +106,9 @@ int update_nb_client(server_t *s, int add);
 
 
 // -------- commands.c --------- //
+void print_received_from_client_head(server_t *s, char *str);
+void print_received_from_client(server_t *s, char *str);
+void print_send_to_client_head(server_t *s, char *str);
+void print_send_to_client(server_t *s, char *str);
 void commands(server_t *s);
 // ----------------------------- //

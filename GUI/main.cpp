@@ -77,11 +77,14 @@ void Display::loadAssets()
     failed_str = "Connection to server failed...";
     failed_connection = 0;
 
-    //Gestion du Temps 
+    //Gestion du Temps
     isDay = true;
     isSunset = false;
     isNight = false;
     timeInterval = sf::seconds(15);
+
+    width = 10;
+    height = 10;
 }
 
 void Display::Menu()
@@ -138,7 +141,7 @@ void Display::handleMouseClick(const sf::Vector2i& mousePosition)
     }
 }
 
-void Display::change_ip_port(char *ip, char *port)
+void Display::change_ip_port(std::string ip, std::string port)
 {
     ip_str = ip;
     port_str = port;
@@ -146,13 +149,14 @@ void Display::change_ip_port(char *ip, char *port)
 
 int main(int ac, char **av)
 {
-    if (std::string(av[1]) == "-help") {
-        std::cout << "USAGE : ./zappy_gui [IP] [PORT]" << std::endl;
+    if (ac != 1 && ac != 5) {
+        std::cout << "USAGE : ./zappy_gui -h [IP] -p [PORT]" << std::endl;
         return (84);
     }
     Display display;
-    if (ac == 3) {
-        display.change_ip_port(av[1], av[2]);
+    display.change_ip_port("", "");
+    if (ac == 5) {
+        display.change_ip_port(std::string(av[4]), std::string(av[2]));
     }
     display.Menu();
     return 0;

@@ -7,11 +7,10 @@
 
 #include "main.hpp"
 
-void Display::get_map_size()
+void Display::set_map_size(int x, int y)
 {
-    width = 8;
-    height = 8;
-    
+    width = x;
+    height = y;
 }
 
 void Display::handleEvents4()
@@ -130,31 +129,44 @@ void Display::render4()
 
 void Display::welcome()
 {
+    int num1;
+    int num2;
+    // Wait for WELCOME
     receive_from_server();
     if (std::string(buffer) != "WELCOME\n") {
-        dprintf(1, "Not received \"WELCOME\\n\"");
+        std::cout << "Not received \"WELCOME\\n\"";
         exit (56);
     }
-    send_to_server("Wapeq est boost!");
+    // Send TEAM-NAME (random because it's just for IA)
+    send_to_server("Wapeq est boost!\n");
+    // Wait for MAP_SIZE
+    strcpy(buffer, "");
     receive_from_server();
+    if (buffer == "") {
+        std::cout << "Nothing received";
+        exit (56);
+    }
+    std::istringstream iss(buffer);
+    std::string str1;
+    std::string str2;
+    std::getline(iss, str1, ' ');
+    std::getline(iss, str2, ' ');
+    num1 = std::stoi(str1);
+    num2 = std::stoi(str2);
+    std::cout << num1 << num2;
+    set_map_size(num1, num2);
 }
 
 void Display::client_loop()
 {
-    get_map_size();
     FD_ZERO(&fd_client);
     FD_SET(client_socket, &fd_client);
     FD_SET(0, &fd_client);
-    map = generate_map(width, height);
-    // int i = 0;
-    // while (map.size() > i) {
-    //     std::cout << map[i];
-    //     i++;
-    // }
     struct timeval tv;
     tv.tv_sec = 0;
     tv.tv_usec = 10000;
     welcome();
+    map = generate_map(width, height);
     while (window.isOpen()) {
         fd_user = fd_client;
         int retval = select(client_socket + 1, &fd_user, NULL, NULL, &tv);
@@ -206,13 +218,13 @@ void Display::receive_from_server()
         exit(84);
     } else {
         buffer[bytes_rcvd] = '\0';
-        std::cout << "RECEIVED : " << buffer << std::endl;
+        std::cout << "\033[42m[RECEIVED]\033[0m --> " << buffer;
     }
 }
 
 void Display::send_to_server(std::string command)
 {
-    std::cout << "SENT : " << command << std::endl;
+    std::cout << "\033[43m[SENT]\033[0m --> " << command;
     send(client_socket, command.c_str(), strlen(command.c_str()), 0);
 }
 

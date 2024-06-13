@@ -16,6 +16,8 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <string>
+#include <sstream>
 
 class Display {
 public:
@@ -23,7 +25,7 @@ public:
     void Menu();
     void server_menu();
     void server_login();
-    void change_ip_port(char *ip, char *port);
+    void change_ip_port(std::string ip, std::string port);
 
 private:
     void loadAssets();
@@ -45,7 +47,7 @@ private:
     void handleKeyboard(sf::Event::KeyEvent key);
     int init_socket_client();
     std::vector<std::string> generate_map(int x, int y);
-    void get_map_size();
+    void set_map_size(int x, int y);
     void receive_from_server();
     void send_to_server(std::string command);
     void client_loop();

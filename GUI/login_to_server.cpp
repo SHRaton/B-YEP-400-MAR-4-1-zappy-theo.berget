@@ -9,8 +9,8 @@
 
 void Display::get_map_size()
 {
-    width = 6;
-    height = 6;
+    width = 8;
+    height = 8;
     
 }
 
@@ -128,6 +128,17 @@ void Display::render4()
     window.display();
 }
 
+void Display::welcome()
+{
+    receive_from_server();
+    if (std::string(buffer) != "WELCOME\n") {
+        dprintf(1, "Not received \"WELCOME\\n\"");
+        exit (56);
+    }
+    send_to_server("Wapeq est boost!");
+    receive_from_server();
+}
+
 void Display::client_loop()
 {
     get_map_size();
@@ -135,15 +146,15 @@ void Display::client_loop()
     FD_SET(client_socket, &fd_client);
     FD_SET(0, &fd_client);
     map = generate_map(width, height);
-    int i = 0;
-    while (map.size() > i) {
-        std::cout << map[i];
-        i++;
-    }
+    // int i = 0;
+    // while (map.size() > i) {
+    //     std::cout << map[i];
+    //     i++;
+    // }
     struct timeval tv;
     tv.tv_sec = 0;
     tv.tv_usec = 10000;
-
+    welcome();
     while (window.isOpen()) {
         fd_user = fd_client;
         int retval = select(client_socket + 1, &fd_user, NULL, NULL, &tv);
@@ -155,7 +166,7 @@ void Display::client_loop()
                 receive_from_server();
             }
             if (FD_ISSET(0, &fd_user)) {
-                send_to_server("WELCOME\n");
+                send_to_server("WELCOME");
             }
         }
         handleEvents4();
@@ -163,34 +174,29 @@ void Display::client_loop()
 
         // Mise à jour de l'état jour/nuit
         if (clock.getElapsedTime() >= timeInterval) {
-    if (isSunset) {
-        isSunset = false;
-        isNight = true;
-    } else if (isNight) {
-        isNight = false;
-        isDay = true;
-    } else { // isDay
-        isDay = false;
-        isSunset = true;
-    }
-    clock.restart(); // Réinitialise le chronomètre
-}
-
-
+            if (isSunset) {
+                isSunset = false;
+                isNight = true;
+            } else if (isNight) {
+                isNight = false;
+                isDay = true;
+            } else {
+                isDay = false;
+                isSunset = true;
+            }
+            clock.restart();
+        }
         render4();
         tv.tv_sec = 0;
         tv.tv_usec = 10000;
     }
 }
 
-
-
 void Display::receive_from_server()
 {
-    char buffer[1024];
     ssize_t bytes_rcvd;
 
-    bytes_rcvd = read(client_socket, buffer, sizeof(buffer));
+    bytes_rcvd = read(client_socket, buffer, sizeof(buffer) - 1);
     if (bytes_rcvd <= 0) {
         if (bytes_rcvd == 0) {
             printf("Deconnexion du serveur.\n");
@@ -200,12 +206,14 @@ void Display::receive_from_server()
         exit(84);
     } else {
         buffer[bytes_rcvd] = '\0';
+        std::cout << "RECEIVED : " << buffer << std::endl;
     }
 }
 
 void Display::send_to_server(std::string command)
 {
-    send(client_socket, command.c_str(), strlen(line), 0);
+    std::cout << "SENT : " << command << std::endl;
+    send(client_socket, command.c_str(), strlen(command.c_str()), 0);
 }
 
 int Display::init_socket_client()

@@ -49,6 +49,7 @@ private:
     void receive_from_server();
     void send_to_server(std::string command);
     void client_loop();
+    void welcome();
 
     sf::RenderWindow window;
     sf::Texture texture1;

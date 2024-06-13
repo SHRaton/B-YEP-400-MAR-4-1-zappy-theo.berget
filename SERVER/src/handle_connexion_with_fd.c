@@ -61,10 +61,10 @@ void recup_input_from_client(server_t *s)
     if (s->server_network->bytes_received > 0) {
         s->server_data->buffer[s->server_network->bytes_received - 1] = '\0';
         if (DEBUG == 1) {
-            printf("Received from client ");
-            printf("%s:", inet_ntoa(s->server_network->current->address.sin_addr));
-            printf("%d: ", ntohs(s->server_network->current->address.sin_port));
-            printf("%s\n", s->server_data->buffer);
+            printf("\033[42m[Received]\033[0m from client ");
+            printf("\033[37m[%s:%d]\033[0m --> ", inet_ntoa(s->server_network->current->address.sin_addr),
+            ntohs(s->server_network->current->address.sin_port));
+            printf("(\"%s\")\n", s->server_data->buffer);
         }
         s->server_data->command = str_to_word_array(s->server_data->buffer, " \t\n\r");
         commands(s);

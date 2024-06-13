@@ -32,6 +32,7 @@
 void print_usage(void);
 void print_names(arg_t *arg);
 void print_args(arg_t *arg);
+void print_connect(sockaddr_in_t client_addr);
 // ------------------------ //
 
 // -------- parsing.c -------- //

@@ -14,9 +14,9 @@ void start_server(arg_t *arg)
     server_t *server = malloc(sizeof(server_t));
 
     apply(server, arg);
-    printf("\n[Arguments loaded]     [OK]\n");
+    printf("\n[Arguments loaded]     [\033[32mOK\033[0m]\n");
     init_socket(server);
-    printf("[Server is started]    [OK]\n\n");
+    printf("[Server is started]    [\033[32mOK\033[0m]\n\n");
     print_args(arg);
     for (;;) {
         handle_client(server);

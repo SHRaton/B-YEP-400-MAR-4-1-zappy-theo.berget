@@ -20,11 +20,7 @@ client_t *add_client(client_t *head, int new_s, sockaddr_in_t client_addr)
     new_client->address = client_addr;
     new_client->next = head;
     new_client->isLogin = 0;
-    if (DEBUG == 1) {
-        printf("New client connected: ");
-        printf("%s:", inet_ntoa(client_addr.sin_addr));
-        printf("%d\n", ntohs(client_addr.sin_port));
-    }
+    print_connect(client_addr);
     return new_client;
 }
 

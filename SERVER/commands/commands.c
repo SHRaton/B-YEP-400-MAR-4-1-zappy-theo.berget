@@ -11,7 +11,7 @@
 void print_send_to_client(server_t *s, char *str)
 {
     if (DEBUG == 1) {
-        dprintf(1, "Send to client %s:%d: %s\n",
+        dprintf(1, "\033[43m[Send]\033[0m to client [\033[37m%s:%d\033[0m] --> (\"%s\")\n",
         inet_ntoa(s->server_network->current->address.sin_addr),
         ntohs(s->server_network->current->address.sin_port), str);
     }

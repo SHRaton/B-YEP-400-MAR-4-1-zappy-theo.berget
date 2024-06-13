@@ -21,7 +21,7 @@ void send_infos_to_new_client(server_t *s)
     // Send WELCOME
     sleep(0.1);
     send(s->server_network->clients_head->socket, "WELCOME\n", strlen("WELCOME\n"), 0);
-    dprintf(1, "-->WELCOME\n");
+    dprintf(1, "\n-->WELCOME\n");
 
     // Received TEAM-NAME
     sleep(0.1);
@@ -64,7 +64,7 @@ void send_infos_to_new_client(server_t *s)
     strcat(map_size, "\n");
     sleep(0.1);
     send(s->server_network->clients_head->socket, map_size, strlen(map_size), 0);
-    dprintf(1, "-->MAP-SIZE: %s\n", map_size);
+    dprintf(1, "-->MAP-SIZE: %s", map_size);
     free(map_size);
     print_clients(s->server_network->clients_head);
 }

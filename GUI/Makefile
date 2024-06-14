@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-SRC		=	*.cpp
+SRC		=	src/*.cpp commands/*.cpp
 
 NAME	=	zappy_gui
 

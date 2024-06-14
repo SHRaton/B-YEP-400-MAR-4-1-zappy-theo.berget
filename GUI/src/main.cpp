@@ -8,7 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
-#include "main.hpp"
+#include "../include/main.hpp"
 
 Display::Display() : window(sf::VideoMode(1920, 1080), "Zappy")
 {

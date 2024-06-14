@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <string>
 #include <sstream>
+#include <utility>
 
 class Display {
 public:
@@ -52,6 +53,7 @@ private:
     void send_to_server(std::string command);
     void client_loop();
     void welcome();
+    void commands();
 
     sf::RenderWindow window;
     sf::Texture texture1;
@@ -96,6 +98,7 @@ private:
     int client_socket;
     struct sockaddr_in sockaddrIn;
     char buffer[1024];
+    std::string sbuffer;
     char *line;
     char *uuid_s;
     char *name;
@@ -146,6 +149,13 @@ private:
     sf::Texture textureNight;
     sf::Texture textureSunset;
 
+    char buff[256];
+
+    // Nombre de joueur
+    int nb_player;
+    // Position du joueur
+    std::vector<std::pair<int, int>> all_pos;
+    
 };
 
 #endif // MAIN_HPP

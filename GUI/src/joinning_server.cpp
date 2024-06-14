@@ -5,7 +5,7 @@
 ** login_to_server
 */
 
-#include "main.hpp"
+#include "../include/main.hpp"
 
 void Display::set_map_size(int x, int y)
 {
@@ -17,13 +17,12 @@ void Display::handleEvents4()
 {
     sf::Event event;
     while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed || 
+        if (event.type == sf::Event::Closed ||
             (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
             window.close();
         } else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
             std::cout << "Position de la souris : x = " << mousePosition.x << ", y = " << mousePosition.y << std::endl;
-            handleMouseClick3(mousePosition);
         }
         if (event.type == sf::Event::KeyPressed) {
             handleKeyboard(event.key);
@@ -37,6 +36,20 @@ void Display::update4()
 
     if (mousePosition.x >= 526 && mousePosition.x <= 1396 && mousePosition.y >= 619 && mousePosition.y <= 694) {
 
+    }
+    // Mise à jour de l'état jour/nuit
+    if (clock.getElapsedTime() >= timeInterval) {
+        if (isSunset) {
+            isSunset = false;
+            isNight = true;
+        } else if (isNight) {
+            isNight = false;
+            isDay = true;
+        } else {
+            isDay = false;
+            isSunset = true;
+        }
+        clock.restart();
     }
 }
 
@@ -125,126 +138,4 @@ void Display::render4()
     sprite_steve.setPosition(500, 290);
     window.draw(sprite_steve);
     window.display();
-}
-
-void Display::welcome()
-{
-    int num1;
-    int num2;
-    // Wait for WELCOME
-    receive_from_server();
-    if (std::string(buffer) != "WELCOME\n") {
-        std::cout << "Not received \"WELCOME\\n\"";
-        exit (56);
-    }
-    // Send TEAM-NAME (random because it's just for IA)
-    send_to_server("Wapeq est boost!\n");
-    // Wait for MAP_SIZE
-    strcpy(buffer, "");
-    receive_from_server();
-    if (buffer == "") {
-        std::cout << "Nothing received";
-        exit (56);
-    }
-    std::istringstream iss(buffer);
-    std::string str1;
-    std::string str2;
-    std::getline(iss, str1, ' ');
-    std::getline(iss, str2, ' ');
-    num1 = std::stoi(str1);
-    num2 = std::stoi(str2);
-    std::cout << num1 << num2;
-    set_map_size(num1, num2);
-}
-
-void Display::client_loop()
-{
-    FD_ZERO(&fd_client);
-    FD_SET(client_socket, &fd_client);
-    FD_SET(0, &fd_client);
-    struct timeval tv;
-    tv.tv_sec = 0;
-    tv.tv_usec = 10000;
-    welcome();
-    map = generate_map(width, height);
-    while (window.isOpen()) {
-        fd_user = fd_client;
-        int retval = select(client_socket + 1, &fd_user, NULL, NULL, &tv);
-        if (retval == -1) {
-            perror("select()");
-            exit(84);
-        } else if (retval > 0) {
-            if (FD_ISSET(client_socket, &fd_user)) {
-                receive_from_server();
-            }
-            if (FD_ISSET(0, &fd_user)) {
-                send_to_server("WELCOME");
-            }
-        }
-        handleEvents4();
-        update4();
-
-        // Mise à jour de l'état jour/nuit
-        if (clock.getElapsedTime() >= timeInterval) {
-            if (isSunset) {
-                isSunset = false;
-                isNight = true;
-            } else if (isNight) {
-                isNight = false;
-                isDay = true;
-            } else {
-                isDay = false;
-                isSunset = true;
-            }
-            clock.restart();
-        }
-        render4();
-        tv.tv_sec = 0;
-        tv.tv_usec = 10000;
-    }
-}
-
-void Display::receive_from_server()
-{
-    ssize_t bytes_rcvd;
-
-    bytes_rcvd = read(client_socket, buffer, sizeof(buffer) - 1);
-    if (bytes_rcvd <= 0) {
-        if (bytes_rcvd == 0) {
-            printf("Deconnexion du serveur.\n");
-        } else {
-            perror("Erreur lors de la lecture depuis le serveur");
-        }
-        exit(84);
-    } else {
-        buffer[bytes_rcvd] = '\0';
-        std::cout << "\033[42m[RECEIVED]\033[0m --> " << buffer;
-    }
-}
-
-void Display::send_to_server(std::string command)
-{
-    std::cout << "\033[43m[SENT]\033[0m --> " << command;
-    send(client_socket, command.c_str(), strlen(command.c_str()), 0);
-}
-
-int Display::init_socket_client()
-{
-    int cvd;
-
-    client_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (client_socket == -1) {
-        perror("Socket creation failed");
-        exit(EXIT_FAILURE);
-    }
-    sockaddrIn.sin_family = AF_INET;
-    sockaddrIn.sin_addr.s_addr = inet_addr(ip_str.c_str());
-    sockaddrIn.sin_port = htons(atoi(port_str.c_str()));
-    cvd = connect(client_socket,
-    (struct sockaddr *) &sockaddrIn, sizeof(sockaddrIn));
-    if (cvd < 0) {
-        return (9);
-    }
-    client_loop();
-    return (0);
 }

@@ -8,7 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
-#include "main.hpp"
+#include "../include/main.hpp"
 
 void Display::handleMouseClick3(const sf::Vector2i& mousePosition)
 {

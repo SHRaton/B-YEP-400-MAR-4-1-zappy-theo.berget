@@ -51,14 +51,7 @@ void Display::update4()
         }
         clock.restart();
     }
-}
-
-void Display::render4()
-{
-    int i = 0, y = 0;
-    int surplu_x = (window.getSize().x / 2) - ((width * 128) / 2);
-    int surplu_y = (window.getSize().y / 2) - ((height * 128) / 2);
-
+    // Set des textures
     window.clear(sf::Color::Black);
     sprite_water.setTexture(texture10);
     sprite_HTAG.setTexture(textureHTAG);
@@ -83,6 +76,13 @@ void Display::render4()
     sprite_RIGHT.setScale(8, 8);
     sprite_LEFT.setScale(8, 8);
     sprite_steve.setScale(5, 5);
+}
+
+void Display::render4()
+{
+    int i = 0, y = 0;
+    surplu_x = (window.getSize().x / 2) - ((width * 128) / 2);
+    surplu_y = (window.getSize().y / 2) - ((height * 128) / 2);
 
     if (isDay) {
         window.draw(sprite_water);
@@ -135,7 +135,9 @@ void Display::render4()
         y = 0;
         i++;
     }
-    sprite_steve.setPosition(500, 290);
-    window.draw(sprite_steve);
+    for (int i = 0; info_players.size() > i; i++) {
+        sprite_steve.setPosition(info_players[i].pos_x, info_players[i].pos_y);
+        window.draw(sprite_steve);
+    }
     window.display();
 }

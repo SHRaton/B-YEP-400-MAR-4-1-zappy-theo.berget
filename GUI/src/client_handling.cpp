@@ -18,7 +18,7 @@ void Display::welcome()
         exit (56);
     }
     // Send TEAM-NAME (random because it's just for IA)
-    send_to_server("Wapeq est boost!\n");
+    send_to_server("IamTheGUI\n");
     // Wait for MAP_SIZE
     strcpy(buffer, "");
     receive_from_server();
@@ -45,6 +45,7 @@ void Display::client_loop()
     welcome();
     map = generate_map(width, height);
     while (window.isOpen()) {
+        usleep(10000);
         fd_user = fd_client;
         tv.tv_sec = 0;
         tv.tv_usec = 10000;
@@ -55,6 +56,7 @@ void Display::client_loop()
         } else if (retval > 0) {
             if (FD_ISSET(client_socket, &fd_user)) {
                 receive_from_server();
+                //std::cout << "(" << buffer << ")\n";
             }
             if (FD_ISSET(0, &fd_user)) {
                 if (fgets(buff, sizeof(buff), stdin) != NULL) {
@@ -83,7 +85,8 @@ void Display::receive_from_server()
         exit(84);
     } else {
         buffer[bytes_rcvd] = '\0';
-        sbuffer = buffer;
+        sbuffer = std::string(buffer);
+        vbuffer = str_to_word_array(sbuffer);
         std::cout << "\033[42m[RECEIVED]\033[0m --> " << sbuffer;
     }
 }

@@ -20,6 +20,20 @@
 #include <sstream>
 #include <utility>
 
+class Info_Player {
+    public :
+        Info_Player() = default;
+        ~Info_Player() = default;
+        int player_number;
+        int pos_x;
+        int pos_y;
+        int orientation;
+        int level;
+        std::string team_name;
+
+
+};
+
 class Display {
 public:
     Display();
@@ -53,7 +67,11 @@ private:
     void send_to_server(std::string command);
     void client_loop();
     void welcome();
+    std::vector<std::string> str_to_word_array(std::string s);
     void commands();
+    void pnw();
+    void pdi();
+    void ppo();
 
     sf::RenderWindow window;
     sf::Texture texture1;
@@ -99,6 +117,7 @@ private:
     struct sockaddr_in sockaddrIn;
     char buffer[1024];
     std::string sbuffer;
+    std::vector<std::string> vbuffer;
     char *line;
     char *uuid_s;
     char *name;
@@ -151,11 +170,18 @@ private:
 
     char buff[256];
 
-    // Nombre de joueur
-    int nb_player;
+    // ID (number) des joueurs connectés
+    Info_Player info_player;
+
     // Position du joueur
-    std::vector<std::pair<int, int>> all_pos;
-    
+    std::vector<Info_Player> info_players;
+
+
+    sf::Clock clock_pos;
+
+    int surplu_x;
+    int surplu_y;
+
 };
 
 #endif // MAIN_HPP

@@ -23,12 +23,12 @@ void Display::loadAssets()
     texture2.loadFromFile("GUI/assets/Menu2.png");
     texture3.loadFromFile("GUI/assets/Menu3.png");
 
-    texture4.loadFromFile("GUI/assets/server_menu.jpeg"); 
+    texture4.loadFromFile("GUI/assets/server_menu.jpeg");
     texture5.loadFromFile("GUI/assets/server_menu2.jpeg");
 
-    texture6.loadFromFile("GUI/assets/join_server.jpeg"); 
-    texture7.loadFromFile("GUI/assets/join_server2.jpeg"); 
-    texture8.loadFromFile("GUI/assets/join_server3.png"); 
+    texture6.loadFromFile("GUI/assets/join_server.jpeg");
+    texture7.loadFromFile("GUI/assets/join_server2.jpeg");
+    texture8.loadFromFile("GUI/assets/join_server3.png");
     texture9.loadFromFile("GUI/assets/join_server4.png");
     texture10.loadFromFile("GUI/assets/water.jpeg");
     textureNight.loadFromFile("GUI/assets/moon.png");

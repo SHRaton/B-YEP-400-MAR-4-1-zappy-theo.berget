@@ -21,3 +21,9 @@ void send_all_clients(client_t *head, char *msg, client_t *current)
         i++;
     }
 }
+
+void send_and_print(server_t *s, char *str, int socket)
+{
+    send(socket, str, strlen(str), 0);
+    print_send_to_client(s, str);
+}

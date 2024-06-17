@@ -20,17 +20,17 @@ void send_infos_to_new_client(server_t *s)
 
     // Send WELCOME
     sleep(0.1);
-    send(s->server_network->clients_head->socket, "WELCOME\n", strlen("WELCOME\n"), 0);
+    send(s->server_net->cli_head->socket, "WELCOME\n", strlen("WELCOME\n"), 0);
     print_send_to_client_head(s, "WELCOME");
 
     // Received TEAM-NAME
     sleep(0.1);
-    s->server_network->bytes_received = read(s->server_network->clients_head->socket,
+    s->server_net->bytes_received = read(s->server_net->cli_head->socket,
     s->server_data->buffer, sizeof(s->server_data->buffer));
-    if (s->server_network->bytes_received > 0) {
-        s->server_data->buffer[s->server_network->bytes_received] = '\0';
+    if (s->server_net->bytes_received > 0) {
+        s->server_data->buffer[s->server_net->bytes_received] = '\0';
     }
-    strcpy(s->server_network->clients_head->team_name, s->server_data->buffer);
+    strcpy(s->server_net->cli_head->team_name, s->server_data->buffer);
     print_received_from_client_head(s, remove_cara(s->server_data->buffer, '\n'));
 
     // Send CLIENT-NUM
@@ -45,7 +45,7 @@ void send_infos_to_new_client(server_t *s)
             strncpy(right, delim + 1, strlen(delim + 1));
             right[strlen(delim + 1)] = '\0';
         }
-        if (strncmp(left, s->server_network->clients_head->team_name, strlen(left)) == 0) {
+        if (strncmp(left, s->server_net->cli_head->team_name, strlen(left)) == 0) {
             strcpy(nb_client, right);
         } else {
         }
@@ -53,10 +53,19 @@ void send_infos_to_new_client(server_t *s)
         i++;
     }
     strcat(nb_client, "\n");
-    if (strcmp(s->server_network->clients_head->team_name, "Wapeq est boost!\n") != 0) {
+    if (strcmp(s->server_net->cli_head->team_name, "IamTheGUI\n") != 0) {
+        s->server_net->cli_head->isAI = 1;
         sleep(0.1);
-        send(s->server_network->clients_head->socket, nb_client, strlen(nb_client), 0);
-        print_send_to_client_head(s, remove_cara(nb_client, '\n'));
+        if (strcmp(nb_client, "\n") == 0) {
+            send(s->server_net->cli_head->socket, "ko\n", strlen("ko\n"), 0);
+            print_send_to_client_head(s, "ko");
+        } else {
+            send(s->server_net->cli_head->socket, nb_client, strlen(nb_client), 0);
+            print_send_to_client_head(s, remove_cara(nb_client, '\n'));
+        }
+    } else {
+        s->server_net->cli_head->isAI = 0;
+        s->server_net->gui = s->server_net->cli_head;
     }
 
     // Send MAP-SIZE
@@ -66,8 +75,11 @@ void send_infos_to_new_client(server_t *s)
     strcat(map_size, int_to_str(s->arg->_height));
     strcat(map_size, "\n");
     sleep(0.1);
-    send(s->server_network->clients_head->socket, map_size, strlen(map_size), 0);
+    send(s->server_net->cli_head->socket, map_size, strlen(map_size), 0);
     print_send_to_client_head(s, remove_cara(map_size, '\n'));
     free(map_size);
-    print_clients(s->server_network->clients_head);
+    print_clients(s->server_net->cli_head);
+    if (strcmp(s->server_net->cli_head->team_name, "IamTheGUI\n") != 0) {
+        pnw(s);
+    }
 }

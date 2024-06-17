@@ -26,29 +26,35 @@ typedef struct client_s {
     struct sockaddr_in address;
     // Infos Client
     int isLogin;
+    int isAI;
     uuid_t uuid;
     char uuid_s[1024];
     char team_name[1024];
     int pos_x;
     int pos_y;
+    int orientation;
+    int level;
+    int player_number;
     // Linked list
     struct client_s *next;
 } client_t;
 
 // strcuture qui permet de gérer la partie net du serveur
-typedef struct server_network_s {
+typedef struct server_net_s {
     int server_socket;
     struct sockaddr_in server_addr;
     struct sockaddr_in client_addr;
     socklen_t client_addr_len;
-    client_t *clients_head;
+    client_t *cli_head;
     client_t *current;
+    client_t *gui;
     fd_set readfds;
     int max_socket;
     int result;
     int new_socket;
     ssize_t bytes_received;
-} server_network_t;
+
+} server_net_t;
 
 // structure pour stocker tout ce qui conecerne les donnés / messages reçu
 typedef struct server_data_s {
@@ -59,6 +65,12 @@ typedef struct server_data_s {
 
     // Stockage des teams et de leur capacité
     char **teams;
+
+    // Stockage de la map et des elements de chaque tile
+    char **map;
+
+    // Variables
+    int player_nb;
 
 } server_data_t;
 
@@ -76,7 +88,7 @@ typedef struct arg_s {
 // structure du serveur
 typedef struct server_s {
     server_data_t *server_data;
-    server_network_t *server_network;
+    server_net_t *server_net;
     arg_t *arg;
 
 } server_t;

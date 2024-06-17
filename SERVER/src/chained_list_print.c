@@ -20,7 +20,8 @@ void print_clients(client_t *head)
         }
         while (head != NULL) {
             printf("\033[35mClient %d:  \033[0m", i);
-            printf("\033[37m[%s:%d]\033[0m\n\n", inet_ntoa(head->address.sin_addr),
+            printf("\033[37m[%s:%d]\033[0m\n\n",
+            inet_ntoa(head->address.sin_addr),
             ntohs(head->address.sin_port));
             head = head->next;
             i++;
@@ -33,7 +34,8 @@ void print_remove(client_t *current)
 {
     if (DEBUG == 1) {
         printf("\033[31m\nclient_s disconnected: \033[0m");
-        printf("\033[37m[%s:%d]\033[0m\n", inet_ntoa(current->address.sin_addr),
+        printf("\033[37m[%s:%d]\033[0m\n",
+        inet_ntoa(current->address.sin_addr),
         ntohs(current->address.sin_port));
     }
 }

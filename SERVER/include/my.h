@@ -53,7 +53,7 @@ void print_remove(client_t *current);
 // -------------------------------------- //
 
 // -------- chained_list.c -------- //
-client_t *add_client(client_t *head, int new_s, sockaddr_in_t client_addr);
+client_t *add_client(client_t *head, int new_s, sockaddr_in_t client_addr, server_t *s);
 client_t *remove_client2(client_t *current, client_t *previous, client_t *head);
 client_t *remove_client(client_t *head, int socket_to_remove);
 void free_clients(client_t *head);
@@ -61,7 +61,6 @@ void free_clients(client_t *head);
 
 // -------- init.c -------- //
 void apply(server_t *s, arg_t *arg);
-void print_loaded_serv(char *user);
 void re_use_port(server_t *s);
 void init_socket(server_t *s);
 // ------------------------ //
@@ -77,6 +76,7 @@ void handle_client(server_t *s);
 
 // -------- send.c -------- //
 void send_all_clients(client_t *head, char *msg, client_t *current);
+void send_and_print(server_t *s, char *str, int socket);
 // ------------------------ //
 
 // -------- fonction.c -------- //
@@ -100,6 +100,7 @@ void send_infos_to_new_client(server_t *s);
 int update_nb_client(server_t *s, int add);
 // -------------------------- //
 
+
 ///////////////////////////////////////////////////
 /* Déclarations des fonctions de SERVER/commands */
 ///////////////////////////////////////////////////
@@ -112,3 +113,22 @@ void print_send_to_client_head(server_t *s, char *str);
 void print_send_to_client(server_t *s, char *str);
 void commands(server_t *s);
 // ----------------------------- //
+
+
+///////////////////////////////////////////////////////////////
+/* Déclarations des fonctions de SERVER/commands/commands_AI */
+///////////////////////////////////////////////////////////////
+
+
+void forward(server_t *s);
+void look(server_t *s);
+
+
+////////////////////////////////////////////////////////////////
+/* Déclarations des fonctions de SERVER/commands/commands_GUI */
+////////////////////////////////////////////////////////////////
+
+
+void infos(server_t *s);
+void ppo(server_t *s);
+void pnw(server_t *s);

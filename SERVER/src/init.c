@@ -13,15 +13,15 @@ void apply(server_t *s, arg_t *arg)
 {
     s->arg = malloc(sizeof(arg_t));
     s->arg = arg;
-    s->server_network = malloc(sizeof(server_network_t));
+    s->server_net = malloc(sizeof(server_net_t));
     s->server_data = malloc(sizeof(server_data_t));
-    s->server_network->server_socket = 0;
-    s->server_network->client_addr_len = sizeof(s->server_network->client_addr);
-    s->server_network->clients_head = NULL;
-    s->server_network->current = s->server_network->clients_head;
-    s->server_network->max_socket = 0;
-    s->server_network->result = 0;
-    s->server_network->new_socket = 0;
+    s->server_net->server_socket = 0;
+    s->server_net->client_addr_len = sizeof(s->server_net->client_addr);
+    s->server_net->cli_head = NULL;
+    s->server_net->current = s->server_net->cli_head;
+    s->server_net->max_socket = 0;
+    s->server_net->result = 0;
+    s->server_net->new_socket = 0;
     s->server_data->isCommand = 0;
     int i = 0;
     s->server_data->teams = malloc(sizeof(char *) * 1024);
@@ -32,6 +32,7 @@ void apply(server_t *s, arg_t *arg)
         strcat(s->server_data->teams[i], int_to_str(arg->_nb_clients));
         i++;
     }
+    s->server_data->player_nb = 1;
 }
 
 // Fonction utilitaire qui permet de pouvoir réutiliser un port récemment fermé afin de faciliter les tests et le debug du programme
@@ -40,10 +41,10 @@ void re_use_port(server_t *s)
     int reuseaddr;
 
     reuseaddr = 1;
-    if (setsockopt(s->server_network->server_socket, SOL_SOCKET,
+    if (setsockopt(s->server_net->server_socket, SOL_SOCKET,
     SO_REUSEADDR, &reuseaddr, sizeof(int)) == -1) {
         perror("setsockopt failed");
-        close(s->server_network->server_socket);
+        close(s->server_net->server_socket);
         exit(EXIT_FAILURE);
     }
 }
@@ -51,24 +52,24 @@ void re_use_port(server_t *s)
 // Fonction qui initialise le socket du serveur a partir du localhost et héberge le serveur sur le port donné en argument.
 void init_socket(server_t *s)
 {
-    s->server_network->server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (s->server_network->server_socket == -1) {
+    s->server_net->server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (s->server_net->server_socket == -1) {
         perror("Socket creation failed");
         exit(EXIT_FAILURE);
     }
-    s->server_network->server_addr.sin_family = AF_INET;
-    s->server_network->server_addr.sin_addr.s_addr = INADDR_ANY;
-    s->server_network->server_addr.sin_port = htons(s->arg->_port);
+    s->server_net->server_addr.sin_family = AF_INET;
+    s->server_net->server_addr.sin_addr.s_addr = INADDR_ANY;
+    s->server_net->server_addr.sin_port = htons(s->arg->_port);
     re_use_port(s);
-    if (bind(s->server_network->server_socket, (struct sockaddr*)&s->server_network->server_addr,
-    sizeof(s->server_network->server_addr)) == -1) {
+    if (bind(s->server_net->server_socket, (struct sockaddr*)&s->server_net->server_addr,
+    sizeof(s->server_net->server_addr)) == -1) {
         perror("Bind failed");
-        close(s->server_network->server_socket);
+        close(s->server_net->server_socket);
         exit(EXIT_FAILURE);
     }
-    if (listen(s->server_network->server_socket, 5) == -1) {
+    if (listen(s->server_net->server_socket, 5) == -1) {
         perror("Listen failed");
-        close(s->server_network->server_socket);
+        close(s->server_net->server_socket);
         exit(EXIT_FAILURE);
     }
 }

@@ -8,7 +8,8 @@
 #include "../include/my.h"
 
 // Fonction qui ajoute un nouveau client a la liste chainée de client connectés et stocke les informations du client
-client_t *add_client(client_t *head, int new_s, sockaddr_in_t client_addr)
+client_t *add_client(client_t *head, int new_s, sockaddr_in_t client_addr,
+server_t *s)
 {
     client_t *new_client = malloc(sizeof(client_t));
 
@@ -19,7 +20,13 @@ client_t *add_client(client_t *head, int new_s, sockaddr_in_t client_addr)
     new_client->socket = new_s;
     new_client->address = client_addr;
     new_client->next = head;
-    new_client->isLogin = 0;
+    new_client->isLogin = 1;
+    srand(time(0));
+    new_client->pos_x = rand() % (s->arg->_width - 2) + 1;
+    new_client->pos_y = rand() % (s->arg->_height - 2) + 1;
+    new_client->level = 1;
+    new_client->orientation = 1;
+    new_client->player_number = s->server_data->player_nb;
     print_connect(client_addr);
     return new_client;
 }

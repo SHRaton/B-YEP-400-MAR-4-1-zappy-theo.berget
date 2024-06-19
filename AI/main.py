@@ -59,24 +59,29 @@ class AIPlayer:
     def get_to_tile(self, tile):
         if tile == 0:
             self.send_message("allready on tile")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
         if tile == 1:
             self.send_message("Forward")
             self.send_message("Left")
+            self.send_message("Forward")
             self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
         if tile == 2:
             self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
         if tile == 3:
             self.send_message("Forward")
             self.send_message("Right")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -84,7 +89,9 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Left")
-            self.send_message("Left")
+            self.send_message("Forward")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -92,12 +99,15 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Left")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
         if tile == 6:
             self.send_message("Forward")
             self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -105,6 +115,8 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Right")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -112,7 +124,9 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Right")
-            self.send_message("Right")
+            self.send_message("Forward")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -121,8 +135,10 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Left")
-            self.send_message("Left")
-            self.send_message("Left")
+            self.send_message("Forward")
+            self.send_message("Forward")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -131,7 +147,9 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Left")
-            self.send_message("Left")
+            self.send_message("Forward")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -140,6 +158,8 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Left")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -147,6 +167,7 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -155,6 +176,8 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Right")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -163,7 +186,9 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Right")
-            self.send_message("Right")
+            self.send_message("Forward")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -172,8 +197,10 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Right")
-            self.send_message("Right")
-            self.send_message("Right")
+            self.send_message("Forward")
+            self.send_message("Forward")
+            self.send_message("Forward")
+            self.send_message("Take object")
             rep = self.receive_message()
             self.check_reply(self, tile, rep)
             return
@@ -188,7 +215,7 @@ class AIPlayer:
 ###################################################################################################
 
     def get_best_option(self):
-        max_value = -1  # Initialize to a value that is always lower than any possible item value
+        max_value = -1
         best_option = None
         if best_option is not self.list_items_on_tile:
             return
@@ -238,6 +265,9 @@ class AIPlayer:
             elif info.strip() == "player":
                 list_items_on_tile.append(info.strip())
         self.get_best_option()
+
+
+#git@github.com:EpitechPromo2027/B-YEP-400-MAR-4-1-zappy-theo.berget.git
 
 ###################################################################################################
 

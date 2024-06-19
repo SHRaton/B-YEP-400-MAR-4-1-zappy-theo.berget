@@ -13,12 +13,10 @@ void mct(server_t *s)
     size_t buffer_size = 99 * size;
     size_t max_send_size = 1024;
     char *sending = malloc(sizeof(char) * buffer_size);
-    size_t sending_length = 0;
+    size_t sending_length = 3;
 
     strcpy(sending, "bct");
     if (strcmp(s->server_data->command[0], "mct") == 0) {
-        send(s->server_net->current->socket, sending, strlen(sending), 0);
-        print_send_to_client(s, sending);
         for (int i = 0; i < s->arg->_width; i++) {
             for (int j = 0; j < s->arg->_height; j++) {
                 sending_length += sprintf(sending + sending_length, " %d %d %d %d %d %d %d %d %d",

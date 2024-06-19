@@ -13,7 +13,10 @@ void look(server_t *s)
 
     if (strcmp(s->server_data->command[0], "Look") == 0) {
         strcpy(sending, "[");
-        
+        // while (s->server_data->map_content[] != NULL) {
+
+        // }
+        strcpy(sending, "]");
         send_and_print(s, sending, s->server_net->current->socket);
         s->server_data->isCommand = 1;
     }

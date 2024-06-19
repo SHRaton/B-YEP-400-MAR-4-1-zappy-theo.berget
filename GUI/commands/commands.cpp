@@ -84,10 +84,10 @@ void Display::mct() {
         }
 
         // Exemple d'accès aux données
-        for (int y = 0; y < 4; ++y) {
-            for (int x = 0; x < 4; ++x) {
+        for (int x = 0; x < 4; ++x) {
+            for (int y = 0; y < 4; ++y) {
                 const auto& res = grid[x][y];
-                std::cout << "[" << y << " " << x << "] " << res.food << " " << res.coal << " " << res.iron << " "
+                std::cout << "[" << x << " " << y << "] " << res.food << " " << res.coal << " " << res.iron << " "
                           << res.gold << " " << res.diamond << " " << res.emerald << " " << res.netherite << "\n";
             }
         }

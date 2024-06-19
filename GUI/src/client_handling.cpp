@@ -100,6 +100,7 @@ void Display::receive_from_server()
             vbuffer = str_to_word_array(message);
             std::cout << "\033[42m[RECEIVED]\033[0m --> " << message;
             pos = buffeur.find('\n');
+            sbuffer = message;
         }
     }
 }

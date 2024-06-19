@@ -71,10 +71,9 @@ void Display::mct() {
     if (clock_mct.getElapsedTime().asSeconds() >= 1.0f) {
         send_to_server("mct\n");
         receive_from_server();
-        std::string data = "bct 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 2 0 0 0 0 0 0 1 0 3 2 1 0 0 0 0 0 1 0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 0 1 2 1 0 0 0 0 0 0 1 3 0 0 1 0 1 1 0 2 0 1 1 0 1 0 0 0 2 1 1 1 0 0 0 0 0 2 2 0 1 0 0 0 0 0 2 3 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 3 1 0 0 1 0 0 0 0 3 2 0 0 0 0 0 0 0 3 3 0 0 0 0 0 0 0\n";
-        std::istringstream iss(data.substr(4)); // Ignorer "bct "
+        std::istringstream iss(sbuffer.substr(4)); // Ignorer "bct "
 
-        std::vector<std::vector<ressources>> grid(4, std::vector<ressources>(4));
+        std::vector<std::vector<ressources>> grid(height, std::vector<ressources>(width));
 
         int x, y;
         while (iss >> x >> y) {
@@ -82,16 +81,13 @@ void Display::mct() {
             iss >> food >> coal >> iron >> gold >> diamond >> emerald >> netherite;
             grid[x][y] = ressources(food, coal, iron, gold, diamond, emerald, netherite);
         }
-
-        // Exemple d'accès aux données
-        for (int x = 0; x < 4; ++x) {
-            for (int y = 0; y < 4; ++y) {
-                const auto& res = grid[x][y];
-                std::cout << "[" << x << " " << y << "] " << res.food << " " << res.coal << " " << res.iron << " "
-                          << res.gold << " " << res.diamond << " " << res.emerald << " " << res.netherite << "\n";
-            }
-        }
-
+        //for (int x = 0; x < height; ++x) {
+        //    for (int y = 0; y < width; ++y) {
+        //        const auto& res = grid[x][y];
+        //        std::cout << "[" << x << " " << y << "] " << res.food << " " << res.coal << " " << res.iron << " "
+        //                  << res.gold << " " << res.diamond << " " << res.emerald << " " << res.netherite << "\n";
+        //    }
+        //}
         clock_mct.restart();
     }
 }

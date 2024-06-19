@@ -73,21 +73,15 @@ void Display::mct() {
         receive_from_server();
         std::istringstream iss(sbuffer.substr(4)); // Ignorer "bct "
 
-        std::vector<std::vector<ressources>> grid(height, std::vector<ressources>(width));
+        ressources_grid = std::vector<std::vector<ressources>>(height, std::vector<ressources>(width));
 
         int x, y;
         while (iss >> x >> y) {
             int food, coal, iron, gold, diamond, emerald, netherite;
             iss >> food >> coal >> iron >> gold >> diamond >> emerald >> netherite;
-            grid[x][y] = ressources(food, coal, iron, gold, diamond, emerald, netherite);
+            ressources_grid[x][y] = ressources(food, coal, iron, gold, diamond, emerald, netherite);
         }
-        //for (int x = 0; x < height; ++x) {
-        //    for (int y = 0; y < width; ++y) {
-        //        const auto& res = grid[x][y];
-        //        std::cout << "[" << x << " " << y << "] " << res.food << " " << res.coal << " " << res.iron << " "
-        //                  << res.gold << " " << res.diamond << " " << res.emerald << " " << res.netherite << "\n";
-        //    }
-        //}
+
         clock_mct.restart();
     }
 }

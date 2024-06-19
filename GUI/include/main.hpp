@@ -58,6 +58,7 @@ public:
     void change_ip_port(std::string ip, std::string port);
 
 private:
+    std::vector<std::vector<ressources>> ressources_grid;
     void loadAssets();
     void handleEvents();
     void update();
@@ -201,6 +202,23 @@ private:
 
     int surplu_x;
     int surplu_y;
+
+    sf::Sprite sprite_food;
+    sf::Sprite sprite_coal;
+    sf::Sprite sprite_iron;
+    sf::Sprite sprite_gold;
+    sf::Sprite sprite_diamond;
+    sf::Sprite sprite_emerald;
+    sf::Sprite sprite_netherite;
+
+    sf::Texture texture_food;
+    sf::Texture texture_coal;
+    sf::Texture texture_iron;
+    sf::Texture texture_gold;
+    sf::Texture texture_diamond;
+    sf::Texture texture_emerald;
+    sf::Texture texture_netherite;
+
 
 };
 

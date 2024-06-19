@@ -78,9 +78,16 @@ void Display::update4()
     sprite_steve.setScale(5, 5);
 }
 
-void Display::render4()
-{
+void Display::render4() {
     int i = 0, y = 0;
+    texture_food.loadFromFile("GUI/assets/food.png");
+    texture_coal.loadFromFile("GUI/assets/coal.png");
+    texture_iron.loadFromFile("GUI/assets/iron.png");
+    texture_gold.loadFromFile("GUI/assets/gold.png");
+    texture_diamond.loadFromFile("GUI/assets/diamond.png");
+    texture_emerald.loadFromFile("GUI/assets/emerald.png");
+    texture_netherite.loadFromFile("GUI/assets/netherite.png");
+
     surplu_x = (window.getSize().x / 2) - ((width * 128) / 2);
     surplu_y = (window.getSize().y / 2) - ((height * 128) / 2);
 
@@ -94,50 +101,83 @@ void Display::render4()
 
     while (map.size() > i) {
         while (map[i].size() > y) {
-            if (map[i][y] == '#') {
-                sprite_HTAG.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
-                window.draw(sprite_HTAG);
+            sf::Sprite* sprite = nullptr;
+
+            if (map[i][y] == '#') sprite = &sprite_HTAG;
+            if (map[i][y] == 'A') sprite = &sprite_A;
+            if (map[i][y] == 'B') sprite = &sprite_B;
+            if (map[i][y] == 'C') sprite = &sprite_C;
+            if (map[i][y] == 'D') sprite = &sprite_D;
+            if (map[i][y] == '-') sprite = &sprite_UP;
+            if (map[i][y] == '_') sprite = &sprite_DOWN;
+            if (map[i][y] == '<') sprite = &sprite_LEFT;
+            if (map[i][y] == '>') sprite = &sprite_RIGHT;
+
+            if (sprite) {
+                sprite->setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
+                window.draw(*sprite);
             }
-            if (map[i][y] == 'A') {
-                sprite_A.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
-                window.draw(sprite_A);
+
+            const auto& res = ressources_grid[i][y];
+            if (res.food > 0) {
+                // Dessiner la nourriture
+                sprite_food.setTexture(texture_food);
+                sprite_food.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
+                sprite_food.setScale(0.2, 0.2);
+                window.draw(sprite_food);
             }
-            if (map[i][y] == 'B') {
-                sprite_B.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
-                window.draw(sprite_B);
+            if (res.coal > 0) {
+                // Dessiner le charbon
+                sprite_coal.setTexture(texture_coal);
+                sprite_coal.setPosition(y * 128 + surplu_x + 50, i * 128 + surplu_y + 50);
+                sprite_coal.setScale(0.2, 0.2);
+                window.draw(sprite_coal);
             }
-            if (map[i][y] == 'C') {
-                sprite_C.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
-                window.draw(sprite_C);
+            if (res.iron > 0) {
+                // Dessiner le fer
+                sprite_iron.setTexture(texture_iron);
+                sprite_iron.setPosition(y * 128 + surplu_x + 33, i * 128 + surplu_y + 33);
+                sprite_iron.setScale(0.1, 0.1);
+                window.draw(sprite_iron);
             }
-            if (map[i][y] == 'D') {
-                sprite_D.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
-                window.draw(sprite_D);
+            if (res.gold > 0) {
+                // Dessiner l'or
+                sprite_gold.setTexture(texture_gold);
+                sprite_gold.setPosition(y * 128 + surplu_x + 67, i * 128 + surplu_y + 67);
+                sprite_gold.setScale(0.1, 0.1);
+                window.draw(sprite_gold);
             }
-            if (map[i][y] == '-') {
-                sprite_UP.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
-                window.draw(sprite_UP);
+            if (res.diamond > 0) {
+                // Dessiner le diamant
+                sprite_diamond.setTexture(texture_diamond);
+                sprite_diamond.setPosition(y * 128 + surplu_x + 89, i * 128 + surplu_y + 89);
+                sprite_diamond.setScale(0.2, 0.2);
+                window.draw(sprite_diamond);
             }
-            if (map[i][y] == '_') {
-                sprite_DOWN.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
-                window.draw(sprite_DOWN);
+            if (res.emerald > 0) {
+                // Dessiner l'émeraude
+                sprite_emerald.setTexture(texture_emerald);
+                sprite_emerald.setPosition(y * 128 + surplu_x + 121, i * 128 + surplu_y + 121);
+                sprite_emerald.setScale(0.2, 0.2);
+                window.draw(sprite_emerald);
             }
-            if (map[i][y] == '<') {
-                sprite_LEFT.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
-                window.draw(sprite_LEFT);
-            }
-            if (map[i][y] == '>') {
-                sprite_RIGHT.setPosition(y * 128 + surplu_x, i * 128 + surplu_y);
-                window.draw(sprite_RIGHT);
+            if (res.netherite > 0) {
+                // Dessiner le netherite
+                sprite_netherite.setTexture(texture_netherite);
+                sprite_netherite.setPosition(y * 128 + surplu_x + 55, i * 128 + surplu_y + 12);
+                sprite_netherite.setScale(0.2, 0.2);
+                window.draw(sprite_netherite);
             }
             y++;
         }
         y = 0;
         i++;
     }
+
     for (int i = 0; info_players.size() > i; i++) {
         sprite_steve.setPosition(info_players[i].pos_x, info_players[i].pos_y);
         window.draw(sprite_steve);
     }
     window.display();
 }
+

@@ -34,6 +34,21 @@ class Info_Player {
 
 };
 
+class ressources {
+
+    public :
+    int food;
+    int coal;
+    int iron;
+    int gold;
+    int diamond;
+    int emerald;
+    int netherite;
+
+     ressources(int food = 0, int coal = 0, int iron = 0, int gold = 0, int diamond = 0, int emerald = 0, int netherite = 0)
+        : food(food), coal(coal), iron(iron), gold(gold), diamond(diamond), emerald(emerald), netherite(netherite) {}
+};
+
 class Display {
 public:
     Display();
@@ -72,6 +87,7 @@ private:
     void pnw();
     void pdi();
     void ppo();
+    void mct();
 
     sf::RenderWindow window;
     sf::Texture texture1;
@@ -176,8 +192,12 @@ private:
     // Position du joueur
     std::vector<Info_Player> info_players;
 
+    //Position all ressources
+    //std::vector<std::vector<ressources>> map;
+
 
     sf::Clock clock_pos;
+    sf::Clock clock_mct;
 
     int surplu_x;
     int surplu_y;

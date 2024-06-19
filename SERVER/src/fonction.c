@@ -7,7 +7,8 @@
 
 #include "../include/my.h"
 
-// Fonction qui retourn 0 si le char cara est contenu dans le char *str et 1 si ce n'es pas le cas
+// Fonction qui retourn 0 si le char cara est contenu dans le char *str
+// et 1 si ce n'es pas le cas
 int is_contain(char *str, char cara)
 {
     int z = 0;
@@ -21,7 +22,8 @@ int is_contain(char *str, char cara)
     return (1);
 }
 
-// Fonction qui prends un char *str et un char tok et qui transforme la chaine de caractere str en un tableau char ** coupé en fonction de tok
+// Fonction qui prends un char *str et un char tok et qui transforme la chaine
+// de caractere str en un tableau char ** coupé en fonction de tok
 char **str_to_word_array(char *str, char *tok)
 {
     char **tmp_2 = malloc(sizeof(char *) * 1);
@@ -41,7 +43,8 @@ char **str_to_word_array(char *str, char *tok)
     return (tab);
 }
 
-// Fonction annexe de int_to_str qui permet de retourner caractere par caractere un char *
+// Fonction annexe de int_to_str qui permet de retourner caractere par
+// caractere un char *
 char *reverse(char *str)
 {
     char tmp;
@@ -76,7 +79,8 @@ char *int_to_str(int num)
     return str;
 }
 
-// Fonction qui supprime tout les guillemets d'un char * et renvoie le nouveau char *
+// Fonction qui supprime tout les guillemets d'un char * et renvoie le
+// nouveau char *
 char *removed_quote(char *str)
 {
     char *tmp = malloc(sizeof(char) * 1024);

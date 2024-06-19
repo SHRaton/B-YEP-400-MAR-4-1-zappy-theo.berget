@@ -10,24 +10,26 @@
 void pnw(server_t *s)
 {
     char *sending = malloc(sizeof(char) * 1024);
-    strcpy(sending, "pnw #");
+    int ret = 0;
 
-    strcat(sending, int_to_str(s->server_net->cli_head->player_number));
-    strcat(sending, " ");
-    strcat(sending, int_to_str(s->server_net->cli_head->pos_x));
-    strcat(sending, " ");
-    strcat(sending, int_to_str(s->server_net->cli_head->pos_y));
-    strcat(sending, " ");
-    strcat(sending, int_to_str(s->server_net->cli_head->orientation));
-    strcat(sending, " ");
-    strcat(sending, int_to_str(s->server_net->cli_head->level));
-    strcat(sending, " ");
-    strcat(sending, remove_cara(s->server_net->cli_head->team_name, '\n'));
-    strcat(sending, "\n");
+    sprintf(sending, "pnw #%s %s %s %s %s %s\n",
+    int_to_str(s->server_net->cli_head->player_number),
+    int_to_str(s->server_net->cli_head->pos_x),
+    int_to_str(s->server_net->cli_head->pos_y),
+    int_to_str(s->server_net->cli_head->orientation),
+    int_to_str(s->server_net->cli_head->level),
+    remove_cara(s->server_net->cli_head->team_name, '\n'));
     if (s->server_net->gui == NULL) {
         dprintf(1, "GUI not connected. Start it before launching AI\n");
         return;
     }
+    ret = update_nb_client(s, remove_cara(s->server_net->cli_head->team_name, '\n'), -1);
+    if (ret == 84) {
+        send(s->server_net->gui->socket, "dead\n", strlen("dead\n"), 0);
+        print_send_to_client_head(s, "dead\n");
+        return;
+    }
+    print_strstr(s->server_data->teams);
     send(s->server_net->gui->socket, sending, strlen(sending), 0);
     print_send_to_client_head(s, remove_cara(sending, '\n'));
     free(sending);

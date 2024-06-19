@@ -61,9 +61,7 @@ void recup_input_from_client(server_t *s)
     s->server_net->bytes_received = read(s->server_net->current->socket,
     s->server_data->buffer, sizeof(s->server_data->buffer));
     if (s->server_net->bytes_received == 0) {
-        strcpy(pdi, "pdi #");
-        strcat(pdi, int_to_str(s->server_net->current->player_number));
-        strcat(pdi, "\n");
+        sprintf(pdi, "pdi #%d\n", s->server_net->current->player_number);
         send_and_print(s, pdi, s->server_net->gui->socket);
         close(s->server_net->current->socket);
         s->server_net->cli_head = remove_client(s->server_net->cli_head,

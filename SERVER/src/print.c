@@ -37,10 +37,11 @@ void print_args(arg_t *arg)
     dprintf(1, "|\033[34m__PORT\033[0m              \033[36m%d\033[0m\n",
     arg->_port);
     dprintf(1, "|\n");
-    dprintf(1, "|\033[34m__MAP_SIZE\033[0m          {\033[36m%d\033[0m ", arg->_width);
-    dprintf(1, "x \033[36m%d\033[0m}\n", arg->_height);
-    dprintf(1, "|\n");
-    dprintf(1, "|\033[34m__TEAMS\033[0m             "); print_names(arg);
+    dprintf(1, "|\033[34m__MAP_SIZE\033[0m          {\033[36m%d\033[0m ",
+    arg->_width);
+    dprintf(1, "x \033[36m%d\033[0m}\n|\n", arg->_height);
+    dprintf(1, "|\033[34m__TEAMS\033[0m             ");
+    print_names(arg);
     dprintf(1, "|\n");
     dprintf(1, "|\033[34m__NB_CLIENTS\033[0m        \033[36m%d\033[0m\n",
     arg->_nb_clients);

@@ -7,23 +7,12 @@
 
 #include "../include/my.h"
 
-void send_infos_to_new_client(server_t *s)
+// Send WELCOME && Receive TEAM-NAME
+void send_welcome_recv_team_name(server_t *s)
 {
-    int i = 0;
-    char left[1024];
-    char right[1024];
-    char *tmp;
-    char *nb_client = malloc(sizeof(char) * 1024);
-    int nb = 0;
-    char *client_num = malloc(sizeof(char) * 1024);
-    char *map_size = malloc(sizeof(char) * 99);
-
-    // Send WELCOME
     sleep(0.1);
     send(s->server_net->cli_head->socket, "WELCOME\n", strlen("WELCOME\n"), 0);
     print_send_to_client_head(s, "WELCOME");
-
-    // Received TEAM-NAME
     sleep(0.1);
     s->server_net->bytes_received = read(s->server_net->cli_head->socket,
     s->server_data->buffer, sizeof(s->server_data->buffer));
@@ -31,34 +20,42 @@ void send_infos_to_new_client(server_t *s)
         s->server_data->buffer[s->server_net->bytes_received] = '\0';
     }
     strcpy(s->server_net->cli_head->team_name, s->server_data->buffer);
-    print_received_from_client_head(s, remove_cara(s->server_data->buffer, '\n'));
+    print_received_from_client_head(s, remove_cara(s->server_data->buffer,
+    '\n'));
+}
 
-    // Send CLIENT-NUM
+char *get_client_num(server_t *s, const char *team_name)
+{
+    int i = 0;
+    char *tmp;
+    char *nb_client = malloc(sizeof(char) * 1024);
+    char *delim;
+
     while (s->server_data->teams[i] != NULL) {
         tmp = strdup(s->server_data->teams[i]);
-        strcpy(left, "");
-        strcpy(right, "");
-        char *delim = strchr(tmp, ':');
-        if (delim != NULL) {
-            strncpy(left, tmp, delim - tmp);
-            left[delim - tmp] = '\0';
-            strncpy(right, delim + 1, strlen(delim + 1));
-            right[strlen(delim + 1)] = '\0';
-        }
-        if (strncmp(left, s->server_net->cli_head->team_name, strlen(left)) == 0) {
-            strcpy(nb_client, right);
-        } else {
+        delim = strchr(tmp, ':');
+        if (delim != NULL && strncmp(team_name, tmp, delim - tmp) == 0) {
+            strcpy(nb_client, delim + 1);
+            break;
         }
         free(tmp);
         i++;
     }
     strcat(nb_client, "\n");
+    return nb_client;
+}
+
+// Send CLIENT-NUM
+void send_client_num(server_t *s)
+{
+    char *nb_client = get_client_num(s, s->server_net->cli_head->team_name);
+
     if (strcmp(s->server_net->cli_head->team_name, "IamTheGUI\n") != 0) {
         s->server_net->cli_head->isAI = 1;
         sleep(0.1);
         if (strcmp(nb_client, "\n") == 0) {
-            send(s->server_net->cli_head->socket, "ko\n", strlen("ko\n"), 0);
-            print_send_to_client_head(s, "ko");
+            send(s->server_net->cli_head->socket, "dead\n", strlen("dead\n"), 0);
+            print_send_to_client_head(s, "dead");
         } else {
             send(s->server_net->cli_head->socket, nb_client, strlen(nb_client), 0);
             print_send_to_client_head(s, remove_cara(nb_client, '\n'));
@@ -67,8 +64,14 @@ void send_infos_to_new_client(server_t *s)
         s->server_net->cli_head->isAI = 0;
         s->server_net->gui = s->server_net->cli_head;
     }
+    free(nb_client);
+}
 
-    // Send MAP-SIZE
+// Send MAP-SIZE
+void send_map_size(server_t *s)
+{
+    char *map_size = malloc(sizeof(char) * 99);
+
     strcpy(map_size, "");
     strcat(map_size, int_to_str(s->arg->_width));
     strcat(map_size, " ");
@@ -82,4 +85,11 @@ void send_infos_to_new_client(server_t *s)
     if (strcmp(s->server_net->cli_head->team_name, "IamTheGUI\n") != 0) {
         pnw(s);
     }
+}
+
+void send_infos_to_new_client(server_t *s)
+{
+    send_welcome_recv_team_name(s);
+    send_client_num(s);
+    send_map_size(s);
 }

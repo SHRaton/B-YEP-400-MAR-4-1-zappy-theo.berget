@@ -18,7 +18,8 @@ void print_strstr(char **str)
     }
 }
 
-// Fonction qui supprime tout les caractere défini en argument d'un char * et renvoie le nouveau char *
+// Fonction qui supprime tout les caractere défini en argument d'un char *
+// et renvoie le nouveau char *
 char *remove_cara(char *str, char c)
 {
     char *tmp = malloc(sizeof(char) * 1024);

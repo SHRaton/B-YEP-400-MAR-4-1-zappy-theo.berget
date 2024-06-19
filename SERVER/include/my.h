@@ -9,7 +9,6 @@
 
 #include "struct.h"
 
-/* changer cette variable à 1 pour avoir les print de debug et à 0 pour ne pas les avoir*/
 #define DEBUG 1
 
 #include <stdio.h>
@@ -53,8 +52,8 @@ void print_remove(client_t *current);
 // -------------------------------------- //
 
 // -------- chained_list.c -------- //
-client_t *add_client(client_t *head, int new_s, sockaddr_in_t client_addr, server_t *s);
-client_t *remove_client2(client_t *current, client_t *previous, client_t *head);
+client_t *add_client(client_t *head, int new_s, sockaddr_in_t c, server_t *s);
+client_t *remove_client2(client_t *current, client_t *prev, client_t *head);
 client_t *remove_client(client_t *head, int socket_to_remove);
 void free_clients(client_t *head);
 // -------------------------------- //
@@ -97,7 +96,7 @@ void send_infos_to_new_client(server_t *s);
 // -------------------------------------------- //
 
 // -------- update.c -------- //
-int update_nb_client(server_t *s, int add);
+int update_nb_client(server_t *s, char *team_name, int add);
 // -------------------------- //
 
 
@@ -132,3 +131,5 @@ void look(server_t *s);
 void infos(server_t *s);
 void ppo(server_t *s);
 void pnw(server_t *s);
+void mct(server_t *s);
+

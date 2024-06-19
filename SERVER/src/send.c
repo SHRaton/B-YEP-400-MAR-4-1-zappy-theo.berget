@@ -7,7 +7,8 @@
 
 #include "../include/my.h"
 
-// Fonction qui send un message a tout les utilisateurs acctuelement connectés au serveur
+// Fonction qui send un message a tout les utilisateurs
+// acctuelement connectés au serveur
 void send_all_clients(client_t *head, char *msg, client_t *current)
 {
     int i;
@@ -25,5 +26,5 @@ void send_all_clients(client_t *head, char *msg, client_t *current)
 void send_and_print(server_t *s, char *str, int socket)
 {
     send(socket, str, strlen(str), 0);
-    print_send_to_client(s, str);
+    print_send_to_client(s, remove_cara(str, '\n'));
 }

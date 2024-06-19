@@ -7,8 +7,62 @@
 
 #include "../include/my.h"
 
-// Fonction qui initialise toutes les variables de la structure server_t et transpose la structure arg_t dans une instance de server_t
-// pour tout centraliser dans server_t et n'utiliser plus que cette unique structure dans tout le programme
+void init_map_content(server_t *s)
+{
+    double densities[] = {0.5, 0.3, 0.15, 0.1, 0.1, 0.08, 0.05};
+    int total_resources = s->arg->_width * s->arg->_height;
+    int resources_count[] = {0, 0, 0, 0, 0, 0, 0};
+
+    for (int i = 0; i < s->arg->_width; i++) {
+        for (int j = 0; j < s->arg->_height; j++) {
+            if (i == 0 || i == s->arg->_width - 1 || j == 0 || j == s->arg->_height - 1) {
+                continue;
+            }
+            for (int k = 0; k < 7; k++) {
+                double random = (double) rand() / RAND_MAX;
+                if (random < densities[k]) {
+                    s->server_data->map_content[i][j].food += k == 0;
+                    s->server_data->map_content[i][j].linemate += k == 1;
+                    s->server_data->map_content[i][j].deraumere += k == 2;
+                    s->server_data->map_content[i][j].sibur += k == 3;
+                    s->server_data->map_content[i][j].mendiane += k == 4;
+                    s->server_data->map_content[i][j].phiras += k == 5;
+                    s->server_data->map_content[i][j].thystame += k == 6;
+                    resources_count[k]++;
+                }
+            }
+        }
+    }
+    for (int k = 0; k < 7; k++) {
+        int expected_count = total_resources * densities[k];
+        while (resources_count[k] < expected_count) {
+            int i = rand() % (s->arg->_width - 2) + 1;
+            int j = rand() % (s->arg->_height - 2) + 1;
+            s->server_data->map_content[i][j].food += k == 0;
+            s->server_data->map_content[i][j].linemate += k == 1;
+            s->server_data->map_content[i][j].deraumere += k == 2;
+            s->server_data->map_content[i][j].sibur += k == 3;
+            s->server_data->map_content[i][j].mendiane += k == 4;
+            s->server_data->map_content[i][j].phiras += k == 5;
+            s->server_data->map_content[i][j].thystame += k == 6;
+            resources_count[k]++;
+        }
+    }
+    for (int i = 0; i < s->arg->_width; i++) {
+        for (int j = 0; j < s->arg->_height; j++) {
+            dprintf(1, "[%d][%d] (%d %d %d %d %d %d %d)\n", i, j,
+            s->server_data->map_content[i][j].food, s->server_data->map_content[i][j].linemate,
+            s->server_data->map_content[i][j].deraumere, s->server_data->map_content[i][j].sibur,
+            s->server_data->map_content[i][j].mendiane, s->server_data->map_content[i][j].phiras,
+            s->server_data->map_content[i][j].thystame);
+        }
+    }
+}
+
+// Fonction qui initialise toutes les variables de la structure server_t
+// et transpose la structure arg_t dans une instance de server_t
+// pour tout centraliser dans server_t et n'utiliser plus que
+// cette unique structure dans tout le programme
 void apply(server_t *s, arg_t *arg)
 {
     s->arg = malloc(sizeof(arg_t));
@@ -23,19 +77,23 @@ void apply(server_t *s, arg_t *arg)
     s->server_net->result = 0;
     s->server_net->new_socket = 0;
     s->server_data->isCommand = 0;
-    int i = 0;
     s->server_data->teams = malloc(sizeof(char *) * 1024);
-    while (s->arg->_names[i] != NULL) {
+    for (int i = 0; s->arg->_names[i] != NULL; i++) {
         s->server_data->teams[i] = malloc(sizeof(char) * 1024);
         strcpy(s->server_data->teams[i], s->arg->_names[i]);
         strcat(s->server_data->teams[i], ":");
         strcat(s->server_data->teams[i], int_to_str(arg->_nb_clients));
-        i++;
     }
     s->server_data->player_nb = 1;
+    s->server_data->map_content = malloc(s->arg->_width * sizeof(case_t *));
+    for (int i = 0; i < s->arg->_width; i++) {
+        s->server_data->map_content[i] = malloc(s->arg->_height * sizeof(case_t));
+    }
+    init_map_content(s);
 }
 
-// Fonction utilitaire qui permet de pouvoir réutiliser un port récemment fermé afin de faciliter les tests et le debug du programme
+// Fonction utilitaire qui permet de pouvoir réutiliser un port récemment
+// fermé afin de faciliter les tests et le debug du programme
 void re_use_port(server_t *s)
 {
     int reuseaddr;
@@ -49,19 +107,20 @@ void re_use_port(server_t *s)
     }
 }
 
-// Fonction qui initialise le socket du serveur a partir du localhost et héberge le serveur sur le port donné en argument.
+// Fonction qui initialise le socket du serveur a partir du localhost
+// et héberge le serveur sur le port donné en argument.
 void init_socket(server_t *s)
 {
     s->server_net->server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (s->server_net->server_socket == -1) {
-        perror("Socket creation failed");
         exit(EXIT_FAILURE);
     }
     s->server_net->server_addr.sin_family = AF_INET;
     s->server_net->server_addr.sin_addr.s_addr = INADDR_ANY;
     s->server_net->server_addr.sin_port = htons(s->arg->_port);
     re_use_port(s);
-    if (bind(s->server_net->server_socket, (struct sockaddr*)&s->server_net->server_addr,
+    if (bind(s->server_net->server_socket,
+    (struct sockaddr*)&s->server_net->server_addr,
     sizeof(s->server_net->server_addr)) == -1) {
         perror("Bind failed");
         close(s->server_net->server_socket);

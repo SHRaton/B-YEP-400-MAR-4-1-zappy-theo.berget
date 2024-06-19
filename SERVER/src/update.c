@@ -7,7 +7,7 @@
 
 #include "../include/my.h"
 
-int update_nb_client(server_t *s, int add)
+int update_nb_client(server_t *s, char *team_name, int add)
 {
     int i = 0;
     char left[1024];
@@ -34,13 +34,14 @@ int update_nb_client(server_t *s, int add)
             free(tmp);
             return (84);
         }
-        nb += add;
+        if (strcmp(left, team_name) == 0) {
+            nb += add;
+        }
         strcat(new_string, int_to_str(nb));
         strcpy(s->server_data->teams[i], new_string);
         strcpy(new_string, "");
         free(tmp);
         i++;
     }
-    dprintf(1, "(%s\n%s)\n", s->server_data->teams[0], s->server_data->teams[1]);
     return (0);
 }

@@ -7,9 +7,9 @@
 
 #include "../include/my.h"
 
-// Fonction qui ajoute un nouveau client a la liste chainée de client connectés et stocke les informations du client
-client_t *add_client(client_t *head, int new_s, sockaddr_in_t client_addr,
-server_t *s)
+// Fonction qui ajoute un nouveau client a la liste chainée de client
+// connectés et stocke les informations du client
+client_t *add_client(client_t *head, int new_s, sockaddr_in_t cli, server_t *s)
 {
     client_t *new_client = malloc(sizeof(client_t));
 
@@ -18,7 +18,7 @@ server_t *s)
         exit(EXIT_FAILURE);
     }
     new_client->socket = new_s;
-    new_client->address = client_addr;
+    new_client->address = cli;
     new_client->next = head;
     new_client->isLogin = 1;
     srand(time(0));
@@ -27,7 +27,7 @@ server_t *s)
     new_client->level = 1;
     new_client->orientation = 1;
     new_client->player_number = s->server_data->player_nb;
-    print_connect(client_addr);
+    print_connect(cli);
     return new_client;
 }
 
@@ -63,7 +63,8 @@ client_t *remove_client(client_t *head, int socket_to_remove)
     return head;
 }
 
-// Fonction qui libere la mémoire de la liste chainée pour éviter les memory leak
+// Fonction qui libere la mémoire de la liste chainée
+// pour éviter les memory leak
 void free_clients(client_t *head)
 {
     client_t *current;

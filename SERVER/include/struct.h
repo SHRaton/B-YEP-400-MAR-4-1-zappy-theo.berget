@@ -39,6 +39,16 @@ typedef struct client_s {
     struct client_s *next;
 } client_t;
 
+typedef struct case_s {
+    int food;
+    int linemate;
+    int deraumere;
+    int sibur;
+    int mendiane;
+    int phiras;
+    int thystame;
+} case_t;
+
 // strcuture qui permet de gérer la partie net du serveur
 typedef struct server_net_s {
     int server_socket;
@@ -62,13 +72,11 @@ typedef struct server_data_s {
     int isCommand;
     char buffer[1024];
     char **command;
-
-    // Stockage des teams et de leur capacité
+    // Stockage des teams et de leur capacite
     char **teams;
-
     // Stockage de la map et des elements de chaque tile
     char **map;
-
+    case_t (**map_content);
     // Variables
     int player_nb;
 

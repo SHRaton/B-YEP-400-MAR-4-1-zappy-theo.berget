@@ -9,14 +9,12 @@
 
 void look(server_t *s)
 {
+    char *sending = malloc(sizeof(char) * 1024);
+
     if (strcmp(s->server_data->command[0], "Look") == 0) {
-        if (1) {
-            send(s->server_net->current->socket, "ok\n", strlen("ok\n"), 0);
-            print_send_to_client(s, "ok\n");
-        } else {
-            send(s->server_net->current->socket, "ko\n", strlen("ko\n"), 0);
-            print_send_to_client(s, "ko\n");
-        }
+        strcpy(sending, "[");
+        
+        send_and_print(s, sending, s->server_net->current->socket);
         s->server_data->isCommand = 1;
     }
 }

@@ -20,19 +20,6 @@
 #include <sstream>
 #include <utility>
 
-class Info_Player {
-    public :
-        Info_Player() = default;
-        ~Info_Player() = default;
-        int player_number;
-        int pos_x;
-        int pos_y;
-        int orientation;
-        int animation;
-        int level;
-        std::string team_name;
-};
-
 class ressources {
 
     public :
@@ -54,6 +41,20 @@ class ressources {
 
      ressources(int food = 0, int coal = 0, int iron = 0, int gold = 0, int diamond = 0, int emerald = 0, int netherite = 0)
         : food(food), coal(coal), iron(iron), gold(gold), diamond(diamond), emerald(emerald), netherite(netherite) {}
+};
+
+class Info_Player {
+    public :
+        Info_Player() = default;
+        ~Info_Player() = default;
+        int player_number;
+        int pos_x;
+        int pos_y;
+        int orientation;
+        int animation;
+        int level;
+        std::string team_name;
+        ressources inventory;
 };
 
 class Display {
@@ -96,6 +97,7 @@ private:
     void pdi();
     void ppo();
     void mct();
+    void pin();
 
     sf::RenderWindow window;
     sf::Texture texture1;
@@ -199,6 +201,7 @@ private:
 
     // Position du joueur
     std::vector<Info_Player> info_players;
+    std::vector<Info_Player> info_players_brut;
 
     //Position all ressources
     //std::vector<std::vector<ressources>> map;
@@ -206,6 +209,7 @@ private:
 
     sf::Clock clock_pos;
     sf::Clock clock_mct;
+    sf::Clock clock_pin;
 
     int surplu_x;
     int surplu_y;

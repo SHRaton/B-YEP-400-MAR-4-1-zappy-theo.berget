@@ -85,6 +85,7 @@ void Display::loadAssets()
 
     width = 10;
     height = 10;
+    ratio = 1.0;
 }
 
 void Display::Menu()

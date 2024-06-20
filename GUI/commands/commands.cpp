@@ -30,10 +30,8 @@ void Display::pnw()
         info.level = std::stoi(vbuffer[5]);
         info.team_name = vbuffer[6];
         info_players.push_back(info);
+        info_players_brut.push_back(info);
         sleep(0.1);
-        for (int i = 0; info_players.size() > i; i++) {
-            std::cout << info_players[i].player_number << "\n";
-        }
     }
 }
 
@@ -48,6 +46,7 @@ void Display::pdi()
             }
         }
         info_players.erase(info_players.begin() + index);
+        info_players_brut.erase(info_players_brut.begin() + index);
     }
 }
 
@@ -59,9 +58,15 @@ void Display::ppo()
             send = "ppo #" + std::to_string(info_players[i].player_number) + "\n";
             send_to_server(send);
             receive_from_server();
+            info_players_brut[i].pos_x = std::stoi(vbuffer[2]);
+            info_players_brut[i].pos_y = std::stoi(vbuffer[3]);
+            info_players_brut[i].orientation = std::stoi(vbuffer[4]);
 
-            int new_pos_y = surplu_y + ((std::stoi(vbuffer[3]) + 1) * 128) - 180;
-            int new_pos_x =  surplu_x + ((std::stoi(vbuffer[2]) + 1) * 128) - 140;
+            surplu_x = (window.getSize().x / 2) - ((width * (128 * ratio)) / 2);
+            surplu_y = (window.getSize().y / 2) - ((height * (128 * ratio)) / 2);
+
+            int new_pos_y = surplu_y + ((std::stoi(vbuffer[3]) + 1) * (128 * ratio)) - (180 * ratio);
+            int new_pos_x = surplu_x + ((std::stoi(vbuffer[2]) + 1) * (128 * ratio)) - (140 * ratio);
 
             // Vérifier si Steve se déplace vers le haut
             if (new_pos_y < info_players[i].pos_y) {
@@ -105,12 +110,36 @@ void Display::mct()
     }
 }
 
+void Display::pin()
+{
+    if (clock_pin.getElapsedTime().asSeconds() >= 1.0f) {
+        for (int i = 0; i < info_players.size(); i++) {
+            send_to_server("pin #" + std::to_string(info_players[i].player_number) + "\n");
+            receive_from_server();
+            int pnb, x, y, index;
+            pnb = std::stoi(vbuffer[1].substr(1));
+            x = std::stoi(vbuffer[2]);
+            y = std::stoi(vbuffer[3]);
+            info_players[i].inventory.food = std::stoi(vbuffer[4]);
+            info_players[i].inventory.coal = std::stoi(vbuffer[5]);
+            info_players[i].inventory.iron = std::stoi(vbuffer[6]);
+            info_players[i].inventory.gold = std::stoi(vbuffer[7]);
+            info_players[i].inventory.diamond = std::stoi(vbuffer[8]);
+            info_players[i].inventory.emerald = std::stoi(vbuffer[9]);
+            info_players[i].inventory.netherite = std::stoi(vbuffer[10]);
+            std::cout << pnb << x << y << info_players[i].inventory.food << info_players[i].inventory.coal << info_players[i].inventory.iron << info_players[i].inventory.gold << info_players[i].inventory.diamond << info_players[i].inventory.emerald << info_players[i].inventory.netherite;
+        }
+        clock_pin.restart();
+    }
+}
+
 void Display::commands()
 {
     pnw();
     pdi();
     ppo();
     mct();
+    pin();
     strcpy(buffer, "");
     sbuffer = std::string(buffer);
     vbuffer[0] = "";

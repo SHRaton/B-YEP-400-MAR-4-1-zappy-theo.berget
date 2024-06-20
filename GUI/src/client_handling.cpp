@@ -65,8 +65,8 @@ void Display::client_loop()
             }
         }
         handleEvents4();
-        commands();
         update4();
+        commands();
         render4();
     }
 }

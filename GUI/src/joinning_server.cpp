@@ -23,7 +23,13 @@ void Display::handleEvents4() {
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
             std::cout << "Position de la souris : x = " << mousePosition.x << ", y = " << mousePosition.y << std::endl;
             handleClick(mousePosition.x, mousePosition.y);
+            soundButton.play();
+        } else if (event.type == sf::Event::KeyPressed && event.key.code == 55) {
+            ratio *= 1.20;
+        } else if (event.type == sf::Event::KeyPressed && event.key.code == 56) {
+            ratio /= 1.20;
         }
+        
         if (event.type == sf::Event::KeyPressed) {
             handleKeyboard(event.key);
         }
@@ -75,7 +81,13 @@ void Display::update4()
     sprite_DOWN.setScale(8, 8);
     sprite_RIGHT.setScale(8, 8);
     sprite_LEFT.setScale(8, 8);
-    sprite_steve.setScale(5, 5);
+    for (int i = 0; info_players.size() > i; i++) {
+        surplu_x = (window.getSize().x / 2) - ((width * (128 * ratio)) / 2);
+        surplu_y = (window.getSize().y / 2) - ((height * (128 * ratio)) / 2);
+        info_players[i].pos_x = surplu_x + (info_players_brut[i].pos_x + 1) * (128 * ratio) - (140 * ratio);
+        info_players[i].pos_y = surplu_y + (info_players_brut[i].pos_y + 1) * (128 * ratio) - (180 * ratio);
+        sprite_steve.setScale(5 * ratio, 5 * ratio);
+    }
 }
 
 void Display::handleClick(int mouseX, int mouseY) {
@@ -113,7 +125,6 @@ void Display::render4(){
     // Inventaire case
     texture_case_inventory.loadFromFile("GUI/assets/inventory.png");
 
-    ratio = 1.0;
     surplu_x = (window.getSize().x / 2) - ((width * (128 * ratio)) / 2);
     surplu_y = (window.getSize().y / 2) - ((height * (128 * ratio)) / 2);
 
@@ -201,6 +212,7 @@ void Display::render4(){
     // Déplacement du joueur
     for (int i = 0; info_players.size() > i; i++) {
         sprite_steve.setPosition(info_players[i].pos_x, info_players[i].pos_y);
+        sprite_steve.setScale(5 * ratio, 5 * ratio);
         if (info_players[i].animation == 1 && info_players[i].orientation == 1) {
             textureSteve.loadFromFile("GUI/assets/walk_up.png");
             sprite_steve.setTexture(textureSteve);
@@ -270,7 +282,6 @@ void Display::render4(){
     resourceText.setPosition(300, 793);
     resourceText.setString(std::to_string(selectedResources.netherite));
     window.draw(resourceText);
-
 
     window.display();
 }

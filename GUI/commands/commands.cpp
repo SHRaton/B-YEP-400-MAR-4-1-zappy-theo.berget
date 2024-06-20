@@ -61,14 +61,24 @@ void Display::ppo()
             receive_from_server();
 
             int new_pos_y = surplu_y + ((std::stoi(vbuffer[3]) + 1) * 128) - 180;
+            int new_pos_x =  surplu_x + ((std::stoi(vbuffer[2]) + 1) * 128) - 140;
 
             // Vérifier si Steve se déplace vers le haut
             if (new_pos_y < info_players[i].pos_y) {
-                animation = 1;
+                info_players[i].animation = 1;
+            } else if (new_pos_y > info_players[i].pos_y) {
+                info_players[i].animation = 1;
+            } else if (new_pos_x < info_players[i].pos_x) {
+                info_players[i].animation = 1;
+            } else if (new_pos_x > info_players[i].pos_x) {
+                info_players[i].animation = 1;
+            } else {
+                info_players[i].animation = 0;
             }
-            info_players[i].pos_x = surplu_x + ((std::stoi(vbuffer[2]) + 1) * 128) - 140;
+            info_players[i].pos_x = new_pos_x;
             info_players[i].pos_y = new_pos_y;
             info_players[i].orientation = std::stoi(vbuffer[4]);
+            
         }
         clock_pos.restart();
     }

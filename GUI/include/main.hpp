@@ -28,6 +28,7 @@ class Info_Player {
         int pos_x;
         int pos_y;
         int orientation;
+        int animation;
         int level;
         std::string team_name;
 };
@@ -235,6 +236,11 @@ private:
     int animation;
     void handleClick(int mouseX, int mouseY);
 
+
+    sf::Text resourceText;
+    ressources selectedResources;
+
+    double ratio;
 };
 
 #endif // MAIN_HPP

@@ -56,7 +56,7 @@ void accept_connexion(server_t *s)
 // messages des clients et stocke le contenue dans un tableau d'argument
 void recup_input_from_client(server_t *s)
 {
-    char *pdi = malloc(sizeof(char) * 1024);
+    char *pdi = malloc(sizeof(char) * 9999);
 
     s->server_net->bytes_received = read(s->server_net->current->socket,
     s->server_data->buffer, sizeof(s->server_data->buffer));
@@ -75,6 +75,7 @@ void recup_input_from_client(server_t *s)
         " \t\n\r");
         commands(s);
     }
+    free(pdi);
 }
 
 // Fonction principale de la boucle du serveur, qui trie les et gère les FD

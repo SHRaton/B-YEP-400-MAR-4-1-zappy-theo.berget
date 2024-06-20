@@ -28,7 +28,7 @@ char *get_client_num(server_t *s, const char *team_name)
 {
     int i = 0;
     char *tmp;
-    char *nb_client = malloc(sizeof(char) * 1024);
+    char *nb_client = malloc(sizeof(char) * 9888);
     char *delim;
 
     while (s->server_data->teams[i] != NULL) {

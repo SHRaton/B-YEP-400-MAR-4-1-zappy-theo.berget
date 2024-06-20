@@ -28,8 +28,8 @@ typedef struct client_s {
     int isLogin;
     int isAI;
     uuid_t uuid;
-    char uuid_s[1024];
-    char team_name[1024];
+    char uuid_s[9888];
+    char team_name[9888];
     int pos_x;
     int pos_y;
     int orientation;
@@ -70,7 +70,7 @@ typedef struct server_net_s {
 typedef struct server_data_s {
     // Command handling
     int isCommand;
-    char buffer[1024];
+    char buffer[9888];
     char **command;
     // Stockage des teams et de leur capacite
     char **teams;

@@ -10,10 +10,10 @@
 int update_nb_client(server_t *s, char *team_name, int add)
 {
     int i = 0;
-    char left[1024];
-    char right[1024];
+    char left[9888];
+    char right[9888];
     char *tmp;
-    char *new_string = malloc(sizeof(char) * 1024);
+    char *new_string = malloc(sizeof(char) * 9888);
     strcpy(new_string, "");
     int nb = 0;
     while (s->server_data->teams[i] != NULL) {

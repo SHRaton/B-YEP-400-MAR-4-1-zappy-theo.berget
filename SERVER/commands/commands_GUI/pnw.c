@@ -9,7 +9,7 @@
 
 void pnw(server_t *s)
 {
-    char *sending = malloc(sizeof(char) * 1024);
+    char *sending = malloc(sizeof(char) * 9888);
     int ret = 0;
 
     sprintf(sending, "pnw #%s %s %s %s %s %s\n",

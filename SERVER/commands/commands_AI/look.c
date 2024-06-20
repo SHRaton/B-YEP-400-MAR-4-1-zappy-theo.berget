@@ -9,7 +9,7 @@
 
 void look(server_t *s)
 {
-    char *sending = malloc(sizeof(char) * 1024);
+    char *sending = malloc(sizeof(char) * 9999);
     int x = 0, y = 0;
     int line_sz = 1;
     int tmp = 0, cmpt = 1;
@@ -37,6 +37,7 @@ void look(server_t *s)
         for (int i = 0; i < 4; i++) {
             //dprintf(1, "(%d %d)\n", x, y);
             if (y < 0 || y > s->arg->_height || x < 0 || x > s->arg->_width) {
+                strcat(sending, " wall,");
                 // do nothing
             } else {
                 if (s->server_data->map_content[y][x].food > 0) {
@@ -60,18 +61,16 @@ void look(server_t *s)
                 if (s->server_data->map_content[y][x].thystame > 0) {
                     strcat(sending, " thystame");
                 }
+                strcat(sending, ",");
             }
-            strcat(sending, ",");
             if (cmpt < line_sz) {
                 cmpt++;
                 x += ori_x;
-                //dprintf(1, "X\n");
             } else {
                 y += ori_y;
                 cmpt = 1;
                 x -= line_sz * ori_x;
                 line_sz += 2;
-                //dprintf(1, "Y\n");
             }
 
         }

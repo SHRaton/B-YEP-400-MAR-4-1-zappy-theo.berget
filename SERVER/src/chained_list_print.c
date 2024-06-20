@@ -12,7 +12,7 @@
 void print_clients(client_t *head)
 {
     int i;
-    char *who = malloc(sizeof(char) * 1024);
+    char *who = malloc(sizeof(char) * 9888);
 
     if (DEBUG == 1) {
         i = 1;
@@ -39,7 +39,7 @@ void print_clients(client_t *head)
 // Fonction qui affiche le client déconnecté dans le serveur si DEBUG == 1
 void print_remove(client_t *current)
 {
-    char *who = malloc(sizeof(char) * 1024);
+    char *who = malloc(sizeof(char) * 9888);
 
     if (DEBUG == 1) {
         if (current->isAI == 1) {

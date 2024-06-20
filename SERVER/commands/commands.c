@@ -22,7 +22,7 @@ void print_received_from_client_head(server_t *s, char *str)
 // Affiche dans le serveur les commandes recues
 void print_received_from_client(server_t *s, char *str)
 {
-    char *who = malloc(sizeof(char) * 1024);
+    char *who = malloc(sizeof(char) * 999);
 
     if (DEBUG == 1) {
         if (s->server_net->current->isAI == 1) {
@@ -36,14 +36,14 @@ void print_received_from_client(server_t *s, char *str)
         ntohs(s->server_net->current->address.sin_port), who);
         printf("(\"%s\")\n", str);
     }
-    free (who);
+    free(who);
 }
 
 // Fonction qui affiche le message send et à qui le serveur le send
 void print_send_to_client_head(server_t *s, char *str)
 {
     if (DEBUG == 1) {
-        dprintf(1, "\033[43m[Sent]    \033[0m to   client ");
+        dprintf(1, "\033[43m  [Sent]  \033[0m to   client ");
         dprintf(1, "[\033[37m%s:%d\033[0m]        --> (\"%s\")\n",
         inet_ntoa(s->server_net->cli_head->address.sin_addr),
         ntohs(s->server_net->cli_head->address.sin_port), str);
@@ -53,7 +53,7 @@ void print_send_to_client_head(server_t *s, char *str)
 // Fonction qui affiche le message send et à qui le serveur le send
 void print_send_to_client(server_t *s, char *str)
 {
-    char *who = malloc(sizeof(char) * 1024);
+    char *who = malloc(sizeof(char) * 999);
 
     if (DEBUG == 1) {
         if (s->server_net->current->isAI == 1) {

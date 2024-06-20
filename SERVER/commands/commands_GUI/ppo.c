@@ -30,8 +30,8 @@ void get_string_ppo(server_t *s, char *ret, char *str)
 
 void ppo(server_t *s)
 {
-    char *ret = malloc(sizeof(char) * 1024);
-    char *str = malloc(sizeof(char) * 1024);
+    char *ret = malloc(sizeof(char) * 9888);
+    char *str = malloc(sizeof(char) * 9888);
 
     if (strcmp(s->server_data->command[0], "ppo") == 0) {
         strcpy(str, s->server_data->command[1]);

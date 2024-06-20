@@ -22,7 +22,7 @@ void print_strstr(char **str)
 // et renvoie le nouveau char *
 char *remove_cara(char *str, char c)
 {
-    char *tmp = malloc(sizeof(char) * 1024);
+    char *tmp = malloc(sizeof(char) * 9888);
     int z = 0;
     int y = 0;
 

@@ -10,7 +10,7 @@
 void infos(server_t *s)
 {
     client_t *tmp = s->server_net->current;
-    char *info = malloc(sizeof(char) * 1024);
+    char *info = malloc(sizeof(char) * 9888);
 
     if (strcmp(s->server_data->command[0], "/info") == 0) {
         s->server_net->current = s->server_net->cli_head;

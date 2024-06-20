@@ -83,7 +83,7 @@ char *int_to_str(int num)
 // nouveau char *
 char *removed_quote(char *str)
 {
-    char *tmp = malloc(sizeof(char) * 1024);
+    char *tmp = malloc(sizeof(char) * 9888);
     int z = 0;
     int y = 0;
 

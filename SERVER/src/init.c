@@ -10,41 +10,37 @@
 void init_map_content(server_t *s)
 {
     double densities[] = {0.5, 0.3, 0.15, 0.1, 0.1, 0.08, 0.05};
-    int total_resources = s->arg->_width * s->arg->_height;
+    int total_resources = (s->arg->_width - 2) * (s->arg->_height - 2);
     int resources_count[] = {0, 0, 0, 0, 0, 0, 0};
 
-    for (int i = 0; i < s->arg->_width; i++) {
-        for (int j = 0; j < s->arg->_height; j++) {
-            if (i == 0 || i == s->arg->_width - 1 || j == 0 || j == s->arg->_height - 1) {
-                continue;
-            }
-            for (int k = 0; k < 7; k++) {
-                double random = (double) rand() / RAND_MAX;
-                if (random < densities[k]) {
-                    s->server_data->map_content[i][j].food += k == 0;
-                    s->server_data->map_content[i][j].linemate += k == 1;
-                    s->server_data->map_content[i][j].deraumere += k == 2;
-                    s->server_data->map_content[i][j].sibur += k == 3;
-                    s->server_data->map_content[i][j].mendiane += k == 4;
-                    s->server_data->map_content[i][j].phiras += k == 5;
-                    s->server_data->map_content[i][j].thystame += k == 6;
-                    resources_count[k]++;
-                }
-            }
-        }
-    }
     for (int k = 0; k < 7; k++) {
         int expected_count = total_resources * densities[k];
         while (resources_count[k] < expected_count) {
-            int i = rand() % (s->arg->_width - 2) + 1;
-            int j = rand() % (s->arg->_height - 2) + 1;
-            s->server_data->map_content[i][j].food += k == 0;
-            s->server_data->map_content[i][j].linemate += k == 1;
-            s->server_data->map_content[i][j].deraumere += k == 2;
-            s->server_data->map_content[i][j].sibur += k == 3;
-            s->server_data->map_content[i][j].mendiane += k == 4;
-            s->server_data->map_content[i][j].phiras += k == 5;
-            s->server_data->map_content[i][j].thystame += k == 6;
+            int i = rand() % (s->arg->_height - 2) + 1;
+            int j = rand() % (s->arg->_width - 2) + 1;
+            switch (k) {
+                case 0:
+                    s->server_data->map_content[i][j].food++;
+                    break;
+                case 1:
+                    s->server_data->map_content[i][j].linemate++;
+                    break;
+                case 2:
+                    s->server_data->map_content[i][j].deraumere++;
+                    break;
+                case 3:
+                    s->server_data->map_content[i][j].sibur++;
+                    break;
+                case 4:
+                    s->server_data->map_content[i][j].mendiane++;
+                    break;
+                case 5:
+                    s->server_data->map_content[i][j].phiras++;
+                    break;
+                case 6:
+                    s->server_data->map_content[i][j].thystame++;
+                    break;
+            }
             resources_count[k]++;
         }
     }
@@ -58,6 +54,7 @@ void init_map_content(server_t *s)
         }
     }
 }
+
 
 // Fonction qui initialise toutes les variables de la structure server_t
 // et transpose la structure arg_t dans une instance de server_t
@@ -77,9 +74,9 @@ void apply(server_t *s, arg_t *arg)
     s->server_net->result = 0;
     s->server_net->new_socket = 0;
     s->server_data->isCommand = 0;
-    s->server_data->teams = malloc(sizeof(char *) * 1024);
+    s->server_data->teams = malloc(sizeof(char *) * 9888);
     for (int i = 0; s->arg->_names[i] != NULL; i++) {
-        s->server_data->teams[i] = malloc(sizeof(char) * 1024);
+        s->server_data->teams[i] = malloc(sizeof(char) * 9888);
         strcpy(s->server_data->teams[i], s->arg->_names[i]);
         strcat(s->server_data->teams[i], ":");
         strcat(s->server_data->teams[i], int_to_str(arg->_nb_clients));

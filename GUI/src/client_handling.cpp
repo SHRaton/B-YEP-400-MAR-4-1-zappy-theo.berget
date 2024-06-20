@@ -73,10 +73,8 @@ void Display::client_loop()
 
 void Display::receive_from_server()
 {
-    static std::string buffeur;
     std::string new_data;
     ssize_t bytes_rcvd;
-
     bytes_rcvd = read(client_socket, buffer, sizeof(buffer) - 1);
     if (bytes_rcvd <= 0) {
         if (bytes_rcvd == 0) {
@@ -89,19 +87,7 @@ void Display::receive_from_server()
         buffer[bytes_rcvd] = '\0';
         sbuffer = std::string(buffer);
         vbuffer = str_to_word_array(sbuffer);
-
-        new_data = sbuffer;
-        new_data.resize(bytes_rcvd);
-        buffeur += new_data;
-        size_t pos = buffeur.find('\n');
-        while (pos != std::string::npos) {
-            std::string message = buffeur.substr(0, pos + 1);
-            buffeur.erase(0, pos + 1);
-            vbuffer = str_to_word_array(message);
-            std::cout << "\033[42m[RECEIVED]\033[0m --> " << message;
-            pos = buffeur.find('\n');
-            sbuffer = message;
-        }
+        std::cout << "\033[42m[RECEIVED]\033[0m --> " << sbuffer;
     }
 }
 

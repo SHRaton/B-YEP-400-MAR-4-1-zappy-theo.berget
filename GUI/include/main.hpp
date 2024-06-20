@@ -30,8 +30,6 @@ class Info_Player {
         int orientation;
         int level;
         std::string team_name;
-
-
 };
 
 class ressources {
@@ -44,6 +42,14 @@ class ressources {
     int diamond;
     int emerald;
     int netherite;
+
+    sf::Text nb_food;
+    sf::Text nb_coal;
+    sf::Text nb_iron;
+    sf::Text nb_gold;
+    sf::Text nb_diamond;
+    sf::Text nb_emerald;
+    sf::Text nb_netherite;
 
      ressources(int food = 0, int coal = 0, int iron = 0, int gold = 0, int diamond = 0, int emerald = 0, int netherite = 0)
         : food(food), coal(coal), iron(iron), gold(gold), diamond(diamond), emerald(emerald), netherite(netherite) {}
@@ -132,7 +138,7 @@ private:
 
     int client_socket;
     struct sockaddr_in sockaddrIn;
-    char buffer[1024];
+    char buffer[9999];
     std::string sbuffer;
     std::vector<std::string> vbuffer;
     char *line;
@@ -219,6 +225,15 @@ private:
     sf::Texture texture_emerald;
     sf::Texture texture_netherite;
 
+
+    sf::Sprite sprite_player_inventory;
+    sf::Texture texture_player_inventory;
+
+    sf::Sprite sprite_case_inventory;
+    sf::Texture texture_case_inventory;
+
+    int animation;
+    void handleClick(int mouseX, int mouseY);
 
 };
 

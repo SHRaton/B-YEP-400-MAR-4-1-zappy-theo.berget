@@ -55,19 +55,28 @@ void Display::ppo()
 {
     if (clock_pos.getElapsedTime().asSeconds() >= 1.0f) {
         std::string send;
-        for (int i = 0; info_players.size() > i; i++) {
+        for (int i = 0; i < info_players.size(); i++) {
             send = "ppo #" + std::to_string(info_players[i].player_number) + "\n";
             send_to_server(send);
             receive_from_server();
+
+            int new_pos_y = surplu_y + ((std::stoi(vbuffer[3]) + 1) * 128) - 180;
+
+            // Vérifier si Steve se déplace vers le haut
+            if (new_pos_y < info_players[i].pos_y) {
+                animation = 1;
+            }
             info_players[i].pos_x = surplu_x + ((std::stoi(vbuffer[2]) + 1) * 128) - 140;
-            info_players[i].pos_y = surplu_y + ((std::stoi(vbuffer[3]) + 1) * 128) - 180;
+            info_players[i].pos_y = new_pos_y;
             info_players[i].orientation = std::stoi(vbuffer[4]);
         }
         clock_pos.restart();
     }
 }
 
-void Display::mct() {
+
+void Display::mct()
+{
     if (clock_mct.getElapsedTime().asSeconds() >= 1.0f) {
         send_to_server("mct\n");
         receive_from_server();

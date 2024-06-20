@@ -13,8 +13,7 @@ void Display::set_map_size(int x, int y)
     height = y;
 }
 
-void Display::handleEvents4()
-{
+void Display::handleEvents4() {
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed ||
@@ -23,10 +22,29 @@ void Display::handleEvents4()
         } else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
             sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
             std::cout << "Position de la souris : x = " << mousePosition.x << ", y = " << mousePosition.y << std::endl;
+            handleClick(mousePosition.x, mousePosition.y);
         }
         if (event.type == sf::Event::KeyPressed) {
             handleKeyboard(event.key);
         }
+    }
+}
+
+void Display::handleClick(int mouseX, int mouseY)
+{
+    int cellX = (mouseX - surplu_x) / 128;
+    int cellY = (mouseY - surplu_y) / 128;
+
+    if (cellX >= 0 && cellX < width && cellY >= 0 && cellY < height) {
+        const auto& res = ressources_grid[cellY][cellX];
+        std::cout << "Resources in cell (" << cellX << ", " << cellY << "):" << std::endl;
+        std::cout << "Food: " << res.food << std::endl;
+        std::cout << "Coal: " << res.coal << std::endl;
+        std::cout << "Iron: " << res.iron << std::endl;
+        std::cout << "Gold: " << res.gold << std::endl;
+        std::cout << "Diamond: " << res.diamond << std::endl;
+        std::cout << "Emerald: " << res.emerald << std::endl;
+        std::cout << "Netherite: " << res.netherite << std::endl;
     }
 }
 
@@ -80,6 +98,8 @@ void Display::update4()
 
 void Display::render4() {
     int i = 0, y = 0;
+
+    //ressources
     texture_food.loadFromFile("GUI/assets/food.png");
     texture_coal.loadFromFile("GUI/assets/coal.png");
     texture_iron.loadFromFile("GUI/assets/iron.png");
@@ -87,6 +107,12 @@ void Display::render4() {
     texture_diamond.loadFromFile("GUI/assets/diamond.png");
     texture_emerald.loadFromFile("GUI/assets/emerald.png");
     texture_netherite.loadFromFile("GUI/assets/netherite.png");
+
+    //Inventaire joueur
+    texture_player_inventory.loadFromFile("GUI/assets/inventory2.png");
+
+    //Inventaire case
+    texture_case_inventory.loadFromFile("GUI/assets/inventory.png");
 
     surplu_x = (window.getSize().x / 2) - ((width * 128) / 2);
     surplu_y = (window.getSize().y / 2) - ((height * 128) / 2);
@@ -166,18 +192,36 @@ void Display::render4() {
                 sprite_netherite.setTexture(texture_netherite);
                 sprite_netherite.setPosition(y * 128 + surplu_x + 55, i * 128 + surplu_y + 12);
                 sprite_netherite.setScale(0.2, 0.2);
-                window.draw(sprite_netherite);
+                ;window.draw(sprite_netherite);
             }
             y++;
         }
         y = 0;
         i++;
     }
-
+    
+    // déplacement player
     for (int i = 0; info_players.size() > i; i++) {
         sprite_steve.setPosition(info_players[i].pos_x, info_players[i].pos_y);
+        if (animation == 1) {
+            textureSteve.loadFromFile("GUI/assets/walk_up.png");
+            sprite_steve.setTexture(textureSteve);
+        }
         window.draw(sprite_steve);
     }
+
+    //set texture inventory player + draw
+    sprite_player_inventory.setPosition(560, 935);
+    sprite_player_inventory.setScale(1.5, 1.5);
+    sprite_player_inventory.setTexture(texture_player_inventory);
+    window.draw(sprite_player_inventory);
+
+    //set texture case player + draw
+    sprite_case_inventory.setPosition(17, 300);
+    sprite_case_inventory.setTexture(texture_case_inventory);
+    window.draw(sprite_case_inventory);
+
+
     window.display();
 }
 

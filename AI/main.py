@@ -65,8 +65,8 @@ class AIPlayer:
         self.port = False
         self.AI = False
         self.client = None
-        self.tour = 2
-        self.wait_move = 1
+        self.tour = 0.4
+        self.wait_move = 0.5
         self.pos = ""
         self.posX = 0
         self.posY = 0
@@ -135,6 +135,7 @@ class AIPlayer:
     def get_to_tile(self, tile):
         if tile == 0:
             self.send_message("Allready on tile")
+            self.send_message("Left")
             return
         if tile == 1:
             self.send_message("Forward")
@@ -287,9 +288,14 @@ class AIPlayer:
         if (self.have_linemate >= 1 and self.level < 2):
             self.send_message("Evolution 2")
             self.level = 2
+            print("level 2\n\n\n")
+            time.sleep(1)
+
         if (self.nb_player >= 2 and self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level < 3):
             self.send_message("Evolution 3")
             self.level = 3
+            print("level 3\n\n\n")
+            time.sleep(3)
         ##verifier les condition avec multi player (broadcast??)
 
 ###################################################################################################
@@ -315,6 +321,22 @@ class AIPlayer:
             return
         if "thystame" in self.list_items_on_tile and self.have_linemate >= 1 and self.have_deraumere >= 1 and self.have_sibur >= 2 and self.have_mendiane >= 3 and self.have_phiras >= 4:
             self.best_item = "thystame"
+            return
+        if (self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level < 3):
+            self.best_item = "deraumere"
+            return
+        if (self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level < 3):
+            self.best_item = "sibur"
+            return
+        if (self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level < 3):
+            self.best_item = "mendiane"
+            return
+        if (self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level < 3):
+            self.best_item = "phiras"
+            return
+        if (self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level < 3):
+            self.best_item = "thystame"
+            return
             return
 
 ###################################################################################################
@@ -397,11 +419,34 @@ class AIPlayer:
 
 ###################################################################################################
 
+    def print_inventory(self):
+        print("food :")
+        print(self.have_food)
+        print("linemate :")
+        print(self.have_linemate)
+        print("deraumere :")
+        print(self.have_deraumere)
+        print("sibur :")
+        print(self.have_sibur)
+        print("mendiane :")
+        print(self.have_mendiane)
+        print("phiras :")
+        print(self.have_phiras)
+        print("thystame :")
+        print(self.have_thystame)
+        print("player :")
+        print(self.have_player)
+        print("level :")
+        print(self.level)
+
+
+###################################################################################################
+
     def ai(self):
         while self.AI == False:
             if self.start == True:
-                nb_player = self.receive_message()
-                if nb_player == '0':
+                self.nb_player = self.receive_message()
+                if self.nb_player == '0':
                     self.AI = True
                 time.sleep(self.tour)
                 self.size_map =  self.receive_message()
@@ -409,10 +454,11 @@ class AIPlayer:
                 print(self.size_map)
                 self.start = False
             self.is_evolution()
+            self.print_inventory()
             self.send_message("Look")
             look_ret = self.receive_message()
-            print("look return :")
-            print(look_ret)
+            #print("look return :")
+            #print(look_ret)
             self.look_ret = look_ret
             self.select_tile(look_ret)
             

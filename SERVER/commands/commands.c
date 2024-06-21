@@ -75,6 +75,9 @@ void commands(server_t *s)
 {
     forward(s);
     look(s);
+    left(s);
+    right(s);
+    take(s);
     infos(s);
     ppo(s);
     mct(s);

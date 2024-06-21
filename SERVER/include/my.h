@@ -121,6 +121,9 @@ void commands(server_t *s);
 
 void forward(server_t *s);
 void look(server_t *s);
+void left(server_t *s);
+void right(server_t *s);
+void take(server_t *s);
 
 
 ////////////////////////////////////////////////////////////////

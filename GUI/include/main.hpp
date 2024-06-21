@@ -64,6 +64,7 @@ public:
     void server_menu();
     void server_login();
     void change_ip_port(std::string ip, std::string port);
+    void show_map_size();
 
 private:
     std::vector<std::vector<ressources>> ressources_grid;
@@ -265,6 +266,9 @@ private:
     void showPlayerResources();
     ressources show_inv;
     int indx;
+
+    sf::Text mapSizeText;
+    sf::RectangleShape greyRectangle;
 };
 
 #endif // MAIN_HPP

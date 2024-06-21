@@ -11,6 +11,15 @@ void Display::set_map_size(int x, int y)
 {
     width = x;
     height = y;
+    mapSizeText.setFont(font);
+    mapSizeText.setCharacterSize(35); // Taille du texte
+    mapSizeText.setFillColor(sf::Color::White); // Couleur du texte
+    mapSizeText.setPosition(20, 965);
+    mapSizeText.setString("Map Size: " + std::to_string(width) + " x " + std::to_string(height));
+
+    greyRectangle.setSize(sf::Vector2f(310, 70)); // Taille du rectangle
+    greyRectangle.setFillColor(sf::Color(128, 128, 128)); // Couleur grise
+    greyRectangle.setPosition(10, 950); // Position du rectangle
 }
 
 void Display::handleEvents4()
@@ -363,6 +372,8 @@ void Display::render4()
     resourceText.setString(std::to_string(selectedResources.netherite));
     window.draw(resourceText);
 
+    window.draw(greyRectangle);
+    window.draw(mapSizeText);
     window.display();
 }
 

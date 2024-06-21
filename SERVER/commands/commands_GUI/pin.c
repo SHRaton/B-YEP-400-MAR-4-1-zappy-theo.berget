@@ -47,8 +47,8 @@ void pin(server_t *s)
     if (strcmp(s->server_data->command[0], "pin") == 0) {
         sprintf(sending, "pin %s", s->server_data->command[1]);
         get_pin(s, sending, atoi(remove_cara(s->server_data->command[1], '#')));
-        //send_and_print(s, sending, s->server_net->current->socket);
-        //s->server_data->isCommand = 1;
+        send_and_print(s, sending, s->server_net->current->socket);
+        s->server_data->isCommand = 1;
     }
     free(sending);
 }

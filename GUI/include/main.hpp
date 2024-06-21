@@ -256,6 +256,9 @@ private:
     ressources selectedResources;
 
     double ratio;
+
+    sf::SoundBuffer soundBuffer_zombie;
+    sf::Sound sound_zombie;
 };
 
 #endif // MAIN_HPP

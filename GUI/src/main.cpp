@@ -75,6 +75,8 @@ void Display::loadAssets()
     soundBuffer_dezoom.loadFromFile("GUI/assets/dezoom.wav");
     sound_dezoom.setBuffer(soundBuffer_dezoom);
 
+    soundBuffer_zombie.loadFromFile("GUI/assets/zombie.wav");
+    sound_zombie.setBuffer(soundBuffer_zombie);
 
     ip_str = "";
     port_str = "";

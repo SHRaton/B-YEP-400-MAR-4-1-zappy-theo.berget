@@ -50,6 +50,7 @@ void Display::update4()
         if (isSunset) {
             isSunset = false;
             isNight = true;
+            sound_zombie.play();
         } else if (isNight) {
             isNight = false;
             isDay = true;
@@ -217,12 +218,12 @@ void Display::render4()
         text_level.setFont(font);
         text_level.setCharacterSize(25 * ratio);
         text_level.setFillColor(sf::Color::White);
-        text_level.setPosition(info_players[i].pos_x, info_players[i].pos_y - 10);
+        text_level.setPosition(info_players[i].pos_x, info_players[i].pos_y - (10 * ratio));
         text_level.setString(std::to_string(info_players[i].level));
         text_team_name.setFont(font);
         text_team_name.setCharacterSize(25 * ratio);
         text_team_name.setFillColor(sf::Color::White);
-        text_team_name.setPosition(info_players[i].pos_x + 50, info_players[i].pos_y - 10);
+        text_team_name.setPosition(info_players[i].pos_x + (50 * ratio), info_players[i].pos_y - (10 * ratio));
         text_team_name.setString(info_players[i].team_name);
         sprite_steve.setPosition(info_players[i].pos_x, info_players[i].pos_y);
         sprite_steve.setScale(5 * ratio, 5 * ratio);
@@ -258,7 +259,7 @@ void Display::render4()
     window.draw(sprite_player_inventory);
 
     // Affichage de l'inventaire case
-    sprite_case_inventory.setPosition(17, 300);
+    sprite_case_inventory.setPosition(1490, 275);
     sprite_case_inventory.setTexture(texture_case_inventory);
     window.draw(sprite_case_inventory);
 
@@ -268,37 +269,37 @@ void Display::render4()
     resourceText.setFillColor(sf::Color::White);
 
     //Nombre de Food sur la case
-    resourceText.setPosition(300, 332);
+    resourceText.setPosition(1770, 305);
     resourceText.setString(std::to_string(selectedResources.food));
     window.draw(resourceText);
 
     //Nombre de Coal sur la case
-    resourceText.setPosition(300, 412);
+    resourceText.setPosition(1770, 387);
     resourceText.setString(std::to_string(selectedResources.coal));
     window.draw(resourceText);
 
     //Nombre de Iron sur la case
-    resourceText.setPosition(300, 485);
+    resourceText.setPosition(1770, 460);
     resourceText.setString(std::to_string(selectedResources.iron));
     window.draw(resourceText);
 
      //Nombre de Gold sur la case
-    resourceText.setPosition(300, 556);
+    resourceText.setPosition(1770, 531);
     resourceText.setString(std::to_string(selectedResources.gold));
     window.draw(resourceText);
 
      //Nombre de Diamond sur la case
-    resourceText.setPosition(300, 625);
+    resourceText.setPosition(1770, 600);
     resourceText.setString(std::to_string(selectedResources.diamond));
     window.draw(resourceText);
 
      //Nombre de Emerald sur la case
-    resourceText.setPosition(300, 705);
+    resourceText.setPosition(1770, 680);
     resourceText.setString(std::to_string(selectedResources.emerald));
     window.draw(resourceText);
 
      //Nombre Netherite sur la case
-    resourceText.setPosition(300, 793);
+    resourceText.setPosition(1770, 768);
     resourceText.setString(std::to_string(selectedResources.netherite));
     window.draw(resourceText);
 

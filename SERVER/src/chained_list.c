@@ -27,6 +27,14 @@ client_t *add_client(client_t *head, int new_s, sockaddr_in_t cli, server_t *s)
     new_client->level = 1;
     new_client->orientation = 1;
     new_client->player_number = s->server_data->player_nb;
+    new_client->inventory = malloc(sizeof(case_t));
+    new_client->inventory->food = 0;
+    new_client->inventory->linemate = 0;
+    new_client->inventory->deraumere = 0;
+    new_client->inventory->sibur = 0;
+    new_client->inventory->mendiane = 0;
+    new_client->inventory->phiras = 0;
+    new_client->inventory->thystame = 0;
     print_connect(cli);
     return new_client;
 }

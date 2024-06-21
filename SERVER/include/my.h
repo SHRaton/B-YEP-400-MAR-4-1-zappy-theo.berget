@@ -132,4 +132,4 @@ void infos(server_t *s);
 void ppo(server_t *s);
 void pnw(server_t *s);
 void mct(server_t *s);
-
+void pin(server_t *s);

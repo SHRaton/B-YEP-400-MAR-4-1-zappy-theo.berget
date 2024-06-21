@@ -19,6 +19,16 @@
 
 typedef struct sockaddr_in sockaddr_in_t;
 
+typedef struct case_s {
+    int food;
+    int linemate;
+    int deraumere;
+    int sibur;
+    int mendiane;
+    int phiras;
+    int thystame;
+} case_t;
+
 // Structure qui stock les infos des clients connectés
 typedef struct client_s {
     // Client socket
@@ -35,19 +45,10 @@ typedef struct client_s {
     int orientation;
     int level;
     int player_number;
+    case_t *inventory;
     // Linked list
     struct client_s *next;
 } client_t;
-
-typedef struct case_s {
-    int food;
-    int linemate;
-    int deraumere;
-    int sibur;
-    int mendiane;
-    int phiras;
-    int thystame;
-} case_t;
 
 // strcuture qui permet de gérer la partie net du serveur
 typedef struct server_net_s {

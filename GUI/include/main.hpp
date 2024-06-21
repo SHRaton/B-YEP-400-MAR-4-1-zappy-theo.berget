@@ -259,6 +259,9 @@ private:
 
     sf::SoundBuffer soundBuffer_zombie;
     sf::Sound sound_zombie;
+
+    void showPlayerResources();
+    ressources show_inv;
 };
 
 #endif // MAIN_HPP

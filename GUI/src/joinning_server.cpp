@@ -38,6 +38,7 @@ void Display::handleEvents4()
     }
 }
 
+
 void Display::update4()
 {
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
@@ -93,8 +94,65 @@ void Display::update4()
     }
 }
 
+void Display::showPlayerResources()
+{
+    sf::Text text;
+    text.setFont(font);
+    text.setCharacterSize(50);
+    text.setFillColor(sf::Color::White);
+
+    // Nombre de Food
+    text.setPosition(642, 990);
+    text.setString(std::to_string(show_inv.food));
+    window.draw(text);
+
+    // Nombre de Coal
+    text.setPosition(750, 990);
+    text.setString(std::to_string(show_inv.coal));
+    window.draw(text);
+
+    // Nombre de Iron
+    text.setPosition(858, 990);
+    text.setString(std::to_string(show_inv.iron));
+    window.draw(text);
+
+    // Nombre de Gold
+    text.setPosition(966, 990);
+    text.setString(std::to_string(show_inv.gold));
+    window.draw(text);
+
+    // Nombre de Diamond
+    text.setPosition(1074, 990); 
+    text.setString(std::to_string(show_inv.diamond));
+    window.draw(text);
+
+    // Nombre de Emerald
+    text.setPosition(1182, 990);
+    text.setString(std::to_string(show_inv.emerald));
+    window.draw(text);
+
+    // Nombre de Netherite
+    text.setPosition(1290, 990);
+    text.setString(std::to_string(show_inv.netherite));
+    window.draw(text);
+}
+
+
 void Display::handleClick(int mouseX, int mouseY)
 {
+     sf::Vector2i mousePos(mouseX, mouseY);
+
+    for (int i = 0; i < info_players.size(); i++)
+    {
+        sf::FloatRect boundingBox = sprite_steve.getGlobalBounds();
+        if (boundingBox.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
+        {
+            // Affiche les ressources du joueur cliqué
+            show_inv = info_players[i].inventory;
+            break;
+        }
+    }
+
     int cellX = (mouseX - surplu_x) / (128 * ratio);
     int cellY = (mouseY - surplu_y) / (128 * ratio);
 
@@ -257,6 +315,8 @@ void Display::render4()
     sprite_player_inventory.setScale(1.5, 1.5);
     sprite_player_inventory.setTexture(texture_player_inventory);
     window.draw(sprite_player_inventory);
+
+    showPlayerResources();
 
     // Affichage de l'inventaire case
     sprite_case_inventory.setPosition(1490, 275);

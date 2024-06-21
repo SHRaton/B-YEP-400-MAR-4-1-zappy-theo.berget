@@ -445,8 +445,10 @@ class AIPlayer:
     def ai(self):
         while self.AI == False:
             if self.start == True:
-                self.nb_player = self.receive_message()
-                if self.nb_player == '0':
+                nb_player = self.receive_message()
+                nb_player = int(nb_player)
+                self.nb_player = nb_player
+                if nb_player == '0':
                     self.AI = True
                 time.sleep(self.tour)
                 self.size_map =  self.receive_message()

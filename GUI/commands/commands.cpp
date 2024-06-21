@@ -52,7 +52,7 @@ void Display::pdi()
 
 void Display::ppo()
 {
-    if (clock_pos.getElapsedTime().asSeconds() >= 1.0f) {
+    if (clock_pos.getElapsedTime().asSeconds() >= 0.1f) {
         std::string send;
         for (int i = 0; i < info_players.size(); i++) {
             send = "ppo #" + std::to_string(info_players[i].player_number) + "\n";
@@ -91,7 +91,7 @@ void Display::ppo()
 
 void Display::mct()
 {
-    if (clock_mct.getElapsedTime().asSeconds() >= 1.0f) {
+    if (clock_mct.getElapsedTime().asSeconds() >= 0.1f) {
         send_to_server("mct\n");
         receive_from_server();
         std::istringstream iss(sbuffer.substr(4)); // Ignorer "bct "
@@ -111,7 +111,7 @@ void Display::mct()
 
 void Display::pin()
 {
-    if (clock_pin.getElapsedTime().asSeconds() >= 1.0f) {
+    if (clock_pin.getElapsedTime().asSeconds() >= 0.1f) {
         for (int i = 0; i < info_players.size(); i++) {
             send_to_server("pin #" + std::to_string(info_players[i].player_number) + "\n");
             receive_from_server();
@@ -138,7 +138,7 @@ void Display::commands()
     pdi();
     ppo();
     mct();
-    //pin();
+    pin();
     strcpy(buffer, "");
     sbuffer = std::string(buffer);
     vbuffer[0] = "";

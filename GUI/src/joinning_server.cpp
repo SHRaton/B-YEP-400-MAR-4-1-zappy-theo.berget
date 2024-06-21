@@ -92,6 +92,9 @@ void Display::update4()
         info_players[i].pos_y = surplu_y + (info_players_brut[i].pos_y + 1) * (128 * ratio) - (180 * ratio);
         sprite_steve.setScale(5 * ratio, 5 * ratio);
     }
+    if (indx != 404) {
+        show_inv = info_players[indx].inventory;
+    }
 }
 
 void Display::showPlayerResources()
@@ -122,7 +125,7 @@ void Display::showPlayerResources()
     window.draw(text);
 
     // Nombre de Diamond
-    text.setPosition(1074, 990); 
+    text.setPosition(1074, 990);
     text.setString(std::to_string(show_inv.diamond));
     window.draw(text);
 
@@ -142,13 +145,10 @@ void Display::handleClick(int mouseX, int mouseY)
 {
      sf::Vector2i mousePos(mouseX, mouseY);
 
-    for (int i = 0; i < info_players.size(); i++)
-    {
-        sf::FloatRect boundingBox = sprite_steve.getGlobalBounds();
-        if (boundingBox.contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
-        {
-            // Affiche les ressources du joueur cliqué
-            show_inv = info_players[i].inventory;
+    for (int i = 0; i < info_players.size(); i++) {
+        if (info_players[i].pos_x < mousePos.x && info_players[i].pos_x + (160 * ratio) > mousePos.x && info_players[i].pos_y < mousePos.y && info_players[i].pos_y + (160 * ratio) > mousePos.y) {
+            indx = i;
+            std::cout << "LA ---> : (" << info_players[indx].inventory.food << " " << info_players[indx].inventory.coal << " " << info_players[indx].inventory.iron << " " << info_players[indx].inventory.gold << " " << info_players[indx].inventory.diamond << " " << info_players[indx].inventory.emerald << " " << info_players[indx].inventory.netherite << ")\n";
             break;
         }
     }

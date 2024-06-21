@@ -92,6 +92,7 @@ void Display::loadAssets()
     width = 10;
     height = 10;
     ratio = 1.0;
+    indx = 404;
 }
 
 void Display::Menu()

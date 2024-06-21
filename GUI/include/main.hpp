@@ -262,6 +262,7 @@ private:
 
     void showPlayerResources();
     ressources show_inv;
+    int indx;
 };
 
 #endif // MAIN_HPP

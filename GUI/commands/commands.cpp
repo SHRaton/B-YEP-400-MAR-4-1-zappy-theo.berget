@@ -83,7 +83,6 @@ void Display::ppo()
             info_players[i].pos_x = new_pos_x;
             info_players[i].pos_y = new_pos_y;
             info_players[i].orientation = std::stoi(vbuffer[4]);
-            
         }
         clock_pos.restart();
     }

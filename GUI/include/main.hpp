@@ -136,6 +136,8 @@ private:
     sf::Text text_ip;
     sf::Text text_port;
     sf::Text text_failed;
+    sf::Text text_level;
+    sf::Text text_team_name;
 
 
     sf::Font font;

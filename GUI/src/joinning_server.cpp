@@ -32,7 +32,6 @@ void Display::handleEvents4()
             ratio /= 1.20;
             sound_dezoom.play();
         }
-        
         if (event.type == sf::Event::KeyPressed) {
             handleKeyboard(event.key);
         }
@@ -215,6 +214,16 @@ void Display::render4()
 
     // Déplacement du joueur
     for (int i = 0; info_players.size() > i; i++) {
+        text_level.setFont(font);
+        text_level.setCharacterSize(25 * ratio);
+        text_level.setFillColor(sf::Color::White);
+        text_level.setPosition(info_players[i].pos_x, info_players[i].pos_y - 10);
+        text_level.setString(std::to_string(info_players[i].level));
+        text_team_name.setFont(font);
+        text_team_name.setCharacterSize(25 * ratio);
+        text_team_name.setFillColor(sf::Color::White);
+        text_team_name.setPosition(info_players[i].pos_x + 50, info_players[i].pos_y - 10);
+        text_team_name.setString(info_players[i].team_name);
         sprite_steve.setPosition(info_players[i].pos_x, info_players[i].pos_y);
         sprite_steve.setScale(5 * ratio, 5 * ratio);
         if (info_players[i].animation == 1 && info_players[i].orientation == 1) {
@@ -233,7 +242,13 @@ void Display::render4()
             textureSteve.loadFromFile("GUI/assets/right_walk.png");
             sprite_steve.setTexture(textureSteve);
         }
+        if (info_players[i].animation == 0) {
+            textureSteve.loadFromFile("GUI/assets/idle.png");
+            sprite_steve.setTexture(textureSteve);
+        }
         window.draw(sprite_steve);
+        window.draw(text_level);
+        window.draw(text_team_name);
     }
 
     // Affichage de l'inventaire joueur

@@ -51,11 +51,16 @@ int error_handling(int ac, char **av, arg_t *arg, int *flag_pos)
         av[flag_pos[2] + 1] == NULL || av[flag_pos[3] + 1] == NULL ||
         av[flag_pos[4] + 1] == NULL || av[flag_pos[5] + 1] == NULL)
         return (84);
+
     arg->_port = atoi(av[flag_pos[0] + 1]);
     arg->_width = atoi(av[flag_pos[1] + 1]);
     arg->_height = atoi(av[flag_pos[2] + 1]);
     arg->_nb_clients = atoi(av[flag_pos[4] + 1]);
     arg->_frequence = atoi(av[flag_pos[5] + 1]);
+
+    if (arg->_width < 0 || arg->_height < 0 || arg->_frequence == 0 || arg->_nb_clients == 0)
+        return (84);
+
     arg->_names = malloc(sizeof(char *) * 100);
     while (av[flag_pos[3] + i][0] != '-') {
         arg->_names[i - 1] = strdup(av[flag_pos[3] + i]);
@@ -64,6 +69,16 @@ int error_handling(int ac, char **av, arg_t *arg, int *flag_pos)
             break;
     }
     arg->_names[i + 1] = NULL;
+
+    for (int j = 0; j < i - 1; j++) {
+        for (int k = j + 1; k < i - 1; k++) {
+            if (strcmp(arg->_names[j], arg->_names[k]) == 0) {
+                return (84);
+            }
+        }
+    }
+
+    return (0);
 }
 
 int flags_valid(int ac, char **av, arg_t *arg)

@@ -78,6 +78,7 @@ void commands(server_t *s)
     left(s);
     right(s);
     take(s);
+    //inventory
     incantation(s);
     infos(s);
     ppo(s);

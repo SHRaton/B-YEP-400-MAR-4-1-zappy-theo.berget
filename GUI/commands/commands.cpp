@@ -139,7 +139,7 @@ void Display::commands()
     pdi();
     ppo();
     mct();
-    pin();
+    //pin();
     strcpy(buffer, "");
     sbuffer = std::string(buffer);
     vbuffer[0] = "";

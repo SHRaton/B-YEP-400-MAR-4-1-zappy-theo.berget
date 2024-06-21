@@ -120,8 +120,17 @@ private:
 
 
     sf::Music menuMusic;
+
+    sf::Music menuGame;
+
     sf::SoundBuffer soundBuffer;
     sf::Sound soundButton;
+
+    sf::SoundBuffer soundBuffer_zoom;
+    sf::Sound sound_zoom;
+
+    sf::SoundBuffer soundBuffer_dezoom;
+    sf::Sound sound_dezoom;
 
 
     sf::Text text_ip;

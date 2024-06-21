@@ -60,18 +60,22 @@ void Display::loadAssets()
     sprite_menu.setScale(1920 / sprite_menu.getGlobalBounds().width, 1080 / sprite_menu.getGlobalBounds().height);
 
     // Toutes les musiques et sons
-    if (!menuMusic.openFromFile("GUI/assets/menu.wav")) {
-        std::cerr << "Erreur lors du chargement de la musique du menu" << std::endl;
-        exit(1);
-    }
+    menuMusic.openFromFile("GUI/assets/menu.wav");
     menuMusic.setLoop(true);
     menuMusic.play();
 
-    if (!soundBuffer.loadFromFile("GUI/assets/soundbutton.wav")) {
-        std::cerr << "Erreur lors du chargement du son du bouton" << std::endl;
-        exit(1);
-    }
+    menuGame.openFromFile("GUI/assets/game.wav");
+    menuGame.setLoop(true);
+
+    soundBuffer.loadFromFile("GUI/assets/soundbutton.wav");
     soundButton.setBuffer(soundBuffer);
+
+    soundBuffer_zoom.loadFromFile("GUI/assets/zoom.wav");
+    sound_zoom.setBuffer(soundBuffer_zoom);
+    soundBuffer_dezoom.loadFromFile("GUI/assets/dezoom.wav");
+    sound_dezoom.setBuffer(soundBuffer_dezoom);
+
+
     ip_str = "";
     port_str = "";
     failed_str = "Connection to server failed...";

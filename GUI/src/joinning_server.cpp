@@ -13,7 +13,8 @@ void Display::set_map_size(int x, int y)
     height = y;
 }
 
-void Display::handleEvents4() {
+void Display::handleEvents4()
+{
     sf::Event event;
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed ||
@@ -26,8 +27,10 @@ void Display::handleEvents4() {
             soundButton.play();
         } else if (event.type == sf::Event::KeyPressed && event.key.code == 55) {
             ratio *= 1.20;
+            sound_zoom.play();
         } else if (event.type == sf::Event::KeyPressed && event.key.code == 56) {
             ratio /= 1.20;
+            sound_dezoom.play();
         }
         
         if (event.type == sf::Event::KeyPressed) {
@@ -90,12 +93,13 @@ void Display::update4()
     }
 }
 
-void Display::handleClick(int mouseX, int mouseY) {
+void Display::handleClick(int mouseX, int mouseY)
+{
     int cellX = (mouseX - surplu_x) / (128 * ratio);
     int cellY = (mouseY - surplu_y) / (128 * ratio);
 
     if (cellX >= 0 && cellX < width && cellY >= 0 && cellY < height) {
-        selectedResources = ressources_grid[cellY][cellX];  // Met à jour les ressources sélectionnées
+        selectedResources = ressources_grid[cellY][cellX];
 
         std::cout << "Food: " << selectedResources.food << std::endl;
         std::cout << "Coal: " << selectedResources.coal << std::endl;
@@ -107,7 +111,8 @@ void Display::handleClick(int mouseX, int mouseY) {
     }
 }
 
-void Display::render4(){
+void Display::render4()
+{
     int i = 0, y = 0;
 
     // Ressources
@@ -160,49 +165,48 @@ void Display::render4(){
 
             // Affichage des ressources sur la case actuelle
             const auto& res = ressources_grid[i][y];
-            if (res.food > 0) {
-                sprite_food.setTexture(texture_food);
-                sprite_food.setPosition(y * (128 * ratio) + surplu_x, i * (128 * ratio) + surplu_y);
-                sprite_food.setScale(0.2 * ratio, 0.2 * ratio);
-                window.draw(sprite_food);
-            }
-            if (res.coal > 0) {
-                sprite_coal.setTexture(texture_coal);
-                sprite_coal.setPosition(y * (128 * ratio) + surplu_x + (50 * ratio), i * (128 * ratio) + surplu_y + (50 * ratio));
-                sprite_coal.setScale(0.2 * ratio, 0.2 * ratio);
-                window.draw(sprite_coal);
-            }
-            if (res.iron > 0) {
-                sprite_iron.setTexture(texture_iron);
-                sprite_iron.setPosition(y * (128 * ratio) + surplu_x + (33 * ratio), i * (128 * ratio) + surplu_y + (33 * ratio));
-                sprite_iron.setScale(0.1 * ratio, 0.1 * ratio);
-                window.draw(sprite_iron);
-            }
-            if (res.gold > 0) {
-                sprite_gold.setTexture(texture_gold);
-                sprite_gold.setPosition(y * (128 * ratio) + surplu_x + (67 * ratio), i * (128 * ratio) + surplu_y + (67 * ratio));
-                sprite_gold.setScale(0.1 * ratio, 0.1 * ratio);
-                window.draw(sprite_gold);
-            }
-            if (res.diamond > 0) {
-                sprite_diamond.setTexture(texture_diamond);
-                sprite_diamond.setPosition(y * (128 * ratio) + surplu_x + (89 * ratio), i * (128 * ratio) + surplu_y + (89 * ratio));
-                sprite_diamond.setScale(0.2 * ratio, 0.2 * ratio);
-                window.draw(sprite_diamond);
-            }
-            if (res.emerald > 0) {
-                sprite_emerald.setTexture(texture_emerald);
-                sprite_emerald.setPosition(y * (128 * ratio) + surplu_x + (16 * ratio), i * (128 * ratio) + surplu_y + (57 * ratio));
-                sprite_emerald.setScale(0.2 * ratio, 0.2 * ratio);
-                window.draw(sprite_emerald);
-            }
-            if (res.netherite > 0) {
-                sprite_netherite.setTexture(texture_netherite);
-                sprite_netherite.setPosition(y * (128 * ratio) + surplu_x + (55 * ratio), i * (128 * ratio) + surplu_y + (12 * ratio));
-                sprite_netherite.setScale(0.2 * ratio, 0.2 * ratio);
-                window.draw(sprite_netherite);
-            }
-
+                for (int j = 0; j < res.food; ++j) {
+                    sprite_food.setTexture(texture_food);
+                    sprite_food.setPosition(y * (128 * ratio) + surplu_x + (j * 10 * ratio), i * (128 * ratio) + surplu_y);
+                    sprite_food.setScale(0.2 * ratio, 0.2 * ratio);
+                    window.draw(sprite_food);
+                }
+                for (int j = 0; j < res.coal; ++j) {
+                    sprite_coal.setTexture(texture_coal);
+                    sprite_coal.setPosition(y * (128 * ratio) + surplu_x + (50 * ratio) + (j * 10 * ratio), i * (128 * ratio) + surplu_y + (50 * ratio));
+                    sprite_coal.setScale(0.2 * ratio, 0.2 * ratio);
+                    window.draw(sprite_coal);
+                }
+                for (int j = 0; j < res.iron; ++j) {
+                    sprite_iron.setTexture(texture_iron);
+                    sprite_iron.setPosition(y * (128 * ratio) + surplu_x + (33 * ratio) + (j * 10 * ratio), i * (128 * ratio) + surplu_y + (33 * ratio));
+                    sprite_iron.setScale(0.1 * ratio, 0.1 * ratio);
+                    window.draw(sprite_iron);
+                }
+                for (int j = 0; j < res.gold; ++j) {
+                    sprite_gold.setTexture(texture_gold);
+                    sprite_gold.setPosition(y * (128 * ratio) + surplu_x + (67 * ratio) + (j * 10 * ratio), i * (128 * ratio) + surplu_y + (67 * ratio));
+                    sprite_gold.setScale(0.1 * ratio, 0.1 * ratio);
+                    window.draw(sprite_gold);
+                }
+                for (int j = 0; j < res.diamond; ++j) {
+                    sprite_diamond.setTexture(texture_diamond);
+                    sprite_diamond.setPosition(y * (128 * ratio) + surplu_x + (48 * ratio) + (j * 10 * ratio), i * (128 * ratio) + surplu_y + (89 * ratio));
+                    sprite_diamond.setScale(0.2 * ratio, 0.2 * ratio);
+                    window.draw(sprite_diamond);
+                }
+                for (int j = 0; j < res.emerald; ++j) {
+                    sprite_emerald.setTexture(texture_emerald);
+                    sprite_emerald.setPosition(y * (128 * ratio) + surplu_x + (16 * ratio) + (j * 10 * ratio), i * (128 * ratio) + surplu_y + (57 * ratio));
+                    sprite_emerald.setScale(0.2 * ratio, 0.2 * ratio);
+                    window.draw(sprite_emerald);
+                }
+                for (int j = 0; j < res.netherite; ++j) {
+                    sprite_netherite.setTexture(texture_netherite);
+                    sprite_netherite.setPosition(y * (128 * ratio) + surplu_x + (55 * ratio) + (j * 10 * ratio), i * (128 * ratio) + surplu_y + (12 * ratio));
+                    sprite_netherite.setScale(0.2 * ratio, 0.2 * ratio);
+                    window.draw(sprite_netherite);
+                }
             y++;
         }
         y = 0;
@@ -248,37 +252,37 @@ void Display::render4(){
     resourceText.setCharacterSize(36);
     resourceText.setFillColor(sf::Color::White);
 
-    //Food
+    //Nombre de Food sur la case
     resourceText.setPosition(300, 332);
     resourceText.setString(std::to_string(selectedResources.food));
     window.draw(resourceText);
 
-    //Coal
+    //Nombre de Coal sur la case
     resourceText.setPosition(300, 412);
     resourceText.setString(std::to_string(selectedResources.coal));
     window.draw(resourceText);
 
-    //Iron
+    //Nombre de Iron sur la case
     resourceText.setPosition(300, 485);
     resourceText.setString(std::to_string(selectedResources.iron));
     window.draw(resourceText);
 
-     //Gold
+     //Nombre de Gold sur la case
     resourceText.setPosition(300, 556);
     resourceText.setString(std::to_string(selectedResources.gold));
     window.draw(resourceText);
 
-     //Diamond
+     //Nombre de Diamond sur la case
     resourceText.setPosition(300, 625);
     resourceText.setString(std::to_string(selectedResources.diamond));
     window.draw(resourceText);
 
-     //Emerald
+     //Nombre de Emerald sur la case
     resourceText.setPosition(300, 705);
     resourceText.setString(std::to_string(selectedResources.emerald));
     window.draw(resourceText);
 
-     //Netherite
+     //Nombre Netherite sur la case
     resourceText.setPosition(300, 793);
     resourceText.setString(std::to_string(selectedResources.netherite));
     window.draw(resourceText);

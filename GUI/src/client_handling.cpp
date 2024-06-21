@@ -44,6 +44,8 @@ void Display::client_loop()
     struct timeval tv;
     welcome();
     map = generate_map(width, height);
+    menuMusic.stop();
+    menuGame.play();
     while (window.isOpen()) {
         usleep(10000);
         fd_user = fd_client;

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 #coding: utf-8
+#j'ai tout coder dans un fichier je suis le plus gros fdp de france
 
 import sys
 import time
+import socket
 
 ###################################################################################################
-import socket
 
 class Client:
     def __init__(self, server_host, server_port):
@@ -70,6 +71,7 @@ class AIPlayer:
         self.posX = 0
         self.posY = 0
         self.tile = 0
+        self.start = True
 
         self.food = 7
         self.linemate = 1
@@ -319,6 +321,7 @@ class AIPlayer:
 
     def get_best_option(self):
         max_value = -1
+        value = 0
         best_option = None
         for item in self.list_items_on_tile:
             if item == "food":
@@ -367,12 +370,14 @@ class AIPlayer:
         for info in tile_info:
             parse += info.strip() + " "
         list_items_on_tile = parse.split()
+
         ###################################################################################################
 
         def cleaning(element):
             return element.strip('[] ')
 
         ###################################################################################################
+
         liste = [cleaning(element) for element in list_items_on_tile]
         liste_sans_doublons = []
         elements_vus = set()
@@ -394,13 +399,15 @@ class AIPlayer:
 
     def ai(self):
         while self.AI == False:
-            nb_player = self.receive_message()
-            if nb_player == '0':
-                self.AI = True
-            time.sleep(self.tour)
-            self.size_map =  self.receive_message()
-            print("size map :")
-            print(self.size_map)
+            if self.start == True:
+                nb_player = self.receive_message()
+                if nb_player == '0':
+                    self.AI = True
+                time.sleep(self.tour)
+                self.size_map =  self.receive_message()
+                print("size map :")
+                print(self.size_map)
+                self.start = False
             self.is_evolution()
             self.send_message("Look")
             look_ret = self.receive_message()

@@ -98,6 +98,7 @@ private:
     void ppo();
     void mct();
     void pin();
+    void plv();
 
     sf::RenderWindow window;
     sf::Texture texture1;
@@ -221,6 +222,7 @@ private:
     sf::Clock clock_pos;
     sf::Clock clock_mct;
     sf::Clock clock_pin;
+    sf::Clock clock_plv;
 
     int surplu_x;
     int surplu_y;

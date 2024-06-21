@@ -132,6 +132,20 @@ void Display::pin()
     }
 }
 
+void Display::plv()
+{
+    std::string send;
+
+    if (clock_plv.getElapsedTime().asSeconds() >= 0.1f) {
+        for (int i = 0; i < info_players.size(); i++) {
+            send_to_server("plv #" + std::to_string(info_players[i].player_number) + "\n");
+            receive_from_server();
+            info_players[i].level = std::stoi(vbuffer[2]);
+        }
+        clock_plv.restart();
+    }
+}
+
 void Display::commands()
 {
     pnw();
@@ -139,6 +153,7 @@ void Display::commands()
     ppo();
     mct();
     pin();
+    plv();
     strcpy(buffer, "");
     sbuffer = std::string(buffer);
     vbuffer[0] = "";

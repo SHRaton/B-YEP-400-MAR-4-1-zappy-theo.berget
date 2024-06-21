@@ -124,6 +124,7 @@ void look(server_t *s);
 void left(server_t *s);
 void right(server_t *s);
 void take(server_t *s);
+void incantation(server_t *s);
 
 
 ////////////////////////////////////////////////////////////////
@@ -136,3 +137,4 @@ void ppo(server_t *s);
 void pnw(server_t *s);
 void mct(server_t *s);
 void pin(server_t *s);
+void plv(server_t *s);

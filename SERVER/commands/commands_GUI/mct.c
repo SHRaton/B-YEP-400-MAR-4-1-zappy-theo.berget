@@ -26,7 +26,8 @@ void mct(server_t *s)
                 strcat(sending, tmp);
             }
         }
-        send_and_print(s, sending, s->server_net->current->socket);
+        send(s->server_net->current->socket, sending, strlen(sending) + 1, 0);
+        //send_and_print(s, sending, s->server_net->current->socket);
         s->server_data->isCommand = 1;
     }
     free(sending);

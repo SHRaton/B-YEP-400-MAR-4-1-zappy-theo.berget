@@ -78,10 +78,12 @@ void commands(server_t *s)
     left(s);
     right(s);
     take(s);
+    incantation(s);
     infos(s);
     ppo(s);
     mct(s);
     pin(s);
+    plv(s);
     if (s->server_data->isCommand == 0) {
         send(s->server_net->current->socket, "Wrong command\n", 16, 0);
         print_send_to_client(s, "Wrong command");

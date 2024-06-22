@@ -269,6 +269,11 @@ private:
 
     sf::Text mapSizeText;
     sf::RectangleShape greyRectangle;
+    sf::RectangleShape greyRectangle2;
+
+    void countTotalResources();
+    sf::Text totalResourcesText;
+    int pressed;
 };
 
 #endif // MAIN_HPP

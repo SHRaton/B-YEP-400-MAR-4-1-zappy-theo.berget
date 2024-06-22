@@ -25,6 +25,9 @@ void Display::set_map_size(int x, int y)
 void Display::handleEvents4()
 {
     sf::Event event;
+    greyRectangle2.setSize(sf::Vector2f(450, 500)); // Taille du rectangle
+    greyRectangle2.setFillColor(sf::Color(128, 128, 128)); // Couleur grise
+    greyRectangle2.setPosition(10, 280); // Position du rectangle
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed ||
             (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
@@ -40,7 +43,13 @@ void Display::handleEvents4()
         } else if (event.type == sf::Event::KeyPressed && event.key.code == 56) {
             ratio /= 1.20;
             sound_dezoom.play();
+        } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R && pressed == 0) {
+            countTotalResources();
+            pressed = 1;
+        } else if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::R) {
+            pressed = 0;
         }
+
         if (event.type == sf::Event::KeyPressed) {
             handleKeyboard(event.key);
         }
@@ -105,6 +114,40 @@ void Display::update4()
         show_inv = info_players[indx].inventory;
     }
 }
+
+void Display::countTotalResources()
+{
+    int totalFood = 0, totalCoal = 0, totalIron = 0, totalGold = 0, totalDiamond = 0, totalEmerald = 0, totalNetherite = 0;
+
+    for (const auto& row : ressources_grid) {
+        for (const auto& cell : row) {
+            totalFood += cell.food;
+            totalCoal += cell.coal;
+            totalIron += cell.iron;
+            totalGold += cell.gold;
+            totalDiamond += cell.diamond;
+            totalEmerald += cell.emerald;
+            totalNetherite += cell.netherite;
+        }
+    }
+
+    totalResourcesText.setFont(font);
+    totalResourcesText.setCharacterSize(36);
+    totalResourcesText.setFillColor(sf::Color::White);
+    totalResourcesText.setPosition(20, 300); // Position du texte
+
+    std::string resourcesString = "Total Resources:\n\n";
+    resourcesString += "Food: " + std::to_string(totalFood) + "\n";
+    resourcesString += "Coal: " + std::to_string(totalCoal) + "\n";
+    resourcesString += "Iron: " + std::to_string(totalIron) + "\n";
+    resourcesString += "Gold: " + std::to_string(totalGold) + "\n";
+    resourcesString += "Diamond: " + std::to_string(totalDiamond) + "\n";
+    resourcesString += "Emerald: " + std::to_string(totalEmerald) + "\n";
+    resourcesString += "Netherite: " + std::to_string(totalNetherite) + "\n";
+
+    totalResourcesText.setString(resourcesString);
+}
+
 
 void Display::showPlayerResources()
 {
@@ -374,6 +417,10 @@ void Display::render4()
 
     window.draw(greyRectangle);
     window.draw(mapSizeText);
+    if (pressed == 1) {
+        window.draw(greyRectangle2);
+        window.draw(totalResourcesText);
+    }
     window.display();
 }
 

@@ -26,12 +26,13 @@ int is_contain(char *str, char cara)
 // de caractere str en un tableau char ** coupé en fonction de tok
 char **str_to_word_array(char *str, char *tok)
 {
+    char *str_tmp = strdup(str);
     char **tmp_2 = malloc(sizeof(char *) * 1);
     char **tab = malloc(sizeof(char *) * 4096);
-    char *tmp_1 = strtok(str, tok);
+    char *tmp_1 = strtok(str_tmp, tok);
     int i = 0;
 
-    if (str == NULL || strspn(str, " \t\r\n") == strlen(str) || tok == NULL) {
+    if (str_tmp == NULL || strspn(str_tmp, " \t\r\n") == strlen(str_tmp) || tok == NULL) {
         tmp_2[0] = strdup("\r\n");
         return (tmp_2);
     }

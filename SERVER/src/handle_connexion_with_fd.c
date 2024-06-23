@@ -73,7 +73,8 @@ void recup_input_from_client(server_t *s)
         print_received_from_client(s, s->server_data->buffer);
         s->server_data->command = str_to_word_array(s->server_data->buffer,
         " \t\n\r");
-        commands(s);
+        enqueue(&s->server_net->current->command_queue, s->server_data->buffer);
+        //print_commands(&s->server_net->current->command_queue);
     }
     free(pdi);
 }
@@ -89,6 +90,8 @@ void handle_client(server_t *s)
     while (s->server_net->current != NULL) {
         if (FD_ISSET(s->server_net->current->socket, &s->server_net->readfds)){
             recup_input_from_client(s);
+            process_commands(s);
+            //commands(s);
             break;
         }
         s->server_net->current = s->server_net->current->next;

@@ -99,6 +99,13 @@ void send_infos_to_new_client(server_t *s);
 int update_nb_client(server_t *s, char *team_name, int add);
 // -------------------------- //
 
+// -------- queue.c -------- //
+void enqueue(queue_t *q, char *command);
+char *dequeue(queue_t *q);
+void print_commands(queue_t *q);
+void process_commands(server_t *s);
+// ------------------------- //
+
 
 ///////////////////////////////////////////////////
 /* Déclarations des fonctions de SERVER/commands */

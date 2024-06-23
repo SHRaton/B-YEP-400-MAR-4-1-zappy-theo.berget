@@ -19,6 +19,13 @@
 
 typedef struct sockaddr_in sockaddr_in_t;
 
+typedef struct queue_s {
+    char commands[10][256];
+    int front;
+    int rear;
+    int count;
+} queue_t;
+
 typedef struct case_s {
     int food;
     int linemate;
@@ -46,6 +53,8 @@ typedef struct client_s {
     int level;
     int player_number;
     case_t *inventory;
+    // Queue des commandes de l'utilisateur
+    queue_t command_queue;
     // Linked list
     struct client_s *next;
 } client_t;

@@ -99,7 +99,7 @@ class AIPlayer:
         self.look_ret = ""
         self.list_items_on_tile = []
 
-        self.size_map = 0        
+        self.size_map = 0
         self.org_list_items_on_tile = []
         self.level = 0
 
@@ -286,13 +286,13 @@ class AIPlayer:
 
     def is_evolution(self):
         if (self.have_linemate >= 1 and self.level < 2):
-            self.send_message("Evolution 2")
+            self.send_message("Incantation")
             self.level = 2
             print("level 2\n\n\n")
             time.sleep(1)
 
         if (self.nb_player >= 2 and self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level < 3):
-            self.send_message("Evolution 3")
+            self.send_message("Incantation")
             self.level = 3
             print("level 3\n\n\n")
             time.sleep(3)

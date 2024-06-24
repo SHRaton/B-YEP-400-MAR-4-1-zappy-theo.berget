@@ -58,7 +58,7 @@ int error_handling(int ac, char **av, arg_t *arg, int *flag_pos)
     arg->_nb_clients = atoi(av[flag_pos[4] + 1]);
     arg->_frequence = atoi(av[flag_pos[5] + 1]);
 
-    if (arg->_width < 0 || arg->_height < 0 || arg->_frequence == 0 || arg->_nb_clients == 0)
+    if (arg->_width < 0 || arg->_height < 0 || arg->_frequence <= 0 || arg->_nb_clients <= 0)
         return (84);
 
     arg->_names = malloc(sizeof(char *) * 100);

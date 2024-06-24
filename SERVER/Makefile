@@ -9,7 +9,7 @@ SRC		=	src/*.c commands/*.c commands/commands_AI/*.c commands/commands_GUI/*.c
 
 NAME	=	zappy_server
 
-FLAGS 	= 	-g3
+FLAGS 	= 	-g3 -lm
 
 all:	$(NAME)
 

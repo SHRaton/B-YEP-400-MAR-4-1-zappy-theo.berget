@@ -7,7 +7,6 @@
 
 #include "../../include/Core.hpp"
 
-
 void Core::plv()
 {
     std::string send;

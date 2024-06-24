@@ -62,12 +62,33 @@ class Core {
 
        // Commandes
         void commands();
-        void pnw();
-        void pdi();
-        void ppo();
+        // active
+        void msz();
+        void bct();
         void mct();
-        void pin();
+        void tna();
+        void ppo();
         void plv();
+        void pin();
+        void sgt();
+        void sst();
+        // passive
+        void pnw();
+        void pex();
+        void pbc();
+        void pic();
+        void pie();
+        void pfk();
+        void pdr();
+        void pgt();
+        void pdi();
+        void enw();
+        void ebo();
+        void edi();
+        void seg();
+        void smg();
+        void suc();
+        void sbp();
 
         // Window
         sf::RenderWindow window;

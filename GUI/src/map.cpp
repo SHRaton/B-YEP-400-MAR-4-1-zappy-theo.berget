@@ -5,11 +5,7 @@
 ** map
 */
 
-#include "../include/main.hpp"
-#include <iostream>
-#include <vector>
-#include <string>
-#include <cstdlib>
+#include "../include/Core.hpp"
 
 void space(int n_, std::vector<std::string> &map)
 {
@@ -57,7 +53,7 @@ void error()
     exit (84);
 }
 
-std::vector<std::string> Display::generate_map(int x, int y)
+std::vector<std::string> Core::generate_map(int x, int y)
 {
     std::vector<std::string> map;
     if (x < 1 || y < 1) {

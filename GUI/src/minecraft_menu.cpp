@@ -5,12 +5,9 @@
 ** server_menu
 */
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <iostream>
-#include "../include/main.hpp"
+#include "../include/Core.hpp"
 
-void Display::handleMouseClick2(const sf::Vector2i& mousePosition)
+void Core::handleMouseClick2(const sf::Vector2i& mousePosition)
 {
     if (mousePosition.x >= 304 && mousePosition.x <= 1622 && mousePosition.y >= 868 && mousePosition.y <= 1049) {
         soundButton.play();
@@ -18,10 +15,11 @@ void Display::handleMouseClick2(const sf::Vector2i& mousePosition)
     }
 }
 
-void Display::handleEvents2() {
+void Core::handleEvents2()
+{
     sf::Event event;
     while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed || 
+        if (event.type == sf::Event::Closed ||
             (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
             window.close();
         } else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
@@ -31,7 +29,8 @@ void Display::handleEvents2() {
     }
 }
 
-void Display::update2() {
+void Core::update2()
+{
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
     if (mousePosition.x >= 304 && mousePosition.x <= 1622 && mousePosition.y >= 868 && mousePosition.y <= 1049) {
         sprite_server.setTexture(texture5);
@@ -41,14 +40,14 @@ void Display::update2() {
 }
 
 
-void Display::render2()
+void Core::render2()
 {
     window.clear(sf::Color::Black);
     window.draw(sprite_server);
     window.display();
 }
 
-void Display::server_menu()
+void Core::server_menu()
 {
     while (window.isOpen()) {
         handleEvents2();

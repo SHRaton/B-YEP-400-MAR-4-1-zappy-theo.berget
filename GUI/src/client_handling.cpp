@@ -5,9 +5,9 @@
 ** client_handling
 */
 
-#include "../include/main.hpp"
+#include "../include/Core.hpp"
 
-void Display::welcome()
+void Core::welcome()
 {
     int num1;
     int num2;
@@ -36,7 +36,7 @@ void Display::welcome()
     set_map_size(num1, num2);
 }
 
-void Display::client_loop()
+void Core::client_loop()
 {
     FD_ZERO(&fd_client);
     FD_SET(client_socket, &fd_client);
@@ -73,7 +73,7 @@ void Display::client_loop()
     }
 }
 
-void Display::receive_from_server()
+void Core::receive_from_server()
 {
     std::string new_data;
     ssize_t bytes_rcvd;
@@ -93,13 +93,13 @@ void Display::receive_from_server()
     }
 }
 
-void Display::send_to_server(std::string command)
+void Core::send_to_server(std::string command)
 {
     std::cout << "\033[43m[SENT]\033[0m --> " << command;
     send(client_socket, command.c_str(), strlen(command.c_str()), 0);
 }
 
-int Display::init_socket_client()
+int Core::init_socket_client()
 {
     int cvd;
 

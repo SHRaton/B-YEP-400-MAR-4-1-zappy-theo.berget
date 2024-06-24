@@ -5,12 +5,9 @@
 ** server_menu
 */
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <iostream>
-#include "../include/main.hpp"
+#include "../include/Core.hpp"
 
-void Display::handleMouseClick3(const sf::Vector2i& mousePosition)
+void Core::handleMouseClick3(const sf::Vector2i& mousePosition)
 {
     select_button = 0;
 
@@ -34,8 +31,6 @@ void Display::handleMouseClick3(const sf::Vector2i& mousePosition)
         selectionRectangle.setSize(sf::Vector2f(0, 0));
     }
 }
-
-
 
 char keyToAscii(sf::Keyboard::Key key, bool shift)
 {
@@ -65,7 +60,7 @@ char keyToAscii(sf::Keyboard::Key key, bool shift)
     }
 }
 
-void Display::handleKeyboard(sf::Event::KeyEvent key)
+void Core::handleKeyboard(sf::Event::KeyEvent key)
 {
     bool shift = key.shift;
     char letter = keyToAscii(key.code, shift);
@@ -75,7 +70,7 @@ void Display::handleKeyboard(sf::Event::KeyEvent key)
             if (!ip_str.empty()) {
                 ip_str.pop_back();
             }
-        } else if (letter != '\0') {   
+        } else if (letter != '\0') {
             ip_str = ip_str + letter;
         }
     }
@@ -84,17 +79,17 @@ void Display::handleKeyboard(sf::Event::KeyEvent key)
             if (!port_str.empty()) {
                 port_str.pop_back();
             }
-        } else if (letter != '\0') {   
+        } else if (letter != '\0') {
             port_str = port_str + letter;
         }
     }
 }
 
-void Display::handleEvents3()
+void Core::handleEvents3()
 {
     sf::Event event;
     while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed || 
+        if (event.type == sf::Event::Closed ||
             (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
             window.close();
         } else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
@@ -108,7 +103,7 @@ void Display::handleEvents3()
     }
 }
 
-void Display::update3()
+void Core::update3()
 {
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
@@ -123,10 +118,7 @@ void Display::update3()
         }
 }
 
-
-
-
-void Display::render3()
+void Core::render3()
 {
     window.clear(sf::Color::Black);
     window.draw(sprite_login);
@@ -170,8 +162,7 @@ void Display::render3()
     window.display();
 }
 
-
-void Display::server_login()
+void Core::server_login()
 {
     while (window.isOpen()) {
         handleEvents3();

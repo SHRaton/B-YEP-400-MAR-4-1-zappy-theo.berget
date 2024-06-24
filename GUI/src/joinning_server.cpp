@@ -5,29 +5,29 @@
 ** login_to_server
 */
 
-#include "../include/main.hpp"
+#include "../include/Core.hpp"
 
-void Display::set_map_size(int x, int y)
+void Core::set_map_size(int x, int y)
 {
     width = x;
     height = y;
     mapSizeText.setFont(font);
-    mapSizeText.setCharacterSize(35); // Taille du texte
-    mapSizeText.setFillColor(sf::Color::White); // Couleur du texte
+    mapSizeText.setCharacterSize(35);
+    mapSizeText.setFillColor(sf::Color::White);
     mapSizeText.setPosition(20, 965);
     mapSizeText.setString("Map Size: " + std::to_string(width) + " x " + std::to_string(height));
 
-    greyRectangle.setSize(sf::Vector2f(310, 70)); // Taille du rectangle
-    greyRectangle.setFillColor(sf::Color(128, 128, 128)); // Couleur grise
-    greyRectangle.setPosition(10, 950); // Position du rectangle
+    greyRectangle.setSize(sf::Vector2f(310, 70));
+    greyRectangle.setFillColor(sf::Color(128, 128, 128));
+    greyRectangle.setPosition(10, 950);
 }
 
-void Display::handleEvents4()
+void Core::handleEvents4()
 {
     sf::Event event;
-    greyRectangle2.setSize(sf::Vector2f(450, 500)); // Taille du rectangle
-    greyRectangle2.setFillColor(sf::Color(128, 128, 128)); // Couleur grise
-    greyRectangle2.setPosition(10, 280); // Position du rectangle
+    greyRectangle2.setSize(sf::Vector2f(450, 500));
+    greyRectangle2.setFillColor(sf::Color(128, 128, 128));
+    greyRectangle2.setPosition(10, 280);
     while (window.pollEvent(event)) {
         if (event.type == sf::Event::Closed ||
             (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
@@ -57,7 +57,7 @@ void Display::handleEvents4()
 }
 
 
-void Display::update4()
+void Core::update4()
 {
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
@@ -115,7 +115,7 @@ void Display::update4()
     }
 }
 
-void Display::countTotalResources()
+void Core::countTotalResources()
 {
     int totalFood = 0, totalCoal = 0, totalIron = 0, totalGold = 0, totalDiamond = 0, totalEmerald = 0, totalNetherite = 0;
 
@@ -149,7 +149,7 @@ void Display::countTotalResources()
 }
 
 
-void Display::showPlayerResources()
+void Core::showPlayerResources()
 {
     sf::Text text;
     text.setFont(font);
@@ -193,7 +193,7 @@ void Display::showPlayerResources()
 }
 
 
-void Display::handleClick(int mouseX, int mouseY)
+void Core::handleClick(int mouseX, int mouseY)
 {
      sf::Vector2i mousePos(mouseX, mouseY);
 
@@ -221,7 +221,7 @@ void Display::handleClick(int mouseX, int mouseY)
     }
 }
 
-void Display::render4()
+void Core::render4()
 {
     int i = 0, y = 0;
 
@@ -423,5 +423,3 @@ void Display::render4()
     }
     window.display();
 }
-
-

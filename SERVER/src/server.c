@@ -12,6 +12,10 @@
 void start_server(arg_t *arg)
 {
     server_t *server = malloc(sizeof(server_t));
+    if (server == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     apply(server, arg);
     printf("\n[Arguments loaded]     [\033[32mOK\033[0m]\n");

@@ -63,9 +63,21 @@ void init_map_content(server_t *s)
 void apply(server_t *s, arg_t *arg)
 {
     s->arg = malloc(sizeof(arg_t));
+    if (s->arg == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     s->arg = arg;
     s->server_net = malloc(sizeof(server_net_t));
+    if (s->server_net == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     s->server_data = malloc(sizeof(server_data_t));
+    if (s->server_data == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     s->server_net->server_socket = 0;
     s->server_net->client_addr_len = sizeof(s->server_net->client_addr);
     s->server_net->cli_head = NULL;
@@ -75,16 +87,32 @@ void apply(server_t *s, arg_t *arg)
     s->server_net->new_socket = 0;
     s->server_data->isCommand = 0;
     s->server_data->teams = malloc(sizeof(char *) * 9888);
+    if (s->server_data->teams == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     for (int i = 0; s->arg->_names[i] != NULL; i++) {
         s->server_data->teams[i] = malloc(sizeof(char) * 9888);
+        if (s->server_data->teams[i] == NULL) {
+            perror("malloc");
+            exit(EXIT_FAILURE);
+        }
         strcpy(s->server_data->teams[i], s->arg->_names[i]);
         strcat(s->server_data->teams[i], ":");
         strcat(s->server_data->teams[i], int_to_str(arg->_nb_clients));
     }
     s->server_data->player_nb = 1;
     s->server_data->map_content = malloc(s->arg->_width * sizeof(case_t *));
+    if (s->server_data->map_content == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     for (int i = 0; i < s->arg->_width; i++) {
         s->server_data->map_content[i] = malloc(s->arg->_height * sizeof(case_t));
+        if (s->server_data->map_content[i] == NULL) {
+            perror("malloc");
+            exit(EXIT_FAILURE);
+        }
     }
     init_map_content(s);
 }

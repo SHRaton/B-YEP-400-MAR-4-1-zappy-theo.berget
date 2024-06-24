@@ -13,6 +13,10 @@ void print_clients(client_t *head)
 {
     int i;
     char *who = malloc(sizeof(char) * 9888);
+    if (who == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     if (DEBUG == 1) {
         i = 1;
@@ -40,6 +44,10 @@ void print_clients(client_t *head)
 void print_remove(client_t *current)
 {
     char *who = malloc(sizeof(char) * 9888);
+    if (who == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     if (DEBUG == 1) {
         if (current->isAI == 1) {

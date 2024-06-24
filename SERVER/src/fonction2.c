@@ -23,6 +23,10 @@ void print_strstr(char **str)
 char *remove_cara(char *str, char c)
 {
     char *tmp = malloc(sizeof(char) * 9888);
+    if (tmp == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     int z = 0;
     int y = 0;
 

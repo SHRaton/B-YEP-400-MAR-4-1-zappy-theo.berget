@@ -23,6 +23,10 @@ void print_received_from_client_head(server_t *s, char *str)
 void print_received_from_client(server_t *s, char *str)
 {
     char *who = malloc(sizeof(char) * 999);
+    if (who == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     if (DEBUG == 1) {
         if (s->server_net->current->isAI == 1) {
@@ -54,6 +58,10 @@ void print_send_to_client_head(server_t *s, char *str)
 void print_send_to_client(server_t *s, char *str)
 {
     char *who = malloc(sizeof(char) * 999);
+    if (who == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     if (DEBUG == 1) {
         if (s->server_net->current->isAI == 1) {

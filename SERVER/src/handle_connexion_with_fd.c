@@ -31,6 +31,10 @@ void select_fd(server_t *s)
 {
     s->server_net->result = select(s->server_net->max_socket + 1,
     &s->server_net->readfds, NULL, NULL, NULL);
+    if (s->server_net->result == -1) {
+        perror("select");
+        exit (84);
+    }
 }
 
 // Fonction qui s'occupe d'accepter les clients sur le serveur et d'ajouter les
@@ -57,6 +61,10 @@ void accept_connexion(server_t *s)
 void recup_input_from_client(server_t *s)
 {
     char *pdi = malloc(sizeof(char) * 9999);
+    if (pdi == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     s->server_net->bytes_received = read(s->server_net->current->socket,
     s->server_data->buffer, sizeof(s->server_data->buffer));

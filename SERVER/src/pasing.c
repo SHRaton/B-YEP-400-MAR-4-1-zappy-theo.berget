@@ -26,6 +26,10 @@ void get_pos(char **av, int *flag_pos, int z)
 int *recup_flag_pos(int ac, char **av)
 {
     int *flag_pos = malloc(sizeof(int) * 6);
+    if (flag_pos == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     int z = 1;
 
     for (int i = 0; i < 6; i++)
@@ -45,23 +49,47 @@ int *recup_flag_pos(int ac, char **av)
 
 int error_handling(int ac, char **av, arg_t *arg, int *flag_pos)
 {
-    int i = 1;
+    int i = 1, error = 0;
 
     if (av[flag_pos[0] + 1] == NULL || av[flag_pos[1] + 1] == NULL ||
         av[flag_pos[2] + 1] == NULL || av[flag_pos[3] + 1] == NULL ||
-        av[flag_pos[4] + 1] == NULL || av[flag_pos[5] + 1] == NULL)
-        return (84);
+        av[flag_pos[4] + 1] == NULL || av[flag_pos[5] + 1] == NULL) {
+        dprintf(1, "- Error on Flag Parameter\n");
+        return(84);
+    }
 
     arg->_port = atoi(av[flag_pos[0] + 1]);
+    if (arg->_port <= 0) {
+        dprintf(1, "- Invalid port\n");
+        error = 84;
+    }
     arg->_width = atoi(av[flag_pos[1] + 1]);
     arg->_height = atoi(av[flag_pos[2] + 1]);
     arg->_nb_clients = atoi(av[flag_pos[4] + 1]);
     arg->_frequence = atoi(av[flag_pos[5] + 1]);
 
-    if (arg->_width < 0 || arg->_height < 0 || arg->_frequence <= 0 || arg->_nb_clients <= 0)
-        return (84);
+    if (arg->_width <= 0) {
+        dprintf(1, "- Invalid width\n");
+        error = 84;
+    }
+    if (arg->_height <= 0) {
+        dprintf(1, "- Invalid height\n");
+        error = 84;
+    }
+    if (arg->_frequence <= 0) {
+        dprintf(1, "- Invalid frequence\n");
+        error = 84;
+    }
+    if (arg->_nb_clients <= 0) {
+        dprintf(1, "- Invalid nb_clients\n");
+        error = 84;
+    }
 
     arg->_names = malloc(sizeof(char *) * 100);
+    if (arg->_names == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     while (av[flag_pos[3] + i][0] != '-') {
         arg->_names[i - 1] = strdup(av[flag_pos[3] + i]);
         i++;
@@ -73,11 +101,14 @@ int error_handling(int ac, char **av, arg_t *arg, int *flag_pos)
     for (int j = 0; j < i - 1; j++) {
         for (int k = j + 1; k < i - 1; k++) {
             if (strcmp(arg->_names[j], arg->_names[k]) == 0) {
-                return (84);
+                dprintf(1, "- Multiple same team-name\n");
+                error = 84;
             }
         }
     }
-
+    if (error == 84) {
+        return (84);
+    }
     return (0);
 }
 
@@ -88,6 +119,7 @@ int flags_valid(int ac, char **av, arg_t *arg)
 
     if (flag_pos[0] == 84 && flag_pos[1] == 84 && flag_pos[2] == 84 &&
         flag_pos[3] == 84 && flag_pos[4] == 84 && flag_pos[5] == 84) {
+        dprintf(1, "\n- A flag is missing\n");
         return (84);
     }
     if (error_handling(ac, av, arg, flag_pos) == 84) {
@@ -104,6 +136,10 @@ int parsing_argument(int ac, char **av, arg_t *arg)
         arg->_width = 10;
         arg->_height = 10;
         arg->_names = malloc(sizeof(char *) * 100);
+        if (arg->_names == NULL) {
+            perror("malloc");
+            exit(EXIT_FAILURE);
+        }
         arg->_names[0] = strdup("team1");
         arg->_names[1] = strdup("team2");
         arg->_nb_clients = 5;

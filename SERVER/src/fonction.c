@@ -27,8 +27,20 @@ int is_contain(char *str, char cara)
 char **str_to_word_array(char *str, char *tok)
 {
     char *str_tmp = strdup(str);
+    if (str_tmp == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     char **tmp_2 = malloc(sizeof(char *) * 1);
+    if (tmp_2 == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     char **tab = malloc(sizeof(char *) * 4096);
+    if (tab == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     char *tmp_1 = strtok(str_tmp, tok);
     int i = 0;
 
@@ -75,6 +87,10 @@ char *int_to_str(int num)
 {
     int size = snprintf(NULL, 0, "%d", num);
     char *str = malloc(sizeof(char) * size + 1);
+    if (str == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     snprintf(str, (size + 1), "%d", num);
     return str;
@@ -85,6 +101,10 @@ char *int_to_str(int num)
 char *removed_quote(char *str)
 {
     char *tmp = malloc(sizeof(char) * 9888);
+    if (tmp == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     int z = 0;
     int y = 0;
 

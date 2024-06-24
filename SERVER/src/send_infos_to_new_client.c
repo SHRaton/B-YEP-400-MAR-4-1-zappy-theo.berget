@@ -29,6 +29,10 @@ char *get_client_num(server_t *s, const char *team_name)
     int i = 0;
     char *tmp;
     char *nb_client = malloc(sizeof(char) * 9888);
+    if (nb_client == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     char *delim;
 
     while (s->server_data->teams[i] != NULL) {
@@ -71,6 +75,10 @@ void send_client_num(server_t *s)
 void send_map_size(server_t *s)
 {
     char *map_size = malloc(sizeof(char) * 99);
+    if (map_size == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     strcpy(map_size, "");
     strcat(map_size, int_to_str(s->arg->_width));

@@ -12,6 +12,10 @@
 client_t *add_client(client_t *head, int new_s, sockaddr_in_t cli, server_t *s)
 {
     client_t *new_client = malloc(sizeof(client_t));
+    if (new_client == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     if (new_client == NULL) {
         perror("Memory allocation failed");
@@ -28,6 +32,10 @@ client_t *add_client(client_t *head, int new_s, sockaddr_in_t cli, server_t *s)
     new_client->orientation = 1;
     new_client->player_number = s->server_data->player_nb;
     new_client->inventory = malloc(sizeof(case_t));
+    if (new_client->inventory == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     new_client->inventory->food = 0;
     new_client->inventory->linemate = 0;
     new_client->inventory->deraumere = 0;

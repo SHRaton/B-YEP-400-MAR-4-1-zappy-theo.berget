@@ -12,7 +12,15 @@ void mct(server_t *s)
     size_t size = s->arg->_width * s->arg->_height;
     size_t buffer_size = 99 * size;
     char *sending = malloc(sizeof(char) * buffer_size);
+    if (sending == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     char *tmp = malloc(sizeof(char) * 99);
+    if (tmp == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
 
     if (strcmp(s->server_data->command[0], "mct") == 0) {
         strcpy(sending, "bct");

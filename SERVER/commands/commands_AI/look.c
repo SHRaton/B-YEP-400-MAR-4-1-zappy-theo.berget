@@ -10,6 +10,10 @@
 void look(server_t *s)
 {
     char *sending = malloc(sizeof(char) * 9999);
+    if (sending == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     int x = 0, y = 0;
     int line_sz = 1;
     int tmp = 0, cmpt = 1;

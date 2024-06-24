@@ -15,7 +15,6 @@ void enqueue(queue_t *q, char *command)
         return;
     }
     strcpy(q->commands[q->rear], command);
-    //dprintf(1, "(%s / %s)\n", command, q->commands[q->rear]);
     q->rear = (q->rear + 1) % 10;
     q->count++;
 }

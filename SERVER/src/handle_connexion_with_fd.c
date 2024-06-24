@@ -91,7 +91,6 @@ void handle_client(server_t *s)
         if (FD_ISSET(s->server_net->current->socket, &s->server_net->readfds)){
             recup_input_from_client(s);
             process_commands(s);
-            //commands(s);
             break;
         }
         s->server_net->current = s->server_net->current->next;

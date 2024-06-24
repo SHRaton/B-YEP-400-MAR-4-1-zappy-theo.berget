@@ -38,7 +38,8 @@ void look(server_t *s)
         x = s->server_net->current->pos_x;
         y = s->server_net->current->pos_y;
         strcpy(sending, "[player");
-        for (int i = 0; i < pow(s->server_net->current->level + 1, 2); i++) {
+        // (coredump) --> pow(s->server_net->current->level + 1
+        for (int i = 0; i < 4; i++) {
             //dprintf(1, "(%d %d)\n", x, y);
             if (y < 0 || y > s->arg->_height || x < 0 || x > s->arg->_width) {
                 strcat(sending, " wall,");

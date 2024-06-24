@@ -43,6 +43,8 @@ client_t *add_client(client_t *head, int new_s, sockaddr_in_t cli, server_t *s)
     new_client->inventory->mendiane = 0;
     new_client->inventory->phiras = 0;
     new_client->inventory->thystame = 0;
+    new_client->endTaskTime = 0;
+    new_client->actualTask = NULL;
     print_connect(cli);
     return new_client;
 }

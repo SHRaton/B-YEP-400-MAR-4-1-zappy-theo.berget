@@ -53,12 +53,69 @@ void print_commands(queue_t *q)
     }
 }
 
+double get_time_of_command(server_t *s)
+{
+    if (strncmp(s->server_net->current->actualTask, "Forward", 7) == 0) {
+        return (7.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Right", 5) == 0) {
+        return (7.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Left", 4) == 0) {
+        return (7.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Look", 4) == 0) {
+        return (7.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Inventory", 9) == 0) {
+        return (1.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Broadcast text", 14) == 0) {
+        return (7.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Fork", 4) == 0) {
+        return (42.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Eject", 5) == 0) {
+        return (7.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Take", 4) == 0) {
+        return (7.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Set", 3) == 0) {
+        return (7.0 / (double)s->arg->_frequence);
+    }
+    if (strncmp(s->server_net->current->actualTask, "Incantation", 11) == 0) {
+        return (300.0 / (double)s->arg->_frequence);
+    }
+    return (0.0);
+}
+
 void process_commands(server_t *s)
 {
-    while (!isEmpty(&s->server_net->current->command_queue)) {
-        char *command = dequeue(&s->server_net->current->command_queue);
-        s->server_data->command = str_to_word_array(command, " \t\n\r");
-        commands(s);
-        free(command);
+    s->server_net->current = s->server_net->cli_head;
+    while (s->server_net->current != NULL) {
+        if (s->server_net->current->actualTask == NULL && s->server_net->current->command_queue.count > 0) {
+            print_commands(&s->server_net->current->command_queue);
+            char *command = dequeue(&s->server_net->current->command_queue);
+            double actualTime = difftime(time(NULL), s->server_data->launch_time);
+            s->server_net->current->actualTask = strdup(command);
+            s->server_net->current->endTaskTime = actualTime + get_time_of_command(s);
+            free(command);
+        }
+        s->server_net->current = s->server_net->current->next;
+    }
+
+    // Check end task
+    s->server_net->current = s->server_net->cli_head;
+    while (s->server_net->current != NULL) {
+        double actualTime = difftime(time(NULL), s->server_data->launch_time);
+        if (s->server_net->current->endTaskTime <= actualTime && s->server_net->current->actualTask != NULL) {
+            s->server_data->command = str_to_word_array(s->server_net->current->actualTask, " \t\n\r");
+            s->server_net->current->endTaskTime = 0;
+            s->server_net->current->actualTask = NULL;
+            commands(s);
+        }
+        s->server_net->current = s->server_net->current->next;
     }
 }

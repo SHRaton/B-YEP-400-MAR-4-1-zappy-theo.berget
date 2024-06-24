@@ -114,6 +114,7 @@ void apply(server_t *s, arg_t *arg)
             exit(EXIT_FAILURE);
         }
     }
+    s->server_data->launch_time = time(NULL);
     init_map_content(s);
 }
 

@@ -29,8 +29,11 @@ void set_the_fd(server_t *s)
 // à être lus, écrits ou ayant une exception.
 void select_fd(server_t *s)
 {
+    struct timeval tv;
+    tv.tv_sec = 0;
+    tv.tv_usec = 0;
     s->server_net->result = select(s->server_net->max_socket + 1,
-    &s->server_net->readfds, NULL, NULL, NULL);
+    &s->server_net->readfds, NULL, NULL, &tv);
     if (s->server_net->result == -1) {
         perror("select");
         exit (84);
@@ -98,9 +101,10 @@ void handle_client(server_t *s)
     while (s->server_net->current != NULL) {
         if (FD_ISSET(s->server_net->current->socket, &s->server_net->readfds)){
             recup_input_from_client(s);
-            process_commands(s);
             break;
         }
         s->server_net->current = s->server_net->current->next;
     }
+    s->server_net->current = s->server_net->cli_head;
+    process_commands(s);
 }

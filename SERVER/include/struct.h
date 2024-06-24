@@ -55,6 +55,8 @@ typedef struct client_s {
     case_t *inventory;
     // Queue des commandes de l'utilisateur
     queue_t command_queue;
+    double endTaskTime;
+    char *actualTask;
     // Linked list
     struct client_s *next;
 } client_t;
@@ -89,6 +91,7 @@ typedef struct server_data_s {
     case_t (**map_content);
     // Variables
     int player_nb;
+    time_t launch_time;
 
 } server_data_t;
 

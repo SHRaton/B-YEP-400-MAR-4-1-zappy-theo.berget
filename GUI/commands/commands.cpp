@@ -29,9 +29,7 @@ void Core::commands()
         pin();
         plv();
     } catch (const std::invalid_argument& e) {
-        std::cout << "Commande qui crash : " << sbuffer;
-        std::cerr << "Erreur : " << e.what() << std::endl;
-        exit (84);
+        std::cerr << "\n\033[31m[DEBUG]\033[0m Erreur : " << e.what() << std::endl;
     }
     strcpy(buffer, "");
     sbuffer = std::string(buffer);

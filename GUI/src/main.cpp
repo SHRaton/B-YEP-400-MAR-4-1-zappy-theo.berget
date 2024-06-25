@@ -94,6 +94,10 @@ void Core::change_ip_port(std::string ip, std::string port)
 
 int main(int ac, char **av)
 {
+    std::ofstream file("./LOG/gui.log", std::ios::out | std::ios::trunc);
+    file << "Logs :\n\n" << std::endl;
+    file.close();
+
     if (ac != 1 && ac != 5) {
         std::cout << "USAGE : ./zappy_gui -h [IP] -p [PORT]" << std::endl;
         return (84);

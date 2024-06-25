@@ -10,6 +10,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <fstream>
 #include <cstring>
 #include <sys/types.h>
 #include <sys/socket.h>

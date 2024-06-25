@@ -90,6 +90,12 @@ void Core::receive_from_server()
         sbuffer = std::string(buffer);
         vbuffer = str_to_word_array(sbuffer);
         std::cout << "\033[42m[RECEIVED]\033[0m --> " << sbuffer;
+        std::ofstream file("./LOG/gui.log", std::ios::out | std::ios::app);
+        if (!file.is_open()) {
+            return;
+        }
+        file << "[RECEIVED] --> (\"" << sbuffer << "\")" << std::endl;
+        file.close();
     }
 }
 
@@ -97,6 +103,15 @@ void Core::send_to_server(std::string command)
 {
     std::cout << "\033[43m[SENT]\033[0m --> " << command;
     send(client_socket, command.c_str(), strlen(command.c_str()), 0);
+    std::ofstream file("./LOG/gui.log", std::ios::out | std::ios::app);
+    if (!file.is_open()) {
+        return;
+    }
+    if (command[command.size() - 1] == '\n') {
+        command.pop_back();
+    }
+    file << "[SENT] --> (\"" << command << "\")" << std::endl;
+    file.close();
 }
 
 int Core::init_socket_client()

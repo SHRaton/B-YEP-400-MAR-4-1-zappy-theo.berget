@@ -21,6 +21,7 @@
 #include <sys/select.h>
 #include <signal.h>
 #include <math.h>
+#include <signal.h>
 
 
 
@@ -108,16 +109,23 @@ void process_commands(server_t *s);
 // ------------------------- //
 
 
+// -------- free_server.c -------- //
+void free_server(server_t *s);
+// ------------------------------- //
+
 ///////////////////////////////////////////////////
 /* Déclarations des fonctions de SERVER/commands */
 ///////////////////////////////////////////////////
 
 
-// -------- commands.c --------- //
+// -------- commands_print.c --------- //
 void print_received_from_client_head(server_t *s, char *str);
 void print_received_from_client(server_t *s, char *str);
 void print_send_to_client_head(server_t *s, char *str);
 void print_send_to_client(server_t *s, char *str);
+// ----------------------------------- //
+
+// -------- commands.c --------- //
 void commands(server_t *s);
 // ----------------------------- //
 
@@ -128,11 +136,11 @@ void commands(server_t *s);
 
 
 void forward(server_t *s);
-void look(server_t *s);
+void incantation(server_t *s);
 void left(server_t *s);
+void look(server_t *s);
 void right(server_t *s);
 void take(server_t *s);
-void incantation(server_t *s);
 
 
 ////////////////////////////////////////////////////////////////
@@ -140,9 +148,28 @@ void incantation(server_t *s);
 ////////////////////////////////////////////////////////////////
 
 
+void bct(server_t *s);
+void ebo(server_t *s);
+void edi(server_t *s);
+void enw(server_t *s);
 void infos(server_t *s);
-void ppo(server_t *s);
-void pnw(server_t *s);
 void mct(server_t *s);
+void msz(server_t *s);
+void pbc(server_t *s);
+void pdr(server_t *s);
+void pex(server_t *s);
+void pfk(server_t *s);
+void pgt(server_t *s);
+void pic(server_t *s);
+void pie(server_t *s);
 void pin(server_t *s);
 void plv(server_t *s);
+void pnw(server_t *s);
+void ppo(server_t *s);
+void sbp(server_t *s);
+void seg(server_t *s);
+void sgt(server_t *s);
+void smg(server_t *s);
+void sst(server_t *s);
+void suc(server_t *s);
+void tna(server_t *s);

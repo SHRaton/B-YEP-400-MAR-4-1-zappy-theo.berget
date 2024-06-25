@@ -80,18 +80,3 @@ client_t *remove_client(client_t *head, int socket_to_remove)
     }
     return head;
 }
-
-// Fonction qui libere la mémoire de la liste chainée
-// pour éviter les memory leak
-void free_clients(client_t *head)
-{
-    client_t *current;
-    client_t *next;
-
-    current = head;
-    while (current != NULL) {
-        next = current->next;
-        free(current);
-        current = next;
-    }
-}

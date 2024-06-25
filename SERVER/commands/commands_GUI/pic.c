@@ -10,6 +10,7 @@
 void pic(server_t *s)
 {
     char *sending = malloc(sizeof(char) * 1024);
+
     if (sending == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);

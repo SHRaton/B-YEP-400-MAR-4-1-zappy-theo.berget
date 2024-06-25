@@ -10,12 +10,12 @@
 void pnw(server_t *s)
 {
     char *sending = malloc(sizeof(char) * 9888);
+    int ret = 0;
+
     if (sending == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-    int ret = 0;
-
     sprintf(sending, "pnw #%s %s %s %s %s %s\n",
     int_to_str(s->server_net->cli_head->player_number),
     int_to_str(s->server_net->cli_head->pos_x),

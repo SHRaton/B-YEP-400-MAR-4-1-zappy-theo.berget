@@ -10,7 +10,7 @@
 // Fonction principale
 int main(int ac, char **av)
 {
-    arg_t *arg;
+    arg_t *arg = malloc(sizeof(arg_t));
 
     if (parsing_argument(ac, av, arg) == 84) {
         print_usage();

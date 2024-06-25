@@ -88,7 +88,7 @@ typedef struct server_data_s {
     char **teams;
     // Stockage de la map et des elements de chaque tile
     char **map;
-    case_t (**map_content);
+    case_t **map_content;
     // Variables
     int player_nb;
     time_t launch_time;

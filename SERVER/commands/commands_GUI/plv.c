@@ -11,12 +11,12 @@ void plv(server_t *s)
 {
     client_t *tmp = s->server_net->current;
     char *sending = malloc(sizeof(char) * 9888);
+    int pnb = 0;
+
     if (sending == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-    int pnb = 0;
-
     if (strcmp(s->server_data->command[0], "plv") == 0) {
         strcpy(sending, "plv ");
         strcat(sending, s->server_data->command[1]);

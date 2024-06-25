@@ -142,6 +142,7 @@ int parsing_argument(int ac, char **av, arg_t *arg)
         }
         arg->_names[0] = strdup("team1");
         arg->_names[1] = strdup("team2");
+        arg->_names[2] = NULL;
         arg->_nb_clients = 5;
         arg->_frequence = 1;
         return (0);

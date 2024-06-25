@@ -55,13 +55,18 @@ void init_map_content(server_t *s)
     }
 }
 
-
 // Fonction qui initialise toutes les variables de la structure server_t
 // et transpose la structure arg_t dans une instance de server_t
 // pour tout centraliser dans server_t et n'utiliser plus que
 // cette unique structure dans tout le programme
 void apply(server_t *s, arg_t *arg)
 {
+    FILE *file = fopen("./LOG/server.log", "w");
+    if (file == NULL) {
+        return;
+    }
+    fprintf(file, "Logs :\n\n");
+    fclose(file);
     s->arg = malloc(sizeof(arg_t));
     if (s->arg == NULL) {
         perror("malloc");
@@ -102,18 +107,19 @@ void apply(server_t *s, arg_t *arg)
         strcat(s->server_data->teams[i], int_to_str(arg->_nb_clients));
     }
     s->server_data->player_nb = 1;
-    s->server_data->map_content = malloc(s->arg->_width * sizeof(case_t *));
+    s->server_data->map_content = malloc((s->arg->_height + 1) * sizeof(case_t *));
     if (s->server_data->map_content == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-    for (int i = 0; i < s->arg->_width; i++) {
+    for (int i = 0; i < s->arg->_height; i++) {
         s->server_data->map_content[i] = malloc(s->arg->_height * sizeof(case_t));
         if (s->server_data->map_content[i] == NULL) {
             perror("malloc");
             exit(EXIT_FAILURE);
         }
     }
+    s->server_data->map_content[s->arg->_height] = NULL;
     s->server_data->launch_time = time(NULL);
     init_map_content(s);
 }

@@ -31,16 +31,16 @@ void get_string_ppo(server_t *s, char *ret, char *str)
 void ppo(server_t *s)
 {
     char *ret = malloc(sizeof(char) * 9888);
+    char *str = malloc(sizeof(char) * 9888);
+
     if (ret == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-    char *str = malloc(sizeof(char) * 9888);
     if (str == NULL) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-
     if (strcmp(s->server_data->command[0], "ppo") == 0) {
         strcpy(str, s->server_data->command[1]);
         str = remove_cara(str, '#');

@@ -10,14 +10,15 @@
 void look(server_t *s)
 {
     char *sending = malloc(sizeof(char) * 9999);
-    if (sending == NULL) {
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
     int x = 0, y = 0;
     int line_sz = 1;
     int tmp = 0, cmpt = 1;
     int ori_x = 0, ori_y = 0;
+
+    if (sending == NULL) {
+        perror("malloc");
+        exit(EXIT_FAILURE);
+    }
     if (strcmp(s->server_data->command[0], "Look") == 0) {
         if (s->server_net->current->orientation == 1) {
             ori_x = 1;
@@ -40,10 +41,8 @@ void look(server_t *s)
         strcpy(sending, "[player");
         // (coredump) --> pow(s->server_net->current->level + 1
         for (int i = 0; i < 4; i++) {
-            //dprintf(1, "(%d %d)\n", x, y);
             if (y < 0 || y > s->arg->_height || x < 0 || x > s->arg->_width) {
                 strcat(sending, " wall,");
-                // do nothing
             } else {
                 if (s->server_data->map_content[y][x].food > 0) {
                     strcat(sending, " food");

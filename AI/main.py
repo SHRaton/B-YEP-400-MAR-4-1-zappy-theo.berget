@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 #coding: utf-8
-#j'ai tout coder dans un fichier je suis le plus gros fdp de france
 
 import sys
 import time
 import socket
 
+
+###################################################################################################
+### client class for connection
 ###################################################################################################
 
 class Client:
@@ -14,6 +16,9 @@ class Client:
         self.server_port = server_port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+
+###################################################################################################
+### closing confirmation func
 ###################################################################################################
 
     def __del__(self):
@@ -22,6 +27,9 @@ class Client:
         except OSError:
             sys.exit("Connexion fermée")
 
+
+###################################################################################################
+### connect fonction (AI)
 ###################################################################################################
 
     def connect(self):
@@ -30,6 +38,9 @@ class Client:
         except ConnectionRefusedError:
             sys.exit("Connexion refusée")
 
+
+###################################################################################################
+### original send function
 ###################################################################################################
 
     def send_message(self, message):
@@ -38,6 +49,9 @@ class Client:
         except ConnectionResetError:
             sys.exit("La connexion avec le serveur a été interrompue")
 
+
+###################################################################################################
+### original recieve function
 ###################################################################################################
 
     def receive_message(self):
@@ -48,6 +62,9 @@ class Client:
             sys.exit("La connexion avec le serveur a été interrompue")
             return None
 
+
+###################################################################################################
+### closing connection function
 ###################################################################################################
 
     def close(self):
@@ -56,22 +73,30 @@ class Client:
         except OSError:
             sys.exit("Connexion fermée")
 
+
+###################################################################################################
+### major data class (__self__)
 ###################################################################################################
 
 class AIPlayer:
     def __init__(self):
+
+## loading socket info
+
         self.teamName = False
         self.machine = False
         self.port = False
         self.AI = False
         self.client = None
-        self.tour = 0.4
-        self.wait_move = 0.5
+        self.tour = 0
+        self.wait_move = 0
         self.pos = ""
         self.posX = 0
         self.posY = 0
         self.tile = 0
         self.start = True
+
+## native items classation
 
         self.food = 7
         self.linemate = 1
@@ -82,6 +107,8 @@ class AIPlayer:
         self.thystame = 6
         self.player = 0
 
+## player inventory
+
         self.have_food = 0
         self.have_linemate = 0
         self.have_deraumere = 0
@@ -91,31 +118,59 @@ class AIPlayer:
         self.have_thystame = 0
         self.have_player = 0
 
-        self.nb_player = 0
+## item system
 
+        self.nb_player = 5
         self.best_item = None
         self.best_take_item = None
         self.best_tile = 0
         self.look_ret = ""
         self.list_items_on_tile = []
 
+## argument loading part_2
+
         self.size_map = 0
         self.org_list_items_on_tile = []
         self.level = 0
 
+## printing debug
+
+        self.isdebug = False
 
 ###################################################################################################
+### shortcut function to send message easily
+###################################################################################################
+
 
     def send_message(self, message):
         self.client.send_message(message + "\n")
         time.sleep(self.wait_move)
 
 ###################################################################################################
+### debug output if self.isdebug == True
+###################################################################################################
+
+    def debug_print(self, to_print):
+        if self.isdebug == True:
+            print(to_print)
+            return
+        else :
+            return
+
+
+###################################################################################################
+### shortcut function to wait message easily
+###################################################################################################
+
 
     def receive_message(self):
         return self.client.receive_message()
 
+
 ###################################################################################################
+### check if the server recieve well all the deplacements
+###################################################################################################
+
 
     def check_reply(self, tile, rep):
         if rep == "ok\n":
@@ -123,7 +178,11 @@ class AIPlayer:
         else:
             return
             self.get_to_tile(self, tile)
+            print("failed to go on tile")
 
+
+###################################################################################################
+### adding "take" before object for the server
 ###################################################################################################
 
     def take_add_to_obj(self):
@@ -131,23 +190,37 @@ class AIPlayer:
         return take
 
 ###################################################################################################
+### get to tile every way to go on every tile harcode to adapte best on the AI level
+###################################################################################################
+
+#       _________       ______________________
+#       |#######|       |10 11 12 13 14 15 16|
+#       | ##### |       |   4  5  6  7  8    |
+#       |  ###  |       |      1  2  3       |
+#       |   #   |       |         0          |
+#       _________       ______________________
 
     def get_to_tile(self, tile):
         if tile == 0:
             self.send_message("Allready on tile")
             self.send_message("Left")
             return
+            self.check_reply()
+
         if tile == 1:
             self.send_message("Forward")
             self.send_message("Left")
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             return
+            self.check_reply()
         if tile == 2:
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
             return
+            self.check_reply()
+
         if tile == 3:
             self.send_message("Forward")
             self.send_message("Right")
@@ -155,6 +228,8 @@ class AIPlayer:
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
             return
+            self.check_reply()
+
         if tile == 4:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -164,6 +239,8 @@ class AIPlayer:
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
             return
+            self.check_reply()
+
         if tile == 5:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -172,12 +249,16 @@ class AIPlayer:
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
             return
+            self.check_reply()
+
         if tile == 6:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
             return
+            self.check_reply()
+
         if tile == 7:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -186,6 +267,8 @@ class AIPlayer:
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
             return
+            self.check_reply()
+
         if tile == 8:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -194,8 +277,9 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
-
             return
+            self.check_reply()
+
         if tile == 9:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -206,8 +290,9 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
-
             return
+            self.check_reply()
+
         if tile == 10:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -218,6 +303,8 @@ class AIPlayer:
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
             return
+            self.check_reply()
+
         if tile == 11:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -226,16 +313,18 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
-
             return
+            self.check_reply()
+
         if tile == 12:
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
-
             return
+            self.check_reply()
+
         if tile == 13:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -244,8 +333,9 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
-
             return
+            self.check_reply()
+
         if tile == 14:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -255,8 +345,9 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
-
             return
+            self.check_reply()
+
         if tile == 15:
             self.send_message("Forward")
             self.send_message("Forward")
@@ -267,44 +358,65 @@ class AIPlayer:
             self.send_message("Forward")
             self.send_message(self.take_add_to_obj())
             rep = self.receive_message()
-
             return
+            self.check_reply()
 
+
+
+###################################################################################################
+### finding back the index of the best item to link it with the tile number
 ###################################################################################################
 
     def link_item_to_tile(self):
-        #print("link_item_to_tile")
+        self.debug_print("link_item_to_tile")
         def cleaning(element):
             return element.strip('[] ')
         liste = [cleaning(element) for element in self.org_list_items_on_tile]
         best_option_index = liste.index(self.best_item)
-        #print(best_option_index)
+        self.debug_print(liste)
         self.get_to_tile(best_option_index)
         return
 
+
 ###################################################################################################
+### check if the AI can evolve and if yes whitch one 
+###################################################################################################
+
 
     def is_evolution(self):
         if (self.have_linemate >= 1 and self.level < 2):
             self.send_message("Incantation")
             self.level = 2
-            print("level 2\n\n\n")
-            time.sleep(1)
+            self.debug_print("\n\n\nlevel 2\n\n\n")
+            return
 
-        if (self.nb_player >= 2 and self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level < 3):
+        if (self.nb_player >= "2" and self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level == 2):
             self.send_message("Incantation")
             self.level = 3
-            print("level 3\n\n\n")
-            time.sleep(3)
-        ##verifier les condition avec multi player (broadcast??)
+            self.debug_print("\n\n\nlevel 3\n\n\n")
+            return
+
+        if (self.nb_player >= "2" and self.have_linemate >= 2 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level == 3):
+            self.send_message("Incantation")
+            self.level = 4
+            self.debug_print ("\n\n\n\nlevel 4\n\n\n\n\n\n")
+            return
+
 
 ###################################################################################################
+### function that optimise the searching of the level 1 ressources
+###################################################################################################
+
 
     def get_level_one_ressources(self):
         if "linemate" in self.list_items_on_tile:
             self.best_item = "linemate"
             return
-    ###################################################################################################
+
+
+###################################################################################################
+### function that optimise the searching of the level 2 ressources
+###################################################################################################
 
     def get_level_two_ressources(self):
         if "deraumere" in self.list_items_on_tile and self.have_linemate >= 1:
@@ -337,8 +449,10 @@ class AIPlayer:
         if (self.have_deraumere >= 1 and self.have_linemate >= 1 and self.have_sibur >= 1 and self.have_phiras >= 2 and self.level < 3):
             self.best_item = "thystame"
             return
-            return
 
+
+###################################################################################################
+### function that get a native classation of items before enter in specific fonction to find adapted ressources for level
 ###################################################################################################
 
     def get_best_option(self):
@@ -381,13 +495,17 @@ class AIPlayer:
         self.link_item_to_tile()
         return
 
+
+###################################################################################################
+### parsing of the "look" return by the server and cleaning str
 ###################################################################################################
 
+
     def select_tile(self, look_ret):
-        
+
         list_items_on_tile = []
         tile_info = look_ret.split(',')
-        #print(tile_info)
+        self.debug_print(tile_info)
         parse = ""
         for info in tile_info:
             parse += info.strip() + " "
@@ -409,14 +527,17 @@ class AIPlayer:
                 elements_vus.add(item)
         self.list_items_on_tile = liste_sans_doublons
         self.org_list_items_on_tile = list_items_on_tile
-        #print(liste_sans_doublons)
-        #print(list_items_on_tile)
+        self.debug_print(liste_sans_doublons)
+        self.debug_print(list_items_on_tile)
         self.get_best_option()
         return
 
 #git@github.com:EpitechPromo2027/B-YEP-400-MAR-4-1-zappy-theo.berget.git
 #en clair gg
 
+
+###################################################################################################
+### printing every ressources of the AI (debug)
 ###################################################################################################
 
     def print_inventory(self):
@@ -440,29 +561,38 @@ class AIPlayer:
         print(self.level)
 
 
+
 ###################################################################################################
+### start function that load argument and loop AI
+###################################################################################################
+
 
     def ai(self):
         while self.AI == False:
             if self.start == True:
                 nb_player = self.receive_message()
+                self.nb_player = nb_player
                 if nb_player == '0':
                     self.AI = True
                 time.sleep(self.tour)
                 self.size_map =  self.receive_message()
-                print("size map :")
-                print(self.size_map)
+                self.debug_print("size map :")
+                self.debug_print(self.size_map)
                 self.start = False
             self.is_evolution()
-            self.print_inventory()
+            if self.isdebug == True:
+                self.print_inventory()
             self.send_message("Look")
             look_ret = self.receive_message()
-            #print("look return :")
-            #print(look_ret)
+            self.debug_print("look return :")
+            self.debug_print(look_ret)
             self.look_ret = look_ret
             self.select_tile(look_ret)
-            
 
+
+
+###################################################################################################
+### join game fonction (explicite)
 ###################################################################################################
 
     def join_game(self):
@@ -473,7 +603,11 @@ class AIPlayer:
             self.client.send_message(self.teamName + "\n")
             self.ai()
 
+
 ###################################################################################################
+### usage for noob
+###################################################################################################
+
 
 def print_help():
     print('USAGE: ./zappy_ai -p port -n name -h machine')
@@ -481,6 +615,9 @@ def print_help():
     print('\tname is the name of the team')
     print('\tmachine is the name of the machine; localhost by default')
 
+
+###################################################################################################
+### parsing of the command line and loading arguments
 ###################################################################################################
 
 def main():

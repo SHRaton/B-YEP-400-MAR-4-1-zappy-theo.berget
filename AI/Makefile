@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT
-## GROUNDHOG
+## zappy makfile
 ## File description:
 ## MAKEFILE
 ##
